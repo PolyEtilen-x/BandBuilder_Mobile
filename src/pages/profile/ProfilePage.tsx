@@ -1,165 +1,135 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useMemo } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import {
+  User,
+  Settings,
+  Globe,
+  Moon,
+  Sun,
+  ShieldCheck,
+  LogOut,
+  ChevronRight,
+  Target,
+  Award,
+  Zap
+} from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
-import { useAuthStore } from '@/services/auth/auth.store';
+import { getStyles } from './style';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { Languages, LogOut, ChevronRight } from 'lucide-react-native';
+import { useAuthStore } from '@/services/auth/auth.store';
+import { useThemeStore } from '@/services/theme/theme.store';
 
 export default function ProfilePage() {
   const { t, i18n } = useTranslation();
-  const logout = useAuthStore(s => s.logout);
   const theme = useThemeColor();
+  const styles = useMemo(() => getStyles(theme), [theme]);
 
-  const changeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
+  const { user, logout } = useAuthStore();
+  const { mode, setMode } = useThemeStore();
+
+  const toggleLanguage = () => {
+    const nextLang = i18n.language === 'vi' ? 'en' : 'vi';
+    i18n.changeLanguage(nextLang);
   };
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: theme.background
-    },
-    header: {
-      padding: 24,
-      paddingTop: 40,
-      alignItems: 'center',
-      borderBottomWidth: 1,
-      borderBottomColor: theme.border,
-    },
-    avatar: {
-      width: 80,
-      height: 80,
-      borderRadius: 40,
-      backgroundColor: theme.primary,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: 16,
-    },
-    avatarText: {
-      fontSize: 32,
-      fontWeight: '800',
-      color: '#fff',
-    },
-    name: {
-      fontSize: 24,
-      fontWeight: '800',
-      color: theme.text,
-    },
-    section: {
-      padding: 20,
-    },
-    sectionTitle: {
-      fontSize: 14,
-      fontWeight: '700',
-      color: theme.textSecondary,
-      textTransform: 'uppercase',
-      letterSpacing: 1,
-      marginBottom: 16,
-    },
-    menuItem: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: theme.card,
-      padding: 16,
-      borderRadius: 16,
-      marginBottom: 12,
-      borderWidth: 1,
-      borderColor: theme.border,
-    },
-    menuIcon: {
-      width: 40,
-      height: 40,
-      borderRadius: 12,
-      backgroundColor: theme.backgroundAlt,
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginRight: 12,
-    },
-    menuText: {
-      flex: 1,
-      fontSize: 16,
-      fontWeight: '600',
-      color: theme.text,
-    },
-    langButtons: {
-      flexDirection: 'row',
-      gap: 10,
-    },
-    langButton: {
-      paddingHorizontal: 12,
-      paddingVertical: 6,
-      borderRadius: 8,
-      borderWidth: 1,
-      borderColor: theme.border,
-    },
-    langButtonActive: {
-      backgroundColor: theme.primary,
-      borderColor: theme.primary,
-    },
-    langButtonText: {
-      fontSize: 12,
-      fontWeight: '700',
-      color: theme.text,
-    },
-    langButtonTextActive: {
-      color: '#fff',
-    },
-    logoutButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginTop: 20,
-      padding: 16,
-      backgroundColor: theme.error + '15',
-      borderRadius: 16,
-    },
-    logoutText: {
-      marginLeft: 8,
-      fontSize: 16,
-      fontWeight: '700',
-      color: theme.error,
-    },
-  });
+  const toggleTheme = () => {
+    setMode(mode === 'light' ? 'dark' : 'light');
+  };
 
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>L</Text>
-        </View>
-        <Text style={styles.name}>Linh Nguyen</Text>
-      </View>
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <StatusBar barStyle={theme.text === '#ffffff' ? 'light-content' : 'dark-content'} />
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Cài đặt hệ thống</Text>
-
-        {/* Language Switcher */}
-        <View style={styles.menuItem}>
-          <View style={styles.menuIcon}>
-            <Languages size={20} color={theme.primary} />
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        {/* Header Section */}
+        <View style={styles.header}>
+          <View style={styles.avatarContainer}>
+            <User size={50} color={theme.primary} />
           </View>
-          <Text style={styles.menuText}>Ngôn ngữ</Text>
-          <View style={styles.langButtons}>
-            <TouchableOpacity
-              onPress={() => changeLanguage('vi')}
-              style={[styles.langButton, i18n.language === 'vi' && styles.langButtonActive]}
-            >
-              <Text style={[styles.langButtonText, i18n.language === 'vi' && styles.langButtonTextActive]}>VI</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => changeLanguage('en')}
-              style={[styles.langButton, i18n.language === 'en' && styles.langButtonActive]}
-            >
-              <Text style={[styles.langButtonText, i18n.language === 'en' && styles.langButtonTextActive]}>EN</Text>
-            </TouchableOpacity>
+          <Text style={styles.userName}>{user?.email?.split('@')[0] || 'User'}</Text>
+          <Text style={styles.userEmail}>{user?.email || 'user@bandbuilder.io'}</Text>
+
+          <View style={styles.proBadge}>
+            <Text style={styles.proBadgeText}>Premium Member</Text>
           </View>
         </View>
 
+        {/* Stats Section */}
+        <View style={styles.statsContainer}>
+          <View style={styles.statCard}>
+            <Target size={20} color="#3b82f6" style={{ marginBottom: 8 }} />
+            <Text style={styles.statValue}>7.5</Text>
+            <Text style={styles.statLabel}>Target</Text>
+          </View>
+          <View style={styles.statCard}>
+            <Zap size={20} color="#f97316" style={{ marginBottom: 8 }} />
+            <Text style={styles.statValue}>24</Text>
+            <Text style={styles.statLabel}>Streak</Text>
+          </View>
+          <View style={styles.statCard}>
+            <Award size={20} color="#10b981" style={{ marginBottom: 8 }} />
+            <Text style={styles.statValue}>15</Text>
+            <Text style={styles.statLabel}>Done</Text>
+          </View>
+        </View>
+
+        {/* Account Settings */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Account</Text>
+          <View style={styles.menuGroup}>
+            <TouchableOpacity style={styles.menuItem}>
+              <View style={[styles.menuIconContainer, { backgroundColor: '#3b82f615' }]}>
+                <Settings size={20} color="#3b82f6" />
+              </View>
+              <Text style={styles.menuText}>Account Settings</Text>
+              <ChevronRight size={18} color={theme.border} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem}>
+              <View style={[styles.menuIconContainer, { backgroundColor: '#10b98115' }]}>
+                <ShieldCheck size={20} color="#10b981" />
+              </View>
+              <Text style={styles.menuText}>Security & Privacy</Text>
+              <ChevronRight size={18} color={theme.border} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Preferences Settings */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Preferences</Text>
+          <View style={styles.menuGroup}>
+            <TouchableOpacity style={styles.menuItem} onPress={toggleLanguage}>
+              <View style={[styles.menuIconContainer, { backgroundColor: '#8b5cf615' }]}>
+                <Globe size={20} color="#8b5cf6" />
+              </View>
+              <Text style={styles.menuText}>App Language</Text>
+              <Text style={styles.menuValue}>{i18n.language === 'vi' ? 'Tiếng Việt' : 'English'}</Text>
+              <ChevronRight size={18} color={theme.border} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.menuItem} onPress={toggleTheme}>
+              <View style={[styles.menuIconContainer, { backgroundColor: '#f59e0b15' }]}>
+                {mode === 'dark' ? <Moon size={20} color="#f59e0b" /> : <Sun size={20} color="#f59e0b" />}
+              </View>
+              <Text style={styles.menuText}>Theme Mode</Text>
+              <Text style={styles.menuValue}>{mode === 'dark' ? 'Dark' : 'Light'}</Text>
+              <ChevronRight size={18} color={theme.border} />
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Logout */}
         <TouchableOpacity style={styles.logoutButton} onPress={logout}>
-          <LogOut size={20} color={theme.error} />
-          <Text style={styles.logoutText}>{t('common.logout')}</Text>
+          <LogOut size={20} color="#ef4444" />
+          <Text style={styles.logoutText}>Log Out</Text>
         </TouchableOpacity>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }

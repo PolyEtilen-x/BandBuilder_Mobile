@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 import {
   View,
   Text,
+  ScrollView,
   TouchableOpacity,
   StatusBar,
   ActivityIndicator,
@@ -16,57 +17,90 @@ import { useTranslation } from 'react-i18next';
 import { FlashList } from '@shopify/flash-list';
 import { getStyles } from './style';
 import { useThemeColor } from '@/hooks/useThemeColor';
-import { usePracticeSkills } from '@/hooks/usePractice';
+import { usePracticeSkills, useSkillPreview } from '@/hooks/usePractice';
 
-// Định nghĩa Interface chuẩn Senior
 interface PracticeSkill {
   id: string;
   _id?: string;
+  skillContentId: string;
   title: string;
   skillType: string;
   numberOfVisits?: number;
-  questions?: number;
-  progress?: number;
 }
 
-const SKILLS = [
-  { id: 'listening', label: 'Nghe', color: '#3b82f6' },
-  { id: 'reading', label: 'Đọc', color: '#10b981' },
-  { id: 'writing', label: 'Viết', color: '#f97316' },
-  { id: 'speaking', label: 'Nói', color: '#8b5cf6' },
-];
+const SKILL_CONFIG: any = {
+  listening: { label: 'Listening', color: '#3b82f6', subSections: ['Section 1', 'Section 2', 'Section 3', 'Section 4'], hasFull: true },
+  reading: { label: 'Reading', color: '#10b981', subSections: ['Passage 1', 'Passage 2', 'Passage 3'], hasFull: true },
+  writing: { label: 'Writing', color: '#f97316', subSections: ['Task 1', 'Task 2'], hasFull: false },
+  speaking: { label: 'Speaking', color: '#8b5cf6', subSections: ['Part 1', 'Part 2', 'Part 3'], hasFull: true },
+};
 
-const PracticeCardItem = React.memo(({ item, activeSkill, theme, styles }: { item: PracticeSkill, activeSkill: string, theme: any, styles: any }) => {
-  const skillInfo = SKILLS.find(s => s.id === activeSkill);
-  const accentColor = skillInfo?.color || theme.primary;
-  const progress = item.progress || 0;
+const SKILLS = ['listening', 'reading', 'writing', 'speaking'];
+
+// Component thẻ bài tập - Logic y hệt FE (SkillCardGroup)
+const PracticeCardItem = React.memo(({ skill, activeSkill, activeMode, theme, styles }: any) => {
+  const skillId = skill.skillContentId || skill.id || skill._id;
+  const { data: enriched, isLoading } = useSkillPreview(skillId);
+  
+  const cfg = SKILL_CONFIG[activeSkill];
+  const accentColor = cfg?.color || theme.primary;
+
+  // Trạng thái đang tải dữ liệu chi tiết
+  if (isLoading) {
+    return (
+      <View style={[styles.practiceCard, { opacity: 0.6 }]}>
+        <View style={[styles.cardAccent, { backgroundColor: theme.border }]} />
+        <View style={styles.cardMainContent}>
+          <ActivityIndicator size="small" color={accentColor} style={{ alignSelf: 'flex-start', marginBottom: 10 }} />
+          <View style={{ height: 16, backgroundColor: theme.backgroundAlt, borderRadius: 4, width: '80%' }} />
+        </View>
+      </View>
+    );
+  }
+
+  if (!enriched) return null;
+
+  // Lọc cards giống hệt logic FE
+  const units = enriched.units || [];
+  const cardData = activeMode === 'full' 
+    ? { 
+        title: enriched.source || skill.title, 
+        questions: units.flatMap((u: any) => u.questionBlocks?.flatMap((b: any) => b.questions || []) || []).length,
+        isFull: true
+      }
+    : units.filter((u: any) => String(u.id) === activeMode).map((u: any) => ({
+        title: u.title,
+        questions: u.questionBlocks?.flatMap((b: any) => b.questions || [])?.length || 0,
+        isFull: false
+      }))[0]; // Mobile chỉ hiển thị 1 unit tại 1 thời điểm theo filter
+
+  if (!cardData) return null;
 
   return (
     <TouchableOpacity style={styles.practiceCard} activeOpacity={0.7}>
-      {/* Thanh nhấn màu bên trái tạo vẻ cứng cáp */}
       <View style={[styles.cardAccent, { backgroundColor: accentColor }]} />
       
       <View style={styles.cardMainContent}>
         <View style={styles.cardTopRow}>
           <View style={styles.badge}>
             <Text style={[styles.badgeText, { color: accentColor }]}>
-              {progress > 0 ? `${progress}% Completed` : 'New'}
+              {cardData.isFull ? 'FULL TEST' : 'NEW'}
             </Text>
           </View>
         </View>
 
         <Text style={styles.cardTitle} numberOfLines={2}>
-          {item.title}
+          {cardData.title}
         </Text>
 
         <View style={styles.cardStats}>
           <View style={styles.statItem}>
             <HelpCircle size={14} color={theme.textSecondary} />
-            <Text style={styles.statText}>{item.questions || 10} Ques</Text>
+            <Text style={styles.statText}>{cardData.questions} Ques</Text>
           </View>
           <View style={styles.statItem}>
             <Users size={14} color={theme.textSecondary} />
-            <Text style={styles.statText}>{item.numberOfVisits || 0} Users</Text>
+            <Text style={styles.statText}>{skill.numberOfVisits || 0} Users</Text>
           </View>
         </View>
       </View>
@@ -82,7 +116,9 @@ export default function PracticePage() {
   const { t } = useTranslation();
   const theme = useThemeColor();
   const styles = useMemo(() => getStyles(theme), [theme]);
+  
   const [activeSkill, setActiveSkill] = useState('listening');
+  const [activeMode, setActiveMode] = useState('full');
 
   const { data: rawSkills = [], isLoading } = usePracticeSkills();
 
@@ -94,43 +130,79 @@ export default function PracticePage() {
 
   const renderItem = useCallback(({ item }: { item: PracticeSkill }) => (
     <PracticeCardItem 
-      item={item} 
+      skill={item} 
       activeSkill={activeSkill} 
+      activeMode={activeMode}
       theme={theme} 
       styles={styles} 
     />
-  ), [activeSkill, theme, styles]);
+  ), [activeSkill, activeMode, theme, styles]);
 
-  // Header với thanh Segmented Control sang trọng
   const ListHeader = useMemo(() => (
     <View>
       <View style={styles.header}>
         <Text style={styles.title}>{t('navigation.practice')}</Text>
       </View>
       
-      <View style={styles.skillTabsContainer}>
+      <View style={[styles.skillTabsContainer, { paddingBottom: 0 }]}>
         <View style={styles.skillTabs}>
-          {SKILLS.map((skill) => (
+          {SKILLS.map((s) => (
             <TouchableOpacity
-              key={skill.id}
+              key={s}
               style={[
                 styles.skillTab,
-                activeSkill === skill.id && styles.skillTabActive,
+                activeSkill === s && styles.skillTabActive,
               ]}
-              onPress={() => setActiveSkill(skill.id)}
+              onPress={() => {
+                setActiveSkill(s);
+                setActiveMode(SKILL_CONFIG[s].hasFull ? 'full' : '1');
+              }}
             >
               <Text style={[
                 styles.skillTabText,
-                activeSkill === skill.id && styles.skillTabTextActive,
+                activeSkill === s && styles.skillTabTextActive,
               ]}>
-                {skill.label}
+                {SKILL_CONFIG[s].label}
               </Text>
             </TouchableOpacity>
           ))}
         </View>
       </View>
+
+      <View style={{ paddingVertical: 16 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 24, gap: 8 }}>
+          {SKILL_CONFIG[activeSkill].hasFull && (
+            <TouchableOpacity 
+              onPress={() => setActiveMode('full')}
+              style={[
+                { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: theme.border },
+                activeMode === 'full' && { backgroundColor: theme.primary, borderColor: theme.primary }
+              ]}
+            >
+              <Text style={{ fontSize: 13, fontWeight: '600', color: activeMode === 'full' ? '#fff' : theme.textSecondary }}>
+                Full Test
+              </Text>
+            </TouchableOpacity>
+          )}
+          
+          {SKILL_CONFIG[activeSkill].subSections.map((label: string, i: number) => (
+            <TouchableOpacity 
+              key={label}
+              onPress={() => setActiveMode(String(i + 1))}
+              style={[
+                { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: theme.border },
+                activeMode === String(i + 1) && { backgroundColor: theme.primary, borderColor: theme.primary }
+              ]}
+            >
+              <Text style={{ fontSize: 13, fontWeight: '600', color: activeMode === String(i + 1) ? '#fff' : theme.textSecondary }}>
+                {label}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
     </View>
-  ), [activeSkill, theme, styles, t]);
+  ), [activeSkill, activeMode, theme, styles, t]);
 
   const OptimizedList = FlashList as any;
 
@@ -147,7 +219,7 @@ export default function PracticePage() {
           <OptimizedList
             data={filteredSkills}
             renderItem={renderItem}
-            keyExtractor={(item: PracticeSkill) => item.id || item._id || Math.random().toString()}
+            keyExtractor={(item: PracticeSkill) => item.skillContentId || item.id || item._id}
             ListHeaderComponent={ListHeader}
             contentContainerStyle={styles.listContent}
             estimatedItemSize={120}
