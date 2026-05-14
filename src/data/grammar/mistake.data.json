@@ -1,0 +1,245 @@
+{
+  "module": "IELTS_TOEIC_Common_Mistakes_Mastery",
+  "data": [
+    {
+      "category": "Prepositions for Career & Work",
+      "mistakes": [
+        { "id": 1, "incorrect": "I have experience on managing IT projects.", "correct": "I have experience in managing IT projects.", "note": "The standard preposition for professional experience is 'in' [1]." },
+        { "id": 2, "incorrect": "He applied to a new job yesterday.", "correct": "He applied for a new job yesterday.", "note": "Use 'apply for' when referring to a position or job [2, 3]." },
+        { "id": 3, "incorrect": "She is in charge with the marketing team.", "correct": "She is in charge of the marketing team.", "note": "The fixed phrase is 'in charge of' [4, 5]." },
+        { "id": 4, "incorrect": "I am responsible to managing online campaigns.", "correct": "I am responsible for managing online campaigns.", "note": "Use 'responsible for' followed by a noun or V-ing [4]." },
+        { "id": 5, "incorrect": "He graduated at a prestigious university.", "correct": "He graduated from a prestigious university.", "note": "The verb 'graduate' always takes the preposition 'from' [6, 7]." },
+        { "id": 6, "incorrect": "The manager was relieved with his duties.", "correct": "The manager was relieved of his duties.", "note": "To be removed from a position, use 'relieved of' [8]." },
+        { "id": 7, "incorrect": "I have worked at an international NGO.", "correct": "I have worked for an international NGO.", "note": "When talking about an employer, 'work for' is more common than 'work at' [1]." }
+      ]
+    },
+    {
+      "category": "Environmental Collocations",
+      "mistakes": [
+        { "id": 8, "incorrect": "According with the news, climate change is alarming.", "correct": "According to the news, climate change is alarming.", "note": "The fixed phrase is 'according to' [6]." },
+        { "id": 9, "incorrect": "Global warming has a negative impact to the arctic.", "correct": "Global warming has a negative impact on the arctic.", "note": "'Impact' and 'effect' take the preposition 'on' [9, 10]." },
+        { "id": 10, "incorrect": "We must contribute for protecting biodiversity.", "correct": "We must contribute to protecting biodiversity.", "note": "The verb 'contribute' is followed by 'to' [11, 12]." },
+        { "id": 11, "incorrect": "Factories should limit emissions of greenhouse gas.", "correct": "Factories should curb emissions of greenhouse gas.", "note": "'Curb' is a stronger, more academic collocation for emissions [11, 13]." },
+        { "id": 12, "incorrect": "We need to protect endangered species against harm.", "correct": "We need to protect endangered species from harm.", "note": "Use 'protect someone/something from' [14]." },
+        { "id": 13, "incorrect": "How can we cope for environmental problems?", "correct": "How can we cope with environmental problems?", "note": "The correct phrasal verb is 'cope with' [3, 13]." },
+        { "id": 14, "incorrect": "Deforestation is a serious threat for wildlife.", "correct": "Deforestation is a serious threat to wildlife.", "note": "Use 'threat to' when describing danger [15, 16]." }
+      ]
+    },
+    {
+      "category": "Collocation Errors: Make vs. Do",
+      "mistakes": [
+        { "id": 15, "incorrect": "I need to make my homework before class.", "correct": "I need to do my homework before class.", "note": "Academic tasks like homework or research use 'do' [17, 18]." },
+        { "id": 16, "incorrect": "The manager is making a lot of work today.", "correct": "The manager is doing a lot of work today.", "note": "'Making work' implies creating unnecessary tasks for others [18]." },
+        { "id": 17, "incorrect": "We should make a research on solar energy.", "correct": "We should do/conduct research on solar energy.", "note": "Research is always 'done' or 'conducted' [17, 19]." },
+        { "id": 18, "incorrect": "The workers decided to make a strike.", "correct": "The workers decided to go on strike.", "note": "Industrial action is expressed as 'go on strike' [20]." },
+        { "id": 19, "incorrect": "Technology makes a significant role in life.", "correct": "Technology plays a significant role in life.", "note": "The standard collocation is 'play a role' [21]." },
+        { "id": 20, "incorrect": "Please make an appointment with the doctor.", "correct": "Please book/make an appointment with the doctor.", "note": "'Make' is acceptable, but 'book' is common for professional services [22]." },
+        { "id": 21, "incorrect": "He made a mistake in the calculation.", "correct": "He made a mistake in the calculation.", "note": "Use 'make' for errors, but ensure the preposition is 'in' [23]." }
+      ]
+    },
+    {
+      "category": "Subject-Verb Agreement: Uncountable Nouns",
+      "mistakes": [
+        { "id": 22, "incorrect": "The air pollution are getting worse in cities.", "correct": "The air pollution is getting worse in cities.", "note": "Pollution is uncountable and takes a singular verb [24]." },
+        { "id": 23, "incorrect": "The information provided are very useful.", "correct": "The information provided is very useful.", "note": "Information is strictly uncountable [25]." },
+        { "id": 24, "incorrect": "Overpopulation lead to resource depletion.", "correct": "Overpopulation leads to resource depletion.", "note": "Uncountable nouns follow singular verb rules [26, 27]." },
+        { "id": 25, "incorrect": "Our research show a rise in temperatures.", "correct": "Our research shows a rise in temperatures.", "note": "Research is uncountable; avoid 'researches' [19]." },
+        { "id": 26, "incorrect": "The waste disposal are not efficient here.", "correct": "The waste disposal is not efficient here.", "note": "Disposal is a singular concept/uncountable [28, 29]." },
+        { "id": 27, "incorrect": "New software were installed on the laptop.", "correct": "New software was installed on the laptop.", "note": "Software is an uncountable noun [6, 30]." },
+        { "id": 28, "incorrect": "The homework given by teachers are hard.", "correct": "The homework given by teachers is hard [31, 32].", "note": "Homework is uncountable; do not use 'are' [31, 32]." }
+      ]
+    },
+    {
+      "category": "Word Form: Noun vs. Adjective",
+      "mistakes": [
+        { "id": 29, "incorrect": "You should lead a healthily lifestyle.", "correct": "You should lead a healthy lifestyle.", "note": "Use the adjective 'healthy' to modify the noun 'lifestyle' [33, 34]." },
+        { "id": 30, "incorrect": "A variety of vegetables is a nutritiously meal.", "correct": "A variety of vegetables is a nutritious meal.", "note": "Modify 'meal' with the adjective 'nutritious' [35, 36]." },
+        { "id": 31, "incorrect": "Environmental degrade is a serious challenge.", "correct": "Environmental degradation is a serious challenge.", "note": "Use the noun 'degradation' after the adjective 'environmental' [9]." },
+        { "id": 32, "incorrect": "This company sells high-quality produce.", "correct": "This company sells high-quality products.", "note": "'Produce' (n) usually refers to agricultural goods; 'products' is for manufactured goods [6]." },
+        { "id": 33, "incorrect": "Academic achieve is important for students.", "correct": "Academic achievement is important for students.", "note": "Use the noun form 'achievement' for the subject [37, 38]." },
+        { "id": 34, "incorrect": "The city is develop quickly in terms of tech.", "correct": "The city is developing quickly in terms of tech.", "note": "Use the continuous form for ongoing processes [6, 39]." },
+        { "id": 35, "incorrect": "Digital device are very popular nowadays.", "correct": "Digital devices are very popular nowadays.", "note": "Nouns must agree with the plural verb 'are' [40]." }
+      ]
+    },
+    {
+      "category": "Verb Patterns: Gerund vs. Infinitive",
+      "mistakes": [
+        { "id": 36, "incorrect": "We should avoid to use single-use plastics.", "correct": "We should avoid using single-use plastics.", "note": "The verb 'avoid' must be followed by V-ing [41, 42]." },
+        { "id": 37, "incorrect": "I plan enrolling in a business course.", "correct": "I plan to enroll in a business course.", "note": "'Plan' is followed by a to-infinitive [7, 43]." },
+        { "id": 38, "incorrect": "He decided dropping out of college.", "correct": "He decided to drop out of college.", "note": "'Decide' takes a to-infinitive [7, 44]." },
+        { "id": 39, "incorrect": "Teachers encourage students participating.", "correct": "Teachers encourage students to participate.", "note": "The pattern is 'encourage someone to do something' [7]." },
+        { "id": 40, "incorrect": "Can you imagine to live without internet?", "correct": "Can you imagine living without internet?", "note": "'Imagine' is followed by a gerund [45]." },
+        { "id": 41, "incorrect": "He risks to lose his job after the scandal.", "correct": "He risks losing his job after the scandal.", "note": "'Risk' requires a gerund (V-ing) [46]." },
+        { "id": 42, "incorrect": "I am looking forward to meet you.", "correct": "I am looking forward to meeting you.", "note": "The phrase 'look forward to' is followed by a gerund [40]." }
+      ]
+    },
+    {
+      "category": "Tense Misuse: Time Markers",
+      "mistakes": [
+        { "id": 43, "incorrect": "I have finished my assignment yesterday.", "correct": "I finished my assignment yesterday.", "note": "Use past simple for specific finished times [47, 48]." },
+        { "id": 44, "incorrect": "Human activity caused global warming so far.", "correct": "Human activity has caused global warming so far.", "note": "Use present perfect for actions continuing to the present [48, 49]." },
+        { "id": 45, "incorrect": "In 2020, the temperature has risen sharply.", "correct": "In 2020, the temperature rose sharply.", "note": "Specific years require the past simple tense [13]." },
+        { "id": 46, "incorrect": "He is a vegetarian since 1965.", "correct": "He has been a vegetarian since 1965.", "note": "Use present perfect with 'since' [50]." },
+        { "id": 47, "incorrect": "I saw an ad on TV at the moment.", "correct": "I am seeing/watching an ad on TV at the moment.", "note": "'At the moment' requires a continuous tense [6]." },
+        { "id": 48, "incorrect": "By the time I arrived, he left already.", "correct": "By the time I arrived, he had left already.", "note": "Past perfect is used for the earlier of two past actions [51]." },
+        { "id": 49, "incorrect": "I graduated since three years.", "correct": "I graduated three years ago.", "note": "'Ago' is used for finished time; 'since' is for a point in time [47]." }
+      ]
+    },
+    {
+      "category": "Education Phrasal Verbs Particles",
+      "mistakes": [
+        { "id": 50, "incorrect": "I need to catch on with the class.", "correct": "I need to catch up with the class.", "note": "The correct particle is 'up' for reaching a standard [52, 53]." },
+        { "id": 51, "incorrect": "Students must hand out their homework today.", "correct": "Students must hand in their homework today.", "note": "'Hand in' means submit; 'hand out' means distribute [53, 54]." },
+        { "id": 52, "incorrect": "I read into the case before the seminar.", "correct": "I read up on the case before the seminar.", "note": "Use 'read up on' to find information about a subject [53, 55]." },
+        { "id": 53, "incorrect": "She dropped from school after one year.", "correct": "She dropped out of school after one year.", "note": "The full phrase is 'drop out of' [44, 53]." },
+        { "id": 54, "incorrect": "Don't forget to sign for the yoga class.", "correct": "Don't forget to sign up for the yoga class.", "note": "Use 'sign up for' to join an activity [56]." },
+        { "id": 55, "incorrect": "I always go across my notes before tests.", "correct": "I always go over my notes before tests.", "note": "'Go over' means to check or review [53]." },
+        { "id": 56, "incorrect": "I need to study on the new materials.", "correct": "I need to study up on the new materials.", "note": "Like 'read up on', use 'study up on' for research [55]." }
+      ]
+    },
+    {
+      "category": "Article Usage Errors",
+      "mistakes": [
+        { "id": 57, "incorrect": "I saw the news on internet.", "correct": "I saw the news on the internet.", "note": "Global entities like 'internet' always require 'the' [30, 57, 58]." },
+        { "id": 58, "incorrect": "Environment is being destroyed by humans.", "correct": "The environment is being destroyed by humans.", "note": "Use 'the environment' in a general academic sense [11]." },
+        { "id": 59, "incorrect": "Sun heats up the Earth's surface.", "correct": "The Sun heats up the Earth's surface.", "note": "Unique celestial bodies require 'the' [59]." },
+        { "id": 60, "incorrect": "He earned degree in economics.", "correct": "He earned a degree in economics.", "note": "Singular countable nouns like 'degree' need an article [60]." },
+        { "id": 61, "incorrect": "Air pollution is a major health concern.", "correct": "Air pollution is a major health concern.", "note": "Abstract concepts generally don't use 'the' [61]." },
+        { "id": 62, "incorrect": "I have an interest on music.", "correct": "I have an interest in music.", "note": "The idiom is 'have an interest in' [62]." },
+        { "id": 63, "incorrect": "She is the teacher's pet.", "correct": "She is the teacher's pet.", "note": "Ensure the possessive apostrophe is used correctly [63]." }
+      ]
+    },
+    {
+      "category": "IT Vocabulary Misusage",
+      "mistakes": [
+        { "id": 64, "incorrect": "The computer is currently not doing.", "correct": "The computer is currently not working/running.", "note": "Use 'working' for machines/software [64, 65]." },
+        { "id": 65, "incorrect": "I need to change my mobile phone electrification.", "correct": "I need to use my mobile phone charger.", "note": "The device for charging is a 'charger' [66]." },
+        { "id": 66, "incorrect": "My phone is out of battery power.", "correct": "My phone battery is flat/low.", "note": "'Flat' is a common adjective for dead batteries [67]." },
+        { "id": 67, "incorrect": "This app has a user-easy interface.", "correct": "This app has a user-friendly interface.", "note": "The academic term is 'user-friendly' [30, 68]." },
+        { "id": 68, "incorrect": "I forgot to back the files up.", "correct": "I forgot to back up the files.", "note": "While separable, 'back up' is the standard verb for copying data [30, 69]." },
+        { "id": 69, "incorrect": "The system crashed because of a bug inside.", "correct": "The system crashed because of a bug in the software.", "note": "Use the preposition 'in' for bugs in systems [70]." },
+        { "id": 70, "incorrect": "I need to find a new software sub-part.", "correct": "I need to find a new software component.", "note": "The technical term is 'component' [71]." }
+      ]
+    },
+    {
+      "category": "Quantifier Errors: Much vs. Many",
+      "mistakes": [
+        { "id": 71, "incorrect": "There are too much people in the city.", "correct": "There are too many people in the city.", "note": "People is a plural countable noun [72]." },
+        { "id": 72, "incorrect": "He doesn't have many knowledge about IT.", "correct": "He doesn't have much knowledge about IT.", "note": "Knowledge is uncountable [25]." },
+        { "id": 73, "incorrect": "How many money do you earn a month?", "correct": "How much money do you earn a month?", "note": "Money is uncountable [25]." },
+        { "id": 74, "incorrect": "We should eat less salt and more many fruit.", "correct": "We should eat less salt and more fruit.", "note": "Use 'more' directly with uncountable/countable nouns [73]." },
+        { "id": 75, "incorrect": "There is many air pollution in Hanoi.", "correct": "There is a lot of/much air pollution in Hanoi.", "note": "Pollution is uncountable [24]." },
+        { "id": 76, "incorrect": "Too many fast food is bad for health.", "correct": "Too much fast food is bad for health.", "note": "Food is typically treated as uncountable here [42]." },
+        { "id": 77, "incorrect": "I saw many informative advertisements.", "correct": "I saw many informative advertisements.", "note": "'Advertisement' is countable, but 'advertising' is not [74]." }
+      ]
+    },
+    {
+      "category": "Health & Body Mistakes",
+      "mistakes": [
+        { "id": 78, "incorrect": "I feel very weak after the accident.", "correct": "I am still weak after the accident.", "note": "Use 'still' to show a continued state of being [50]." },
+        { "id": 79, "incorrect": "The doctor is talking Tom's temperature.", "correct": "The doctor is taking Tom's temperature.", "note": "The correct verb is 'take a temperature' [75]." },
+        { "id": 80, "incorrect": "I got sunburnam on the beach.", "correct": "I got sunburn on the beach.", "note": "Avoid spelling errors for 'sunburn' [76]." },
+        { "id": 81, "incorrect": "Reading in soft light can hurt eyes.", "correct": "Reading in dim light can hurt your eyes.", "note": "'Dim light' is the correct term for low visibility [35, 77]." },
+        { "id": 82, "incorrect": "He is in the pink health.", "correct": "He is in the pink of health.", "note": "The full idiom is 'in the pink of health' [78]." },
+        { "id": 83, "incorrect": "You should use eye drops for dry eyes.", "correct": "You should use eye drops for dry eyes.", "note": "Ensure 'eye drops' is two words/compound [77]." },
+        { "id": 84, "incorrect": "Eating sugar can causes acne.", "correct": "Eating sugar can cause acne.", "note": "Modal verbs like 'can' are followed by the bare infinitive [77]." }
+      ]
+    },
+    {
+      "category": "Register: Formal vs. Informal",
+      "mistakes": [
+        { "id": 85, "incorrect": "Kids are dropping out of school.", "correct": "Children/Students are dropping out of school.", "note": "In IELTS Writing, avoid 'kids' [79]." },
+        { "id": 86, "incorrect": "I want to get some Z's now.", "correct": "I need to get some sleep.", "note": "'Catch some Z's' is an idiom for Speaking only [78]." },
+        { "id": 87, "incorrect": "The job is a piece of cake.", "correct": "The job is very easy/manageable.", "note": "Avoid informal idioms in academic tasks [36, 43]." },
+        { "id": 88, "incorrect": "The boss was happy with the report.", "correct": "The manager/director was satisfied with the report.", "note": "Use 'manager' or 'director' for a more formal tone [2]." },
+        { "id": 89, "incorrect": "I'm under a lot of pressure at my new job.", "correct": "I am experiencing considerable pressure at my workplace.", "note": "Use 'considerable' instead of 'a lot of' in formal writing [80]." },
+        { "id": 90, "incorrect": "I'll resend the artwork ASAP.", "correct": "I will resend the artwork as soon as possible.", "note": "Avoid acronyms like ASAP in formal business emails [81]." },
+        { "id": 91, "incorrect": "Can you give me some tips?", "correct": "Could you provide some advice/recommendations?", "note": "Use 'advice' or 'recommendations' in formal contexts [24, 25]." }
+      ]
+    },
+    {
+      "category": "Compound Sentence Punctuation",
+      "mistakes": [
+        { "id": 92, "incorrect": "My sister is a nurse but she works in a clinic.", "correct": "My sister is a nurse, but she works in a clinic.", "note": "Use a comma before coordinating conjunctions like 'but' [82]." },
+        { "id": 93, "incorrect": "My teeth hurt so I make an appointment.", "correct": "My teeth hurt, so I make an appointment.", "note": "A comma is mandatory before 'so' in a compound sentence [82, 83]." },
+        { "id": 94, "incorrect": "He is handsome but he lacks personality.", "correct": "He is handsome, but he seems to lack personality.", "note": "Always separate independent clauses with a comma + conjunction [84]." },
+        { "id": 95, "incorrect": "You should wear a hat or you get sunburn.", "correct": "You should wear a hat, or you might get sunburn.", "note": "Use a comma before 'or' [82]." },
+        { "id": 96, "incorrect": "I am thirsty but I don't have money.", "correct": "I am thirsty, but I don't have any money.", "note": "Punctuation check for 'but' [84]." },
+        { "id": 97, "incorrect": "The singer is ill so he won't perform.", "correct": "The singer is ill, so he won't perform.", "note": "Result clauses with 'so' need a comma [84]." },
+        { "id": 98, "incorrect": "Tomorrow is a holiday and I will sleep more.", "correct": "Tomorrow is a holiday, and I will sleep more.", "note": "Adding information with 'and' needs a comma [84]." }
+      ]
+    },
+    {
+      "category": "Specialist Noun Suffixes",
+      "mistakes": [
+        { "id": 99, "incorrect": "He is a famous science.", "correct": "He is a famous scientist.", "note": "Use '-ist' suffix for the person specializing in science [85, 86]." },
+        { "id": 100, "incorrect": "The biology studied the plants.", "correct": "The biologist studied the plants.", "note": "A 'biologist' is the researcher [86, 87]." },
+        { "id": 101, "incorrect": "She wants to be a physics.", "correct": "She wants to be a physicist.", "note": "A 'physicist' is a person, 'physics' is the subject [86, 87]." },
+        { "id": 102, "incorrect": "The architecture designed the bridge.", "correct": "The architect designed the bridge.", "note": "An 'architect' is the person [86, 88]." },
+        { "id": 103, "incorrect": "He works as a chemistry in the lab.", "correct": "He works as a chemist in the lab.", "note": "A 'chemist' is the professional [87, 89]." },
+        { "id": 104, "incorrect": "The history wrote a book about Rome.", "correct": "The historian wrote a book about Rome.", "note": "An 'historian' writes about history [86]." },
+        { "id": 105, "incorrect": "She is a talented piano.", "correct": "She is a talented pianist.", "note": "Add '-ist' to the instrument to name the player [90, 91]." }
+      ]
+    },
+    {
+      "category": "Conditional Logic Errors",
+      "mistakes": [
+        { "id": 106, "incorrect": "If you will heat ice, it melts.", "correct": "If you heat ice, it melts.", "note": "Zero conditional uses present simple in both clauses [83]." },
+        { "id": 107, "incorrect": "If you don't wear a hat, you get sunburn.", "correct": "If you don't wear a hat, you will get sunburn.", "note": "First conditional uses 'will' in the result clause [75]." },
+        { "id": 108, "incorrect": "If I am the president, I would prioritize nature.", "correct": "If I were the president, I would prioritize nature.", "note": "Second conditional (unreal) uses 'were' [92]." },
+        { "id": 109, "incorrect": "If I would have time, I'd go out.", "correct": "If I had time, I would go out.", "note": "Never use 'would' in the 'if' clause [83]." },
+        { "id": 110, "incorrect": "If she studied hard, she aced the test.", "correct": "If she had studied hard, she would have aced the test.", "note": "Third conditional is for unreal past events [83]." },
+        { "id": 111, "incorrect": "If we protect biodiversity, life stays stable.", "correct": "If we protect biodiversity, life stays stable.", "note": "General truths take the zero conditional [11]." },
+        { "id": 112, "incorrect": "If you take vitamins, you stay healthy.", "correct": "If you take vitamins, you will stay healthy.", "note": "Specific future outcome requires 'will' [93]." }
+      ]
+    },
+    {
+      "category": "Confusion of Synonyms",
+      "mistakes": [
+        { "id": 113, "incorrect": "I want to purchase a return ticket.", "correct": "I want to buy a return ticket.", "note": "In spoken English, 'buy' is more natural than 'purchase' [94]." },
+        { "id": 114, "incorrect": "The city is very famous for its tech.", "correct": "The city is renowned for its tech.", "note": "'Renowned' is a more positive, academic synonym for 'famous' [94, 95]." },
+        { "id": 115, "incorrect": "We need to delay the meeting.", "correct": "We need to put off the meeting.", "note": "'Put off' is a more natural phrasal verb synonym [94]." },
+        { "id": 116, "incorrect": "Hazardous waste is very dangerous.", "correct": "Hazardous waste is dangerous.", "note": "Avoid using both synonyms in one phrase; 'hazardous' is more academic [96, 97]." },
+        { "id": 117, "incorrect": "The price of the phone is substantial.", "correct": "The price of the phone is high/significant.", "note": "'Substantial' usually refers to amounts/changes, not simple price tags [98, 99]." },
+        { "id": 118, "incorrect": "I don't mind what you do.", "correct": "I agree with what you do.", "note": "Use 'I agree' instead of 'I don't mind' to express clear support [100]." },
+        { "id": 119, "incorrect": "He is a copy cat who steals ideas.", "correct": "He is an unoriginal person who steals ideas.", "note": "'Copy cat' is informal; avoid it in academic writing [101]." }
+      ]
+    },
+    {
+      "category": "Adjective Ordering (OSASCOMP)",
+      "mistakes": [
+        { "id": 120, "incorrect": "A plastic small green bottle.", "correct": "A small green plastic bottle.", "note": "Order: Size (small) > Color (green) > Material (plastic) [102]." },
+        { "id": 121, "incorrect": "A wooden old beautiful house.", "correct": "A beautiful old wooden house.", "note": "Order: Opinion (beautiful) > Age (old) > Material (wooden) [102]." },
+        { "id": 122, "incorrect": "A digital new fast device.", "correct": "A fast new digital device.", "note": "Order: Opinion/Quality (fast) > Age (new) > Type (digital) [102]." },
+        { "id": 123, "incorrect": "Blue large round eyes.", "correct": "Large round blue eyes.", "note": "Order: Size (large) > Shape (round) > Color (blue) [102]." },
+        { "id": 124, "incorrect": "A leather black expensive jacket.", "correct": "An expensive black leather jacket.", "note": "Order: Opinion (expensive) > Color (black) > Material (leather) [102]." },
+        { "id": 125, "incorrect": "An innovative useful software app.", "correct": "A useful innovative software app.", "note": "Order: Quality (useful) > Age/Innovation (innovative) [68, 102]." },
+        { "id": 126, "incorrect": "Mountain clean fresh air.", "correct": "Clean fresh mountain air.", "note": "Opinion/Quality comes before location/origin [102]." }
+      ]
+    },
+    {
+      "category": "Spelling and Confusing Pairs",
+      "mistakes": [
+        { "id": 127, "incorrect": "Lack of sleep effects your health.", "correct": "Lack of sleep affects your health.", "note": "'Affect' is the verb; 'effect' is the noun [42, 47]." },
+        { "id": 128, "incorrect": "Technology has a positive affect.", "correct": "Technology has a positive effect.", "note": "'Effect' is the noun form [21, 103]." },
+        { "id": 129, "incorrect": "I have near finished my research.", "correct": "I have nearly finished my research.", "note": "'Nearly' means almost; 'near' refers to distance [25]." },
+        { "id": 130, "incorrect": "I need to check my mailbox frequently.", "correct": "I need to check my mailbox frequently.", "note": "'Mailbox' is usually one word [104]." },
+        { "id": 131, "incorrect": "The company has achieved targets.", "correct": "The company has achieved its targets.", "note": "Ensure spelling of 'achieved' is correct (i before e) [37, 105]." },
+        { "id": 132, "incorrect": "The forest was contaminated with toxin.", "correct": "The forest was contaminated with toxic chemicals.", "note": "'Toxic' is the adjective required here [9]." },
+        { "id": 133, "incorrect": "I saw an informative advertisment.", "correct": "I saw an informative advertisement.", "note": "Note the correct spelling with 'e' before 'ment' [2, 6]." }
+      ]
+    },
+    {
+      "category": "Phrasal Verb Particles: Environment",
+      "mistakes": [
+        { "id": 134, "incorrect": "Many trees have been cut up recently.", "correct": "Many trees have been cut down recently.", "note": "Use 'cut down' for felling trees [13, 59]." },
+        { "id": 135, "incorrect": "The sun is heating the Earth out.", "correct": "The sun is heating up the Earth's surface.", "note": "The correct particle is 'up' [59]." },
+        { "id": 136, "incorrect": "The oil had all been used off.", "correct": "The oil had all been used up.", "note": "'Use up' means to exhaust a supply [59]." },
+        { "id": 137, "incorrect": "We should throw rubbish off carefully.", "correct": "We should not throw rubbish away carelessly.", "note": "The phrasal verb is 'throw away' [59, 106]." },
+        { "id": 138, "incorrect": "They helped clean the beaches out.", "correct": "They helped clean up the beaches.", "note": "Use 'clean up' for removing pollution/dirt [13, 59]." },
+        { "id": 139, "incorrect": "Rivers have dried off due to drought.", "correct": "Rivers have dried up due to drought.", "note": "The correct phrasal verb is 'dry up' [13, 59]." },
+        { "id": 140, "incorrect": "Disasters wiped the properties off.", "correct": "Disasters wiped out many properties.", "note": "'Wipe out' means to destroy completely [59]." }
+      ]
+    }
+  ]
+}

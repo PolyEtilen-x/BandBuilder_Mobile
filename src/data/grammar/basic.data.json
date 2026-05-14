@@ -1,0 +1,225 @@
+{
+  "module": "IELTS_Basics_Mastery",
+  "tier_1_morphology": [
+    {
+      "id": 1,
+      "topic": "Noun Suffixes for People",
+      "rule_summary": "Sử dụng hậu tố -er, -ist, -ant để chỉ người/nghề nghiệp.",
+      "ielts_strategy": "Dùng để mô tả đối tượng trong Speaking Part 2 và Writing Task 2.",
+      "practice_cases": [
+        { "type": "Suffix", "input": "Environment", "transformed": "Environmentalist", "note": "Người bảo vệ môi trường" },
+        { "type": "Suffix", "input": "Science", "transformed": "Scientist", "note": "Nhà khoa học" },
+        { "type": "Suffix", "input": "Involve", "transformed": "Participant", "note": "Người tham gia" }
+      ]
+    },
+    {
+      "id": 2,
+      "topic": "Negative Prefixes",
+      "rule_summary": "Sử dụng un-, im-, in-, ir- để tạo từ trái nghĩa.",
+      "ielts_strategy": "Giúp tăng điểm Lexical Resource bằng cách dùng từ trái nghĩa thay vì dùng 'not'.",
+      "practice_cases": [
+        { "type": "Prefix", "input": "Polluted", "transformed": "Unpolluted", "note": "Không bị ô nhiễm" },
+        { "type": "Prefix", "input": "Possible", "transformed": "Impossible", "note": "Không thể" },
+        { "type": "Prefix", "input": "Regular", "transformed": "Irregular", "note": "Không đều đặn" }
+      ]
+    },
+    {
+      "id": 3,
+      "topic": "Verb to Noun Conversion",
+      "rule_summary": "Chuyển động từ sang danh từ bằng hậu tố -tion, -ment, -ance.",
+      "ielts_strategy": "Kỹ thuật quan trọng để Nomimalization (Danh từ hóa) giúp câu văn trang trọng hơn.",
+      "practice_cases": [
+        { "type": "Nominalization", "input": "The city develops quickly.", "transformed": "The rapid development of the city.", "note": "Biến mệnh đề thành cụm danh từ" },
+        { "type": "Suffix", "input": "Improve", "transformed": "Improvement", "note": "Sự cải thiện" }
+      ]
+    },
+    { "id": 4, "topic": "Adjective to Adverb", "rule_summary": "Thêm -ly vào tính từ để tạo trạng từ chỉ cách thức.", "ielts_strategy": "Dùng trạng từ để bổ nghĩa cho động từ mô tả xu hướng trong Task 1.", "practice_cases": [{ "type": "Transformation", "input": "Dramatical", "transformed": "Dramatically", "note": "Một cách đáng kể" }] },
+    { "id": 5, "topic": "Adjective Suffixes", "rule_summary": "Hậu tố -ful, -less, -able tạo tính từ.", "ielts_strategy": "Xây dựng vốn từ mô tả đặc điểm vật thể/vấn đề.", "practice_cases": [{ "type": "Suffix", "input": "Harm", "transformed": "Harmful/Harmless", "note": "Có hại/Vô hại" }] },
+    { "id": 6, "topic": "Prefix 'Re-'", "rule_summary": "Tiền tố 're-' mang nghĩa làm lại.", "ielts_strategy": "Thường dùng trong các quy trình tái chế Task 1.", "practice_cases": [{ "type": "Prefix", "input": "Cycle", "transformed": "Recycle", "note": "Tái chế" }] },
+    { "id": 7, "topic": "Prefix 'Under-'", "rule_summary": "Mang nghĩa thiếu hụt hoặc ở dưới.", "ielts_strategy": "Dùng mô tả tình trạng xã hội (thiếu nhân sự, thiếu kinh phí).", "practice_cases": [{ "type": "Prefix", "input": "Staffed", "transformed": "Understaffed", "note": "Thiếu nhân viên" }] },
+    { "id": 8, "topic": "Suffix '-ize/-ise'", "rule_summary": "Tạo động từ từ danh từ/tính từ.", "ielts_strategy": "Dùng trong các bài viết về hiện đại hóa, đô thị hóa.", "practice_cases": [{ "type": "Suffix", "input": "Modern", "transformed": "Modernize", "note": "Hiện đại hóa" }] },
+    { "id": 9, "topic": "Suffix '-ity'", "rule_summary": "Tạo danh từ trừu tượng chỉ tính chất.", "ielts_strategy": "Dùng để gọi tên các khái niệm trong Writing Task 2.", "practice_cases": [{ "type": "Suffix", "input": "Sustainable", "transformed": "Sustainability", "note": "Khả năng bền vững" }] },
+    { "id": 10, "topic": "Prefix 'Anti-'", "rule_summary": "Mang nghĩa chống lại.", "ielts_strategy": "Dùng trong chủ đề sức khỏe hoặc công nghệ.", "practice_cases": [{ "type": "Prefix", "input": "Virus", "transformed": "Anti-virus", "note": "Chống virus" }] },
+    {
+      "id": 31,
+      "topic": "Specialist Suffixes (-ist, -ian, -or)",
+      "rule_summary": "Sử dụng các hậu tố để chỉ chuyên gia trong một lĩnh vực.",
+      "ielts_strategy": "Dùng để gọi tên chính xác các đối tượng nghiên cứu trong Writing Task 2.",
+      "practice_cases": [
+        { "type": "Suffix", "input": "Biology", "transformed": "Biologist", "note": "Nhà sinh vật học" },
+        { "type": "Suffix", "input": "Technician", "transformed": "Technician", "note": "Kỹ thuật viên" },
+        { "type": "Suffix", "input": "Instruct", "transformed": "Instructor", "note": "Người hướng dẫn" }
+      ]
+    },
+    {
+      "id": 32,
+      "topic": "Suffix -able/-ible (Possibility)",
+      "rule_summary": "Tạo tính từ mang nghĩa 'có thể làm được gì'.",
+      "ielts_strategy": "Sử dụng để mô tả tính chất của giải pháp (vd: sustainable, reliable).",
+      "practice_cases": [
+        { "type": "Suffix", "input": "Renew", "transformed": "Renewable", "note": "Có thể tái tạo" },
+        { "type": "Suffix", "input": "Access", "transformed": "Accessible", "note": "Có thể tiếp cận" }
+      ]
+    },
+    {
+      "id": 33,
+      "topic": "Prefix Over- / Under- (Degree)",
+      "rule_summary": "Thêm tiền tố để chỉ sự quá mức hoặc thiếu hụt.",
+      "ielts_strategy": "Dùng để mô tả các vấn đề xã hội như quá tải dân số hoặc thiếu hụt nhân sự.",
+      "practice_cases": [
+        { "type": "Prefix", "input": "Populated", "transformed": "Overpopulated", "note": "Quá tải dân số" },
+        { "type": "Prefix", "input": "Staffed", "transformed": "Understaffed", "note": "Thiếu nhân viên" }
+      ]
+    },
+    { "id": 34, "topic": "Suffix -ment (Processes)", "rule_summary": "Chuyển động từ thành danh từ chỉ quá trình hoặc kết quả.", "ielts_strategy": "Nominalization giúp câu văn trang trọng hơn trong Task 2.", "practice_cases": [{ "type": "Suffix", "input": "Develop", "transformed": "Development", "note": "Sự phát triển" }] },
+    { "id": 35, "topic": "Prefix Dis- (Opposition)", "rule_summary": "Tiền tố tạo nghĩa trái ngược hoặc đảo ngược hành động.", "ielts_strategy": "Dùng để mô tả sự đứt gãy công nghệ (disruptive) hoặc sự phản đối.", "practice_cases": [{ "type": "Prefix", "input": "Agree", "transformed": "Disagree", "note": "Không đồng ý" }] },
+    { "id": 36, "topic": "Suffix -less (Absence)", "rule_summary": "Tạo tính từ mang nghĩa 'không có' cái gì đó.", "ielts_strategy": "Mô tả đặc điểm sản phẩm hoặc hiện tượng (vd: wireless, harmless).", "practice_cases": [{ "type": "Suffix", "input": "Wire", "transformed": "Wireless", "note": "Không dây" }] },
+    { "id": 37, "topic": "Prefix Pre- / Post- (Time)", "rule_summary": "Tiền tố chỉ thời gian trước hoặc sau.", "ielts_strategy": "Dùng trong các bài quy trình Task 1 hoặc thảo luận giáo dục (vd: post-graduate).", "practice_cases": [{ "type": "Prefix", "input": "Graduate", "transformed": "Post-graduate", "note": "Sau đại học" }] },
+    { "id": 38, "topic": "Suffix -ness (Abstract Nouns)", "rule_summary": "Biến tính từ thành danh từ chỉ trạng thái hoặc phẩm chất.", "ielts_strategy": "Dùng để diễn đạt các khái niệm trừu tượng (vd: awareness, weakness).", "practice_cases": [{ "type": "Suffix", "input": "Aware", "transformed": "Awareness", "note": "Sự nhận thức" }] },
+    { "id": 39, "topic": "Prefix Inter- (Connection)", "rule_summary": "Mang nghĩa 'giữa' các đối tượng hoặc 'liên'.", "ielts_strategy": "Dùng trong các chủ đề toàn cầu hóa hoặc kỹ năng (vd: international, interact).", "practice_cases": [{ "type": "Prefix", "input": "Act", "transformed": "Interact", "note": "Tương tác" }] },
+    { "id": 40, "topic": "Suffix -tion/-sion (States)", "rule_summary": "Hậu tố phổ biến nhất để tạo danh từ từ động từ.", "ielts_strategy": "Dùng để gọi tên các vấn đề lớn (vd: pollution, education, emission).", "practice_cases": [{ "type": "Suffix", "input": "Pollute", "transformed": "Pollution", "note": "Sự ô nhiễm" }] }
+  
+],
+  "tier_2_syntax": [
+    {
+      "id": 11,
+      "topic": "S-V Agreement with Uncountables",
+      "rule_summary": "Danh từ không đếm được luôn dùng động từ số ít.",
+      "ielts_strategy": "Tránh lỗi sai cơ bản trong các chủ đề môi trường và giáo dục.",
+      "practice_cases": [
+        { "type": "Correction", "input": "Information are power.", "transformed": "Information is power.", "note": "Information không đếm được" }
+      ]
+    },
+    {
+      "id": 12,
+      "topic": "Adjective Order (OSASCOMP)",
+      "rule_summary": "Thứ tự: Opinion-Size-Age-Shape-Color-Origin-Material-Purpose.",
+      "ielts_strategy": "Sử dụng khi miêu tả đồ vật trong Speaking Part 2.",
+      "practice_cases": [
+        { "type": "Ordering", "input": "plastic small green bottle", "transformed": "small green plastic bottle", "note": "Size > Color > Material" }
+      ]
+    },
+    {
+      "id": 13,
+      "topic": "Imperatives with More/Less",
+      "rule_summary": "V + more/less + Noun để đưa ra lời khuyên.",
+      "ielts_strategy": "Dùng trong chủ đề Health khi được hỏi về giải pháp cho lối sống.",
+      "practice_cases": [
+        { "type": "Advice", "input": "You should eat fruits.", "transformed": "Eat more fruits and less fast food.", "note": "Câu mệnh lệnh mạnh mẽ hơn" }
+      ]
+    },
+    { "id": 14, "topic": "Subject-Verb with 'Each/Every'", "rule_summary": "Each/Every + Noun số ít + V số ít.", "ielts_strategy": "Dùng để khẳng định tính phổ quát của vấn đề.", "practice_cases": [{ "type": "Correction", "input": "Every students have a laptop.", "transformed": "Every student has a laptop.", "note": "Every đi với số ít" }] },
+    { "id": 15, "topic": "Gerund as Subject", "rule_summary": "V-ing làm chủ ngữ được coi là số ít.", "ielts_strategy": "Cấu trúc tốt để bắt đầu một câu nhận định luận điểm.", "practice_cases": [{ "type": "Structure", "input": "Recycle is good.", "transformed": "Recycling is essential for the planet.", "note": "Dùng V-ing để làm chủ ngữ" }] },
+    { "id": 16, "topic": "Compound Nouns Pluralization", "rule_summary": "Chỉ thêm 's' vào danh từ chính.", "ielts_strategy": "Chính xác trong việc dùng thuật ngữ chuyên ngành.", "practice_cases": [{ "type": "Plural", "input": "Bus stops", "transformed": "Bus stops", "note": "Stop là danh từ chính" }] },
+    { "id": 17, "topic": "Adverbs of Frequency Position", "rule_summary": "Đứng trước động từ thường, sau 'to be'.", "ielts_strategy": "Dùng để mô tả thói quen (Speaking Part 1).", "practice_cases": [{ "type": "Position", "input": "I late am always.", "transformed": "I am always late.", "note": "Always đứng sau to be" }] },
+    { "id": 18, "topic": "Articles with Unique Nouns", "rule_summary": "Dùng 'The' với những thứ duy nhất.", "ielts_strategy": "Đặc biệt chú ý với 'The Internet', 'The Environment'.", "practice_cases": [{ "type": "Article", "input": "Internet is useful.", "transformed": "The Internet is useful.", "note": "Phải có 'The'" }] },
+    { "id": 19, "topic": "Prepositions of Time", "rule_summary": "In (tháng/năm), On (ngày/thứ), At (giờ).", "ielts_strategy": "Dùng chính xác khi kể chuyện trong Speaking Part 2.", "practice_cases": [{ "type": "Preposition", "input": "at Monday", "transformed": "on Monday", "note": "Ngày dùng on" }] },
+    { "id": 20, "topic": "Quantifiers: Many vs Much", "rule_summary": "Many + Countable; Much + Uncountable.", "ielts_strategy": "Dùng đúng khi nói về lượng khí thải hoặc số lượng người.", "practice_cases": [{ "type": "Quantifier", "input": "too much people", "transformed": "too many people", "note": "People đếm được" }] },
+    {
+      "id": 41,
+      "topic": "Compound Sentences with 'And'",
+      "rule_summary": "Sử dụng 'and' để thêm thông tin tương đồng.",
+      "ielts_strategy": "Mở rộng câu trả lời trong Speaking Part 1 một cách tự nhiên.",
+      "practice_cases": [
+        { "type": "Compound", "input": "I like tech. I use it daily.", "transformed": "I am interested in technology, and I use digital devices every day.", "note": "Thêm dấu phẩy trước 'and' khi nối 2 mệnh đề" }
+      ]
+    },
+    {
+      "id": 42,
+      "topic": "Compound Sentences with 'But'",
+      "rule_summary": "Sử dụng 'but' để chỉ sự đối lập hoặc tương phản.",
+      "ielts_strategy": "Dùng để cân bằng các mặt lợi/hại trong Writing Task 2.",
+      "practice_cases": [
+        { "type": "Compound", "input": "Tech is good. It has risks.", "transformed": "Technology is beneficial, but it also poses cybersecurity threats.", "note": "Tạo cấu trúc câu phức tạp hơn" }
+      ]
+    },
+    {
+      "id": 43,
+      "topic": "Compound Sentences with 'So'",
+      "rule_summary": "Sử dụng 'so' để chỉ kết quả hoặc hệ quả.",
+      "ielts_strategy": "Giải thích lý do/kết quả trong cả bài viết và bài nói.",
+      "practice_cases": [
+        { "type": "Compound", "input": "I want to keep fit. I jog.", "transformed": "I want to keep fit, so I go jogging every morning.", "note": "Bắt buộc có dấu phẩy trước 'so'" }
+      ]
+    },
+    { "id": 44, "topic": "Compound Sentences with 'Or'", "rule_summary": "Sử dụng 'or' để đưa ra sự lựa chọn hoặc thay thế.", "ielts_strategy": "Dùng khi đưa ra các giải pháp thay thế.", "practice_cases": [{ "type": "Compound", "input": "You can recycle. You can reuse.", "transformed": "You can recycle glass bottles, or you can reuse them for storage.", "note": "Nối hai mệnh đề độc lập" }] },
+    { "id": 45, "topic": "There is / There are (Existence)", "rule_summary": "Cấu trúc giới thiệu sự tồn tại của sự vật/vấn đề.", "ielts_strategy": "Dùng để giới thiệu chủ đề ở mở bài Writing hoặc mở đầu ý trong Speaking.", "practice_cases": [{ "type": "Structure", "input": "Many problems exist.", "transformed": "There are many environmental problems in my city.", "note": "Dùng 'are' cho danh từ số nhiều" }] },
+    { "id": 46, "topic": "Quantifiers: A lot of / Lots of", "rule_summary": "Dùng cho cả danh từ đếm được và không đếm được.", "ielts_strategy": "Dùng phổ biến trong Speaking; trong Writing nên dùng 'a great deal of' hoặc 'numerous'.", "practice_cases": [{ "type": "Usage", "input": "Much information.", "transformed": "A lot of information is available on the Internet.", "note": "Tạo sắc thái tự nhiên" }] },
+    { "id": 47, "topic": "Preposition 'In' (Location)", "rule_summary": "Dùng cho các không gian lớn như thành phố, quốc gia, khu vực.", "ielts_strategy": "Mô tả bối cảnh địa lý trong Writing Task 1.", "practice_cases": [{ "type": "Preposition", "input": "at Vietnam", "transformed": "in Vietnam", "note": "Quốc gia dùng in" }] },
+    { "id": 48, "topic": "Preposition 'On' (Digital/Surface)", "rule_summary": "Dùng cho bề mặt hoặc các nền tảng số.", "ielts_strategy": "Dùng khi nói về mạng xã hội hoặc internet (vd: on Facebook, on the net).", "practice_cases": [{ "type": "Preposition", "input": "in the internet", "transformed": "on the internet", "note": "Internet dùng on" }] },
+    { "id": 49, "topic": "Modal 'Can / Cannot' (Ability)", "rule_summary": "Diễn tả khả năng hoặc sự cho phép.", "ielts_strategy": "Dùng để bàn về khả năng thực thi của các giải pháp.", "practice_cases": [{ "type": "Modal", "input": "We are able to reduce waste.", "transformed": "We can reduce waste by using paper bags.", "note": "Ngắn gọn và hiệu quả" }] },
+    { "id": 50, "topic": "Used to (Past Habits)", "rule_summary": "Diễn tả một thói quen hoặc trạng thái trong quá khứ đã chấm dứt.", "ielts_strategy": "Cực kỳ hữu ích trong Speaking Part 2 khi kể về ngày xưa.", "practice_cases": [{ "type": "Usage", "input": "I lived in a farm before.", "transformed": "I used to live on a farm when I was a child.", "note": "Phân biệt với 'be used to'" }] }
+  ],
+
+  "tier_3_mechanics_phonetics": [
+    {
+      "id": 21,
+      "topic": "The Comma in Lists",
+      "rule_summary": "Dùng dấu phẩy để ngăn cách các mục trong danh sách.",
+      "ielts_strategy": "Đảm bảo tính mạch lạc (Coherence) trong Writing.",
+      "practice_cases": [
+        { "type": "Punctuation", "input": "I like apples bananas and grapes.", "transformed": "I like apples, bananas, and grapes.", "note": "Sử dụng dấu phẩy liệt kê" }
+      ]
+    },
+    {
+      "id": 22,
+      "topic": "Schwa Sound /ə/",
+      "rule_summary": "Âm yếu nhất, xuất hiện ở âm tiết không nhấn trọng âm.",
+      "ielts_strategy": "Đây là chìa khóa để nói có ngữ điệu tự nhiên.",
+      "practice_cases": [
+        { "type": "Pronunciation", "input": "Computer", "transformed": "/kəmˈpjuːtə(r)/", "note": "Âm tiết đầu và cuối là âm /ə/" }
+      ]
+    },
+    {
+      "id": 23,
+      "topic": "Voiced vs Voiceless TH",
+      "rule_summary": "/θ/ (vô thanh) và /ð/ (hữu thanh).",
+      "ielts_strategy": "Sửa lỗi phát âm từ 'the', 'this', 'think' - những từ xuất hiện nhiều nhất.",
+      "practice_cases": [
+        { "type": "Phonetics", "input": "Think / Thing", "transformed": "/θɪŋk/ - /θɪŋ/", "note": "Đẩy hơi qua kẽ răng" }
+      ]
+    },
+    { "id": 24, "topic": "Full Stop vs Comma", "rule_summary": "Kết thúc ý bằng dấu chấm, không dùng dấu phẩy nối hai câu độc lập.", "ielts_strategy": "Tránh lỗi Run-on sentence (Câu chạy dài) gây mất điểm nặng.", "practice_cases": [{ "type": "Punctuation", "input": "It is raining, I am wet.", "transformed": "It is raining. I am wet.", "note": "Dùng dấu chấm để ngắt 2 câu" }] },
+    { "id": 25, "topic": "Short Vowel /æ/", "rule_summary": "Âm A ngắn, mở rộng miệng.", "ielts_strategy": "Phát âm rõ các từ như 'cat', 'map', 'apple'.", "practice_cases": [{ "type": "Phonetics", "input": "Apple", "transformed": "/ˈæpl/", "note": "Miệng mở rộng sang 2 bên" }] },
+    { "id": 26, "topic": "Long Vowel /i:/", "rule_summary": "Âm I dài, môi như đang cười.", "ielts_strategy": "Phân biệt 'sit' /sɪt/ và 'seat' /siːt/.", "practice_cases": [{ "type": "Phonetics", "input": "See", "transformed": "/siː/", "note": "Kéo dài âm I" }] },
+    { "id": 27, "topic": "Capitalization of Proper Nouns", "rule_summary": "Viết hoa tên riêng, quốc gia, ngôn ngữ.", "ielts_strategy": "Bắt buộc trong IELTS Listening (điền từ) và Writing.", "practice_cases": [{ "type": "Punctuation", "input": "i speak vietnamese.", "transformed": "I speak Vietnamese.", "note": "Đại từ 'I' và ngôn ngữ phải viết hoa" }] },
+    { "id": 28, "topic": "Apostrophe for Possession", "rule_summary": "Dùng 's để chỉ sở hữu.", "ielts_strategy": "Phân biệt với số nhiều.", "practice_cases": [{ "type": "Punctuation", "input": "the students book", "transformed": "the student's book", "note": "Cuốn sách của học sinh" }] },
+    { "id": 29, "topic": "Consonant Cluster /st/", "rule_summary": "Phát âm rõ cả âm /s/ và /t/ ở cuối từ.", "ielts_strategy": "Tránh nuốt âm cuối - lỗi cực phổ biến của người Việt.", "practice_cases": [{ "type": "Phonetics", "input": "First", "transformed": "/fɜːst/", "note": "Phải có âm xì /s/ và bật /t/" }] },
+    { "id": 30, "topic": "Syllable Stress", "rule_summary": "Nhấn mạnh vào âm tiết quan trọng của từ.", "ielts_strategy": "Giúp giám khảo nghe hiểu bạn dễ dàng hơn.", "practice_cases": [{ "type": "Stress", "input": "Environment", "transformed": "en-VIRONMENT", "note": "Nhấn vào âm tiết thứ 2" }] },
+    {
+      "id": 51,
+      "topic": "Voicing: /p/ vs /b/",
+      "rule_summary": "/p/ không rung thanh quản (vô thanh), /b/ rung (hữu thanh).",
+      "ielts_strategy": "Tránh nhầm lẫn các từ như 'pear' và 'bear' trong Speaking.",
+      "practice_cases": [
+        { "type": "Phonetics", "input": "pen / ben", "transformed": "/pɛn/ - /bɛn/", "note": "Bật hơi mạnh cho âm /p/" }
+      ]
+    },
+    {
+      "id": 52,
+      "topic": "Voicing: /k/ vs /g/",
+      "rule_summary": "/k/ là âm vô thanh, /g/ là âm hữu thanh.",
+      "ielts_strategy": "Cần phát âm rõ âm cuối để giám khảo phân biệt được từ.",
+      "practice_cases": [
+        { "type": "Phonetics", "input": "back / bag", "transformed": "/bæk/ - /bæɡ/", "note": "/g/ có độ rung ở cổ họng" }
+      ]
+    },
+    {
+      "id": 53,
+      "topic": "Voicing: /f/ vs /v/",
+      "rule_summary": "/f/ thổi hơi, /v/ thổi hơi kèm rung thanh quản.",
+      "ielts_strategy": "Sửa lỗi phát âm từ 'leaf' (số ít) và 'leaves' (số nhiều).",
+      "practice_cases": [
+        { "type": "Phonetics", "input": "fine / vine", "transformed": "/faɪn/ - /vaɪn/", "note": "Răng trên chạm môi dưới" }
+      ]
+    },
+    { "id": 54, "topic": "Diphthong /aɪ/ (Long I)", "rule_summary": "Âm đôi di chuyển từ /a/ sang /ɪ/.", "ielts_strategy": "Phát âm chuẩn các từ quan trọng như 'rise', 'lifestyle', 'environment'.", "practice_cases": [{ "type": "Phonetics", "input": "Life", "transformed": "/laɪf/", "note": "Phát âm rõ cả 2 thành phần âm" }] },
+    { "id": 55, "topic": "Diphthong /eɪ/ (Long A)", "rule_summary": "Âm đôi di chuyển từ /e/ sang /ɪ/.", "ielts_strategy": "Phát âm chuẩn các từ 'campaign', 'education', 'nature'.", "practice_cases": [{ "type": "Phonetics", "input": "Nature", "transformed": "/ˈneɪtʃər/", "note": "Khẩu hình miệng thu hẹp dần" }] },
+    { "id": 56, "topic": "Apostrophe (Contractions)", "rule_summary": "Dấu phẩy trên dùng để viết tắt.", "ielts_strategy": "Chỉ dùng trong Speaking; tuyệt đối không dùng trong Writing Task 1 & 2 (vd: dùng 'do not' thay vì 'don't').", "practice_cases": [{ "type": "Writing", "input": "don't", "transformed": "do not", "note": "Nguyên tắc trang trọng trong Writing" }] },
+    { "id": 57, "topic": "Hyphen in Compound Adjectives", "rule_summary": "Dùng dấu gạch nối để tạo tính từ ghép đứng trước danh từ.", "ielts_strategy": "Dùng cho các thuật ngữ công nghệ và môi trường (vd: user-friendly, eco-friendly).", "practice_cases": [{ "type": "Punctuation", "input": "user friendly app", "transformed": "user-friendly app", "note": "Bắt buộc có gạch nối khi đứng trước danh từ" }] },
+    { "id": 58, "topic": "Question Marks in Task 2", "rule_summary": "Sử dụng dấu hỏi cho câu hỏi tu từ hoặc câu hỏi trực tiếp.", "ielts_strategy": "Dùng để thu hút sự chú ý ở phần mở đầu (chỉ nên dùng 1 câu).", "practice_cases": [{ "type": "Punctuation", "input": "Is tech good", "transformed": "Is technology a bad thing?", "note": "Kết thúc câu bằng dấu hỏi" }] },
+    { "id": 59, "topic": "Quotation Marks (\" \")", "rule_summary": "Dùng để trích dẫn lời nói hoặc tên tác phẩm.", "ielts_strategy": "Dùng khi bạn muốn trích dẫn một thuật ngữ hoặc ý kiến chuyên gia.", "practice_cases": [{ "type": "Punctuation", "input": "Go green is a slogan", "transformed": "\"Go green\" is a common slogan.", "note": "Đánh dấu cụm từ được trích dẫn" }] },
+    { "id": 60, "topic": "Brackets ( ) for Additional Info", "rule_summary": "Dùng để cung cấp thông tin phụ hoặc từ viết tắt.", "ielts_strategy": "Dùng để giải thích từ viết tắt lần đầu xuất hiện (vd: IELTS, IT).", "practice_cases": [{ "type": "Punctuation", "input": "Information Technology IT", "transformed": "Information Technology (IT)", "note": "Thông tin phụ đặt trong ngoặc" }] }
+  ]  
+
+}

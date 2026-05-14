@@ -1,0 +1,78 @@
+{
+  "id": "ielts_5_to_6",
+  "title": "IELTS 5.0 → 6.0",
+  "description": "Roadmap dành cho band 5 tập trung vào kỹ năng nền tảng và chiến thuật làm bài cơ bản.",
+  "type": "ielts",
+  "currentLevel": "5.0",
+  "targetLevel": "6.0",
+  "estimatedDuration": "3 months",
+  "nodes": [
+    {
+      "id": "node_1",
+      "roadmapId": "ielts_5_to_6",
+      "title": "IELTS Foundation",
+      "description": "Xây dựng nền tảng IELTS: Ngữ pháp và Từ vựng cốt lõi.",
+      "orderIndex": 0,
+      "estimatedTime": "2 weeks",
+      "focusSkills": ["Grammar", "Vocabulary"],
+      "iconType": "foundation",
+      "resources": [
+        {
+          "id": "res_1",
+          "nodeId": "node_1",
+          "type": "video",
+          "title": "IELTS Grammar Essentials",
+          "contentId": "gram_01"
+        },
+        {
+          "id": "res_2",
+          "nodeId": "node_1",
+          "type": "reading",
+          "title": "Vocab for Band 5",
+          "contentId": "vocab_01"
+        }
+      ],
+      "isCompleted": true
+    },
+    {
+      "id": "node_2",
+      "roadmapId": "ielts_5_to_6",
+      "title": "Listening Mastery",
+      "description": "Luyện tập nghe số, đánh vần và nhận diện từ khóa.",
+      "orderIndex": 1,
+      "estimatedTime": "3 weeks",
+      "focusSkills": ["Spelling", "Keywords"],
+      "iconType": "listening",
+      "resources": [
+        {
+          "id": "res_3",
+          "nodeId": "node_2",
+          "type": "quiz",
+          "title": "Spelling Drill",
+          "contentId": "quiz_01"
+        }
+      ],
+      "isCompleted": false
+    },
+    {
+      "id": "node_3",
+      "roadmapId": "ielts_5_to_6",
+      "title": "Reading Strategies",
+      "description": "Kỹ thuật Skimming và Scanning cơ bản.",
+      "orderIndex": 2,
+      "estimatedTime": "2 weeks",
+      "focusSkills": ["Skimming", "Scanning"],
+      "iconType": "reading",
+      "resources": [
+        {
+          "id": "res_4",
+          "nodeId": "node_3",
+          "type": "practice_test",
+          "title": "Basic Reading Test",
+          "contentId": "test_01"
+        }
+      ],
+      "isCompleted": false
+    }
+  ]
+}

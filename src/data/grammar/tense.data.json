@@ -1,0 +1,146 @@
+{
+  "module": "IELTS_Comprehensive_Tenses_and_Structures_Mastery",
+  "language": "Full English",
+  "description": "A deep dive into English tenses specifically tailored for IELTS Speaking and Writing, including signal words, sentence structures, and over 60 contextual examples.",
+  "data": [
+    {
+      "id": 1,
+      "tense_name": "Present Simple",
+      "structure": "Subject + V(s/es) | Subject + do/does not + V | Do/Does + Subject + V?",
+      "signal_words": ["always", "usually", "often", "sometimes", "never", "every day", "regularly", "generally"],
+      "ielts_application": "Used to state general facts, scientific truths (Writing Task 2), and permanent situations or habits (Speaking Part 1).",
+      "examples": [
+        { "sentence": "Air pollution causes many respiratory diseases.", "context": "Environment", "note": "Scientific fact." },
+        { "sentence": "Technology plays an important role in modern life.", "context": "Technology", "note": "General truth." },
+        { "sentence": "The Sun heats up the Earth's surface.", "context": "Science", "note": "Natural process." },
+        { "sentence": "I usually go jogging every morning to keep fit.", "context": "Health", "note": "Personal habit." },
+        { "sentence": "Higher education provides students with specialized knowledge.", "context": "Education", "note": "Permanent truth." },
+        { "sentence": "The school curriculum includes a wide range of subjects.", "context": "Education", "note": "describing a system." },
+        { "sentence": "Digital devices are very popular among teenagers.", "context": "Social Issues", "note": "Current reality." },
+        { "sentence": "Sustainable farming practices protect biodiversity.", "context": "Environment", "note": "General principle." },
+        { "sentence": "I work as a software developer for a multinational company.", "context": "Work", "note": "Permanent job." },
+        { "sentence": "Public transportation reduces carbon footprints.", "context": "Environment", "note": "General benefit." }
+      ]
+    },
+    {
+      "id": 2,
+      "tense_name": "Present Continuous",
+      "structure": "Subject + am/is/are + V-ing",
+      "signal_words": ["now", "at the moment", "currently", "nowadays", "at present", "increasingly"],
+      "ielts_application": "Ideal for describing ongoing trends in Writing Task 1 or temporary actions in Speaking.",
+      "examples": [
+        { "sentence": "The global temperature is rising at an alarming rate.", "context": "Writing Task 2", "note": "Ongoing trend." },
+        { "sentence": "Many nations are investing in renewable energy infrastructure.", "context": "Environment", "note": "Current action." },
+        { "sentence": "The city is developing quickly in terms of technology.", "context": "City Life", "note": "Changing situation." },
+        { "sentence": "I am currently taking a vocational course in IT.", "context": "Education", "note": "Temporary activity." },
+        { "sentence": "Scientists are conducting research on immunotherapy.", "context": "Health", "note": "Ongoing process." },
+        { "sentence": "Consumers are increasingly choosing products with less packaging.", "context": "Writing Task 2", "note": "Changing behavior." },
+        { "sentence": "The number of students studying abroad is increasing.", "context": "Writing Task 1", "note": "Statistical trend." },
+        { "sentence": "People are becoming addicted to social media feeds.", "context": "Technology", "note": "Widespread trend." }
+      ]
+    },
+    {
+      "id": 3,
+      "tense_name": "Present Perfect",
+      "structure": "Subject + have/has + V3/ed",
+      "signal_words": ["since", "for", "already", "yet", "just", "so far", "recently", "lately"],
+      "ielts_application": "Crucial for connecting past actions to the present. Used for life experiences and past events with current impacts.",
+      "examples": [
+        { "sentence": "Human activity has caused irreversible damage to nature.", "context": "Writing Task 2", "note": "Past cause, current effect." },
+        { "sentence": "I have graduated from a prestigious university in the UK.", "context": "Speaking Part 1", "note": "Life experience." },
+        { "sentence": "The government has introduced laws to curb carbon emissions.", "context": "Environment", "note": "Policy result." },
+        { "sentence": "Digital technology has changed how our brain processes information.", "context": "Technology", "note": "Impact over time." },
+        { "sentence": "He has been a vegetarian since 1965.", "context": "Health", "note": "Action continuing from the past." },
+        { "sentence": "Many species have faced extinction due to habitat loss.", "context": "Environment", "note": "Accumulated result." },
+        { "sentence": "We have participated in several volunteer activities this month.", "context": "Social", "note": "Experience in an unfinished period." },
+        { "sentence": "The company has achieved its sales targets for this quarter.", "context": "Work", "note": "Recent achievement." },
+        { "sentence": "I have already finished my assignment.", "context": "Education", "note": "Action completed recently." },
+        { "sentence": "Technology has made our life easier.", "context": "Technology", "note": "General impact." }
+      ]
+    },
+    {
+      "id": 4,
+      "tense_name": "Past Simple",
+      "structure": "Subject + V2/ed | Subject + did not + V | Did + Subject + V?",
+      "signal_words": ["yesterday", "ago", "last week", "in 2010", "in the past", "when I was young"],
+      "ielts_application": "Essential for Speaking Part 2 stories and Writing Task 1 descriptions of past data.",
+      "examples": [
+        { "sentence": "I took a gap year before going to college.", "context": "Speaking Part 2", "note": "Completed past event." },
+        { "sentence": "The scandal ruined his promising career in politics.", "context": "Work", "note": "Finished action." },
+        { "sentence": "The price of fossil fuels rose dramatically in 2020.", "context": "Writing Task 1", "note": "Past data point." },
+        { "sentence": "She aced the final exam because she studied very hard.", "context": "Education", "note": "Reason and result." },
+        { "sentence": "I saw an informative advertisement on TV yesterday.", "context": "Advertising", "note": "Specific past time." },
+        { "sentence": "They decided to go freelance after years in the corporate world.", "context": "Work", "note": "Past decision." },
+        { "sentence": "The doctor examined the patient and gave some medicine.", "context": "Health", "note": "Sequence of events." },
+        { "sentence": "The firm was wrongfully dismissed after the audit.", "context": "Business", "note": "Passive in the past." },
+        { "sentence": "We visited the local market to buy fresh vegetables.", "context": "Travel", "note": "Past narrative." },
+        { "sentence": "The invention of the internet revolutionized communication.", "context": "Technology", "note": "Historic event." }
+      ]
+    },
+    {
+      "id": 5,
+      "tense_name": "Past Continuous",
+      "structure": "Subject + was/were + V-ing",
+      "signal_words": ["while", "when", "at that time", "all day yesterday"],
+      "ielts_application": "Used to set the scene for a story (Speaking Part 2) or describe actions in progress in the past.",
+      "examples": [
+        { "sentence": "I was studying in the library when I found the research paper.", "context": "Speaking Part 2", "note": "Interrupted action." },
+        { "sentence": "The wind was blowing strongly when we arrived.", "context": "Weather", "note": "Setting the scene." },
+        { "sentence": "He was working overtime while his colleagues were having a party.", "context": "Work", "note": "Parallel actions." },
+        { "sentence": "I was looking for storybooks in the bookshop all afternoon.", "context": "Education", "note": "Emphasis on duration." },
+        { "sentence": "They were discussing environmental issues during the meeting.", "context": "Social", "note": "Action in progress at a past point." },
+        { "sentence": "The teacher was handing out the worksheets when the bell rang.", "context": "Education", "note": "Action interrupted by another." },
+        { "sentence": "I was trying to keep fit by jogging in the park.", "context": "Health", "note": "Past lifestyle description." },
+        { "sentence": "While I was browsing the internet, I saw a viral video.", "context": "Technology", "note": "Setting context for a story." }
+      ]
+    },
+    {
+      "id": 6,
+      "tense_name": "Past Perfect",
+      "structure": "Subject + had + V3/ed",
+      "signal_words": ["by the time", "before", "after", "as soon as", "by then"],
+      "ielts_application": "Demonstrates logical sequence in narratives by showing which action happened first.",
+      "examples": [
+        { "sentence": "By the time I reached the airport, the flight had departed.", "context": "Travel", "note": "Action 1 happened before Action 2." },
+        { "sentence": "He had finished his dissertation before the deadline was announced.", "context": "Education", "note": "Logical sequence." },
+        { "sentence": "The oil had all been used up before they found a new source.", "context": "Environment", "note": "Completed before another past event." },
+        { "sentence": "I realized I had forgotten to bring along my sunscreen.", "context": "Health", "note": "Discovery of a prior action." },
+        { "sentence": "They had established the company long before I joined the staff.", "context": "Work", "note": "Distant past compared to another past event." },
+        { "sentence": "The students had studied up on the materials before the lecture.", "context": "Education", "note": "Preparation prior to the event." },
+        { "sentence": "As soon as he had passed muster, he received a scholarship.", "context": "Education", "note": "Immediate sequence." },
+        { "sentence": "She had already learned the ropes when she got the promotion.", "context": "Work", "note": "Prior qualification." }
+      ]
+    },
+    {
+      "id": 7,
+      "tense_name": "Future Simple (Will)",
+      "structure": "Subject + will + V | Subject + will not (won't) + V",
+      "signal_words": ["tomorrow", "next year", "in the future", "soon", "I think", "I believe"],
+      "ielts_application": "Used for predictions, instant decisions, or expressing opinions about the future (Speaking Part 3).",
+      "examples": [
+        { "sentence": "I think robots will replace manual workers in factories soon.", "context": "Writing Task 2", "note": "Future prediction." },
+        { "sentence": "The new manager will give a presentation next Monday.", "context": "Work", "note": "Scheduled future event." },
+        { "sentence": "Technology will continue to impact education deeply.", "context": "Education", "note": "Opinion about future trends." },
+        { "sentence": "I will try my best to reduce my carbon footprint.", "context": "Speaking Part 1", "note": "Future promise/intent." },
+        { "sentence": "Governments will introduce stricter laws to protect wildlife.", "context": "Environment", "note": "Policy prediction." },
+        { "sentence": "The Internet will be accessible in all remote areas.", "context": "Technology", "note": "General future belief." },
+        { "sentence": "If I am promoted, I will call the tune for the new project.", "context": "Work", "note": "Condition and future result." },
+        { "sentence": "AI will likely transform the healthcare industry.", "context": "Health", "note": "Probable future." }
+      ]
+    },
+    {
+      "id": 8,
+      "tense_name": "Passive Voice (General)",
+      "structure": "Subject + Be (am/is/are/was/were/been) + V3/ed",
+      "signal_words": ["by (agent)", "regularly", "historically", "currently"],
+      "ielts_application": "Essential for formal Writing (Task 1 Process or Task 2 arguments) to sound objective and academic.",
+      "examples": [
+        { "sentence": "Radioactive waste must be disposed of safely.", "context": "Environment", "note": "Modal passive for advice." },
+        { "sentence": "Toxic chemicals were released into the river by the factory.", "context": "Writing Task 1", "note": "Past simple passive." },
+        { "sentence": "New software is being developed to improve data security.", "context": "Technology", "note": "Present continuous passive." },
+        { "sentence": "Students are often required to learn long poems by heart.", "context": "Education", "note": "Present simple passive." },
+        { "sentence": "Thousands of lives have been saved by medical technology.", "context": "Health", "note": "Present perfect passive." }
+      ]
+    }
+  ]
+}
