@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   View,
   Text,
@@ -9,10 +9,16 @@ import {
   Image,
 } from 'react-native';
 import { Globe } from 'lucide-react-native';
-import { styles } from './style';
+import { useTranslation } from 'react-i18next';
+import { getStyles } from './style';
+import { useThemeColor } from '@/hooks/useThemeColor';
 import { loginWithGoogle } from '@/services/auth/SignUpWithGoogle';
 
 export default function LoginPage() {
+  const { t } = useTranslation();
+  const theme = useThemeColor();
+  const styles = useMemo(() => getStyles(theme), [theme]);
+
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView
@@ -25,21 +31,20 @@ export default function LoginPage() {
             style={styles.logo}
             resizeMode="contain"
           />
-          <Text style={styles.title}>BandBuilder</Text>
-          <Text style={styles.subtitle}>
-            Chinh phục IELTS theo lộ trình cá nhân hóa hoàn toàn miễn phí.
-          </Text>
+          <Text style={styles.title}>{t('login.title')}</Text>
+          <Text style={styles.subtitle}>{t('login.subtitle')}</Text>
         </View>
 
         <View style={styles.form}>
-          <TouchableOpacity style={styles.googleButton} onPress={loginWithGoogle}>
-            <Globe size={24} color="#174593" />
-            <Text style={styles.googleButtonText}>Tiếp tục với Google</Text>
+          <TouchableOpacity 
+            style={styles.googleButton} 
+            onPress={loginWithGoogle}
+          >
+            <Globe size={24} color={theme.primary} />
+            <Text style={styles.googleButtonText}>{t('login.google_button')}</Text>
           </TouchableOpacity>
-
-          <Text style={styles.disclaimer}>
-            Bằng cách tiếp tục, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi.
-          </Text>
+          
+          <Text style={styles.disclaimer}>{t('login.disclaimer')}</Text>
         </View>
 
         <View style={styles.footer}>

@@ -1,0 +1,29 @@
+{
+  "common": {
+    "welcome": "Welcome,",
+    "user": "User",
+    "all": "See All",
+    "coming_soon": "Coming Soon",
+    "logout": "Logout"
+  },
+  "home": {
+    "hero_title": "Ready to Practice?",
+    "hero_sub": "Your personalized roadmap is ready. Spend 15 minutes today to boost your band score.",
+    "tools": "Practice Tools",
+    "next_lesson": "Next Lesson",
+    "streak": "Day Streak",
+    "xp": "Experience (XP)"
+  },
+  "navigation": {
+    "home": "Home",
+    "roadmap": "Roadmap",
+    "practice": "Practice",
+    "profile": "Profile"
+  },
+  "login": {
+    "title": "BandBuilder",
+    "subtitle": "Conquer IELTS with a personalized roadmap, completely free.",
+    "google_button": "Continue with Google",
+    "disclaimer": "By continuing, you agree to our Terms of Service and Privacy Policy."
+  }
+}

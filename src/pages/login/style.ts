@@ -1,9 +1,9 @@
 import { StyleSheet } from 'react-native';
 
-export const styles = StyleSheet.create({
+export const getStyles = (theme: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.background,
   },
   content: {
     flex: 1,
@@ -23,13 +23,13 @@ export const styles = StyleSheet.create({
   title: {
     fontSize: 34,
     fontWeight: '800',
-    color: '#213547',
+    color: theme.text,
     marginBottom: 12,
     letterSpacing: -1,
   },
   subtitle: {
     fontSize: 16,
-    color: '#64748b',
+    color: theme.textSecondary,
     textAlign: 'center',
     lineHeight: 24,
     paddingHorizontal: 10,
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   googleButton: {
-    backgroundColor: '#ffffff',
+    backgroundColor: theme.card,
     width: '100%',
     height: 64,
     borderRadius: 16,
@@ -47,7 +47,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderWidth: 1.5,
-    borderColor: '#e2e8f0',
+    borderColor: theme.border,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
     elevation: 2,
   },
   googleButtonText: {
-    color: '#213547',
+    color: theme.text,
     fontSize: 18,
     fontWeight: '700',
     marginLeft: 12,
@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
   disclaimer: {
     marginTop: 32,
     fontSize: 13,
-    color: '#94a3b8',
+    color: theme.textSecondary,
     textAlign: 'center',
     lineHeight: 20,
     paddingHorizontal: 20,
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   footerText: {
-    color: '#cbd5e1',
+    color: theme.border,
     fontSize: 13,
     fontWeight: '600',
     letterSpacing: 1,

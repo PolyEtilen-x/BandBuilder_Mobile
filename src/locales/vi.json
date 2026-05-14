@@ -1,0 +1,29 @@
+{
+  "common": {
+    "welcome": "Xin chào,",
+    "user": "Người dùng",
+    "all": "Tất cả",
+    "coming_soon": "Sắp ra mắt",
+    "logout": "Đăng xuất"
+  },
+  "home": {
+    "hero_title": "Sẵn sàng luyện tập?",
+    "hero_sub": "Lộ trình cá nhân hóa của bạn đã sẵn sàng. Hãy dành 15 phút hôm nay để bứt phá band điểm.",
+    "tools": "Công cụ luyện tập",
+    "next_lesson": "Lộ trình tiếp theo",
+    "streak": "Ngày liên tiếp",
+    "xp": "Kinh nghiệm (XP)"
+  },
+  "navigation": {
+    "home": "Trang chủ",
+    "roadmap": "Lộ trình",
+    "practice": "Luyện tập",
+    "profile": "Cá nhân"
+  },
+  "login": {
+    "title": "BandBuilder",
+    "subtitle": "Chinh phục IELTS theo lộ trình cá nhân hóa hoàn toàn miễn phí.",
+    "google_button": "Tiếp tục với Google",
+    "disclaimer": "Bằng cách tiếp tục, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi."
+  }
+}

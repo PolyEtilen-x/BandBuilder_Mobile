@@ -1,0 +1,165 @@
+import { StyleSheet, Dimensions } from 'react-native';
+
+const { width } = Dimensions.get('window');
+
+export const getStyles = (theme: any) => StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: theme.background,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingTop: 20,
+    paddingBottom: 10,
+  },
+  userInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: theme.backgroundAlt,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  userName: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: theme.text,
+  },
+  userWelcome: {
+    fontSize: 12,
+    color: theme.textSecondary,
+  },
+  heroCard: {
+    margin: 20,
+    padding: 24,
+    backgroundColor: theme.primary,
+    borderRadius: 24,
+    shadowColor: theme.primary,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 20,
+    elevation: 10,
+  },
+  heroTitle: {
+    fontSize: 24,
+    fontWeight: '800',
+    color: '#ffffff',
+    marginBottom: 8,
+  },
+  heroSub: {
+    fontSize: 14,
+    color: 'rgba(255, 255, 255, 0.8)',
+    marginBottom: 20,
+    lineHeight: 20,
+  },
+  heroStats: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 16,
+    padding: 16,
+  },
+  heroStatItem: {
+    alignItems: 'center',
+  },
+  heroStatValue: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: '#ffffff',
+  },
+  heroStatLabel: {
+    fontSize: 10,
+    color: 'rgba(255, 255, 255, 0.7)',
+    marginTop: 4,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+  },
+  section: {
+    paddingTop: 10,
+    paddingBottom: 30,
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: theme.text,
+  },
+  sectionLink: {
+    fontSize: 14,
+    color: theme.tint,
+    fontWeight: '600',
+  },
+  toolCard: {
+    width: width * 0.7,
+    backgroundColor: theme.card,
+    borderRadius: 20,
+    padding: 20,
+    marginLeft: 20,
+    borderWidth: 1,
+    borderColor: theme.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 2,
+  },
+  toolIconWrap: {
+    width: 48,
+    height: 48,
+    borderRadius: 14,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  toolTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    color: theme.text,
+    marginBottom: 8,
+  },
+  toolDesc: {
+    fontSize: 13,
+    color: theme.textSecondary,
+    lineHeight: 18,
+  },
+  statsRow: {
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    marginBottom: 20,
+  },
+  statBox: {
+    flex: 1,
+    backgroundColor: theme.backgroundAlt,
+    borderRadius: 16,
+    padding: 16,
+    marginHorizontal: 10,
+    alignItems: 'center',
+  },
+  statBoxValue: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: theme.primary,
+  },
+  statBoxLabel: {
+    fontSize: 11,
+    color: theme.textSecondary,
+    marginTop: 4,
+  },
+});
