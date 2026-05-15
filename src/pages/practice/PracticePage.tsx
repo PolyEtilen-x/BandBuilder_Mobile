@@ -8,8 +8,9 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { 
-  HelpCircle, 
+import { useNavigation } from '@react-navigation/native';
+import {
+  HelpCircle,
   Users,
   ChevronRight
 } from 'lucide-react-native';
@@ -38,12 +39,21 @@ const SKILL_CONFIG: any = {
 const SKILLS = ['listening', 'reading', 'writing', 'speaking'];
 
 // Component thẻ bài tập - Logic y hệt FE (SkillCardGroup)
-const PracticeCardItem = React.memo(({ skill, activeSkill, activeMode, theme, styles }: any) => {
+const PracticeCardItem = React.memo(({ skill, activeSkill, activeMode, isExamMode, theme, styles }: any) => {
+  const navigation = useNavigation<any>();
   const skillId = skill.skillContentId || skill.id || skill._id;
   const { data: enriched, isLoading } = useSkillPreview(skillId);
-  
+
   const cfg = SKILL_CONFIG[activeSkill];
   const accentColor = cfg?.color || theme.primary;
+
+  const handlePress = (unitId: string | number) => {
+    navigation.navigate('PracticeTest', {
+      id: skillId,
+      unit: unitId,
+      mode: isExamMode ? 'exam' : 'practice'
+    });
+  };
 
   // Trạng thái đang tải dữ liệu chi tiết
   if (isLoading) {
@@ -62,24 +72,30 @@ const PracticeCardItem = React.memo(({ skill, activeSkill, activeMode, theme, st
 
   // Lọc cards giống hệt logic FE
   const units = enriched.units || [];
-  const cardData = activeMode === 'full' 
-    ? { 
-        title: enriched.source || skill.title, 
-        questions: units.flatMap((u: any) => u.questionBlocks?.flatMap((b: any) => b.questions || []) || []).length,
-        isFull: true
-      }
+  const cardData = activeMode === 'full'
+    ? {
+      id: 'full',
+      title: enriched.source || skill.title,
+      questions: units.flatMap((u: any) => u.questionBlocks?.flatMap((b: any) => b.questions || []) || []).length,
+      isFull: true
+    }
     : units.filter((u: any) => String(u.id) === activeMode).map((u: any) => ({
-        title: u.title,
-        questions: u.questionBlocks?.flatMap((b: any) => b.questions || [])?.length || 0,
-        isFull: false
-      }))[0]; // Mobile chỉ hiển thị 1 unit tại 1 thời điểm theo filter
+      id: u.id,
+      title: u.title,
+      questions: u.questionBlocks?.flatMap((b: any) => b.questions || [])?.length || 0,
+      isFull: false
+    }))[0]; // Mobile chỉ hiển thị 1 unit tại 1 thời điểm theo filter
 
   if (!cardData) return null;
 
   return (
-    <TouchableOpacity style={styles.practiceCard} activeOpacity={0.7}>
+    <TouchableOpacity
+      style={styles.practiceCard}
+      activeOpacity={0.7}
+      onPress={() => handlePress(cardData.id)}
+    >
       <View style={[styles.cardAccent, { backgroundColor: accentColor }]} />
-      
+
       <View style={styles.cardMainContent}>
         <View style={styles.cardTopRow}>
           <View style={styles.badge}>
@@ -116,9 +132,10 @@ export default function PracticePage() {
   const { t } = useTranslation();
   const theme = useThemeColor();
   const styles = useMemo(() => getStyles(theme), [theme]);
-  
+
   const [activeSkill, setActiveSkill] = useState('listening');
   const [activeMode, setActiveMode] = useState('full');
+  const [isExamMode, setIsExamMode] = useState(false);
 
   const { data: rawSkills = [], isLoading } = usePracticeSkills();
 
@@ -129,21 +146,47 @@ export default function PracticePage() {
   }, [rawSkills, activeSkill]);
 
   const renderItem = useCallback(({ item }: { item: PracticeSkill }) => (
-    <PracticeCardItem 
-      skill={item} 
-      activeSkill={activeSkill} 
+    <PracticeCardItem
+      skill={item}
+      activeSkill={activeSkill}
       activeMode={activeMode}
-      theme={theme} 
-      styles={styles} 
+      isExamMode={isExamMode}
+      theme={theme}
+      styles={styles}
     />
-  ), [activeSkill, activeMode, theme, styles]);
+  ), [activeSkill, activeMode, isExamMode, theme, styles]);
 
   const ListHeader = useMemo(() => (
     <View>
       <View style={styles.header}>
-        <Text style={styles.title}>{t('navigation.practice')}</Text>
+        <View>
+          <Text style={styles.title}>{t('navigation.practice')}</Text>
+          <Text style={styles.subtitle}>Cải thiện kỹ năng IELTS của bạn</Text>
+        </View>
+        
+        {/* Toggle Mode Thi/Luyện tập */}
+        <TouchableOpacity 
+          style={[
+            { flexDirection: 'row', alignItems: 'center', backgroundColor: theme.backgroundAlt, padding: 4, borderRadius: 12, borderWidth: 1, borderColor: theme.border },
+            isExamMode && { borderColor: '#ef4444' }
+          ]}
+          onPress={() => setIsExamMode(!isExamMode)}
+        >
+          <View style={[
+            { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 },
+            !isExamMode && { backgroundColor: theme.primary }
+          ]}>
+            <Text style={{ fontSize: 11, fontWeight: '700', color: !isExamMode ? '#fff' : theme.textSecondary }}>PRACTICE</Text>
+          </View>
+          <View style={[
+            { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 },
+            isExamMode && { backgroundColor: '#ef4444' }
+          ]}>
+            <Text style={{ fontSize: 11, fontWeight: '700', color: isExamMode ? '#fff' : theme.textSecondary }}>REAL EXAM</Text>
+          </View>
+        </TouchableOpacity>
       </View>
-      
+
       <View style={[styles.skillTabsContainer, { paddingBottom: 0 }]}>
         <View style={styles.skillTabs}>
           {SKILLS.map((s) => (
@@ -172,7 +215,7 @@ export default function PracticePage() {
       <View style={{ paddingVertical: 16 }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 24, gap: 8 }}>
           {SKILL_CONFIG[activeSkill].hasFull && (
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => setActiveMode('full')}
               style={[
                 { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: theme.border },
@@ -184,9 +227,9 @@ export default function PracticePage() {
               </Text>
             </TouchableOpacity>
           )}
-          
+
           {SKILL_CONFIG[activeSkill].subSections.map((label: string, i: number) => (
-            <TouchableOpacity 
+            <TouchableOpacity
               key={label}
               onPress={() => setActiveMode(String(i + 1))}
               style={[
@@ -209,7 +252,7 @@ export default function PracticePage() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={theme.text === '#ffffff' ? 'light-content' : 'dark-content'} />
-      
+
       {isLoading ? (
         <View style={{ flex: 1, justifyContent: 'center' }}>
           <ActivityIndicator size="large" color={theme.primary} />

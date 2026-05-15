@@ -8,6 +8,7 @@ import LoginPage from '@/pages/login/LoginPage';
 import RoadmapPage from '@/pages/roadmap/RoadmapPage';
 import PracticePage from '@/pages/practice/PracticePage';
 import ProfilePage from '@/pages/profile/ProfilePage';
+import PracticeTestPage from '@/pages/practice-test/PracticeTestPage';
 import { useAuthStore } from '@/services/auth/auth.store';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
@@ -36,33 +37,33 @@ function MainTabNavigator() {
         },
       }}
     >
-      <Tab.Screen 
-        name="Home" 
-        component={HomePage} 
+      <Tab.Screen
+        name="Home"
+        component={HomePage}
         options={{
           tabBarIcon: ({ color }) => <Home size={24} color={color} />,
           tabBarLabel: 'Trang chủ',
         }}
       />
-      <Tab.Screen 
-        name="Roadmap" 
-        component={RoadmapPage} 
+      <Tab.Screen
+        name="Roadmap"
+        component={RoadmapPage}
         options={{
           tabBarIcon: ({ color }) => <Map size={24} color={color} />,
           tabBarLabel: 'Lộ trình',
         }}
       />
-      <Tab.Screen 
-        name="Practice" 
-        component={PracticePage} 
+      <Tab.Screen
+        name="Practice"
+        component={PracticePage}
         options={{
           tabBarIcon: ({ color }) => <BookOpen size={24} color={color} />,
           tabBarLabel: 'Luyện tập',
         }}
       />
-      <Tab.Screen 
-        name="Profile" 
-        component={ProfilePage} 
+      <Tab.Screen
+        name="Profile"
+        component={ProfilePage}
         options={{
           tabBarIcon: ({ color }) => <User size={24} color={color} />,
           tabBarLabel: 'Cá nhân',
@@ -77,6 +78,10 @@ export default function RootNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Main" component={MainTabNavigator} />
       <Stack.Screen name="Login" component={LoginPage} />
+      <Stack.Screen
+        name="PracticeTest"
+        component={PracticeTestPage}
+      />
     </Stack.Navigator>
   );
 }

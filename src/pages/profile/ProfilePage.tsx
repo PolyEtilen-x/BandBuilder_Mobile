@@ -34,6 +34,17 @@ export default function ProfilePage() {
   const { user, logout } = useAuthStore();
   const { mode, setMode } = useThemeStore();
 
+  // const handleLogout = () => {
+  //   Alert.alert(
+  //     "Đăng xuất",
+  //     "Bạn có chắc chắn muốn đăng xuất không?",
+  //     [
+  //       { text: "Hủy", style: "cancel" },
+  //       { text: "Đăng xuất", style: "destructive", onPress: () => logout() }
+  //     ]
+  //   );
+  // };
+
   const toggleLanguage = () => {
     const nextLang = i18n.language === 'vi' ? 'en' : 'vi';
     i18n.changeLanguage(nextLang);

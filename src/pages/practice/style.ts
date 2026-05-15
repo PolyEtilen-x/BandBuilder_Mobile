@@ -13,10 +13,16 @@ export const getStyles = (theme: any) => StyleSheet.create({
     paddingBottom: 8,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: '800',
     color: theme.text,
     letterSpacing: -0.5,
+  },
+  subtitle: {
+    fontSize: 13,
+    fontWeight: '500',
+    color: theme.textSecondary,
+    marginTop: 2,
   },
   // Skill Tabs - Phong cách Segmented thanh lịch
   skillTabsContainer: {

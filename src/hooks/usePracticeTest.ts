@@ -1,22 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useLocation, useSearchParams } from "react-router-dom";
+import { useRoute } from "@react-navigation/native";
 import { practiceApi } from "@/api/practice.api";
 import { useMemo } from "react";
 import { PracticeTestDTO } from "@/data/practices/practice.types";
 
 export const usePracticeTest = () => {
-  const { id } = useParams<{ id: string }>();
-  const location = useLocation();
-  const [searchParams] = useSearchParams();
+  const route = useRoute<any>();
+  const { id, unit: rawUnit, mode: initialMode } = route.params || {};
 
-  const mode = (location.state?.mode as "exam" | "practice") || "practice";
-  const rawUnit = searchParams.get("unit");
+  const mode = (initialMode as "exam" | "practice") || "practice";
   const unitNumber = rawUnit === "full" ? null : Number(rawUnit || 1);
 
   const { data: test, isLoading, error } = useQuery({
     queryKey: ["practice-test", id],
     queryFn: async () => {
       if (!id) throw new Error("Test ID is required");
+      // Sử dụng getSkillPreview hoặc getTestPreview tùy theo loại ID
       const res = await practiceApi.getSkillPreview(id);
       return res.data;
     },
