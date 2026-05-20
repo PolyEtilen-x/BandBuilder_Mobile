@@ -10,8 +10,6 @@ import PracticePage from '@/pages/practice/PracticePage';
 import ProfilePage from '@/pages/profile/ProfilePage';
 import PracticeTestPage from '@/pages/practice-test/PracticeTestPage';
 import CallWithAiPage from '@/pages/call/CallWithAiPage';
-import VocabPage from '@/pages/materials/VocabPage';
-import GrammarPage from '@/pages/materials/GrammarPage';
 import UpgradePage from '@/pages/upgrade/UpgradePage';
 import RoadmapSetupPage from '@/pages/roadmap/RoadmapSetupPage';
 import { useAuthStore } from '@/services/auth/auth.store';
@@ -83,13 +81,8 @@ export default function RootNavigator() {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Main" component={MainTabNavigator} />
       <Stack.Screen name="Login" component={LoginPage} />
-      <Stack.Screen
-        name="PracticeTest"
-        component={PracticeTestPage}
-      />
+      <Stack.Screen name="PracticeTest" component={PracticeTestPage} />
       <Stack.Screen name="CallWithAi" component={CallWithAiPage} />
-      <Stack.Screen name="VocabPage" component={VocabPage} />
-      <Stack.Screen name="GrammarPage" component={GrammarPage} />
       <Stack.Screen name="Upgrade" component={UpgradePage} />
       <Stack.Screen name="RoadmapSetup" component={RoadmapSetupPage} />
     </Stack.Navigator>

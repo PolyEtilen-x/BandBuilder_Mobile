@@ -25,5 +25,17 @@
     "subtitle": "Conquer IELTS with a personalized roadmap, completely free.",
     "google_button": "Continue with Google",
     "disclaimer": "By continuing, you agree to our Terms of Service and Privacy Policy."
+  },
+  "practice": {
+    "subtitle": "Boost your IELTS skills daily",
+    "real_exam_mode": "REAL EXAM MODE",
+    "practice_mode": "PRACTICE MODE",
+    "practice_toggle": "PRACTICE",
+    "real_exam_toggle": "REAL EXAM",
+    "material_toggle": "MATERIAL",
+    "no_sessions": "No practice sessions found.",
+    "ai_coach": "AI SPEAKING COACH",
+    "ai_coach_title": "Practice Speaking with AI Coach",
+    "ai_coach_desc": "Get instant pronunciation, grammar and vocabulary score feedback."
   }
 }

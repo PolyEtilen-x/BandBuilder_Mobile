@@ -1,5 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import * as Linking from 'expo-linking';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuthStore } from './auth.store';
 
 // Đảm bảo trình duyệt kết thúc phiên làm việc sau khi login
@@ -26,8 +27,9 @@ export async function loginWithGoogle() {
       const token = queryParams?.token;
 
       if (token) {
-        // Nếu dùng Bearer Token, bạn sẽ lưu vào AsyncStorage ở đây
-        console.log("🔑 Token received:", token);
+        // Lưu token vào AsyncStorage để duy trì phiên đăng nhập và tự động gửi kèm các API requests sau
+        await AsyncStorage.setItem("auth_token", token as string);
+        console.log("🔑 Token received & saved to AsyncStorage:", token);
       }
 
       // 5. Cập nhật trạng thái User

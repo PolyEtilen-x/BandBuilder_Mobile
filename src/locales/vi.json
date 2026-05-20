@@ -25,5 +25,17 @@
     "subtitle": "Chinh phục IELTS theo lộ trình cá nhân hóa hoàn toàn miễn phí.",
     "google_button": "Tiếp tục với Google",
     "disclaimer": "Bằng cách tiếp tục, bạn đồng ý với Điều khoản dịch vụ và Chính sách bảo mật của chúng tôi."
+  },
+  "practice": {
+    "subtitle": "Cải thiện kỹ năng IELTS của bạn",
+    "real_exam_mode": "CHẾ ĐỘ THI THẬT",
+    "practice_mode": "CHẾ ĐỘ LUYỆN TẬP",
+    "practice_toggle": "LUYỆN TẬP",
+    "real_exam_toggle": "THI THẬT",
+    "material_toggle": "TÀI LIỆU",
+    "no_sessions": "Không tìm thấy phiên luyện tập nào.",
+    "ai_coach": "GIÁO VIÊN AI",
+    "ai_coach_title": "Luyện Nói Với Giáo Viên AI",
+    "ai_coach_desc": "Nhận phản hồi chấm điểm phát âm IELTS chuẩn quốc tế theo thời gian thực."
   }
 }

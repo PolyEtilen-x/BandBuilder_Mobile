@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export const getStyles = (theme: any) => StyleSheet.create({
   container: {
@@ -8,84 +8,345 @@ export const getStyles = (theme: any) => StyleSheet.create({
     backgroundColor: theme.background,
   },
   scrollContent: {
-    paddingBottom: 100,
-    alignItems: 'center',
-    paddingTop: 40,
+    paddingBottom: 120,
+    paddingHorizontal: 20,
+    paddingTop: 24,
   },
   header: {
-    width: '100%',
-    paddingHorizontal: 20,
-    marginBottom: 30,
+    marginBottom: 24,
+  },
+  headerTitleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 26,
     fontWeight: '900',
     color: theme.text,
     letterSpacing: -0.5,
+    flex: 1,
+    marginRight: 12,
   },
   headerSub: {
-    fontSize: 16,
-    color: theme.textSecondary,
-    marginTop: 4,
-  },
-  // Roadmap Node Styles
-  nodeContainer: {
-    width: width,
-    alignItems: 'center',
-    marginVertical: 15,
-  },
-  nodeWrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  nodeCircle: {
-    width: 84,
-    height: 84,
-    borderRadius: 42,
-    borderWidth: 6,
-    alignItems: 'center',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  nodeInner: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  nodeLabel: {
-    position: 'absolute',
-    top: 90,
-    width: 120,
-    textAlign: 'center',
     fontSize: 14,
+    color: theme.textSecondary,
+    marginBottom: 16,
+    lineHeight: 20,
+  },
+  // Metrics Grid
+  metricsGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+    marginBottom: 20,
+  },
+  metricCard: {
+    flex: 1,
+    minWidth: '45%',
+    backgroundColor: theme.card,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: theme.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.02,
+    shadowRadius: 4,
+    elevation: 1,
+  },
+  metricTitle: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: theme.textSecondary,
+    marginBottom: 4,
+    letterSpacing: 0.5,
+    textTransform: 'uppercase',
+  },
+  metricValue: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: theme.text,
+  },
+  // Progress Gauge
+  progressContainer: {
+    backgroundColor: theme.card,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1,
+    borderColor: theme.border,
+    marginBottom: 24,
+  },
+  progressTextRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  progressLabel: {
+    fontSize: 13,
     fontWeight: '700',
     color: theme.text,
   },
-  // Connection line
-  line: {
-    position: 'absolute',
-    width: 4,
-    height: 40,
-    backgroundColor: theme.border,
-    zIndex: -1,
+  progressPercent: {
+    fontSize: 13,
+    fontWeight: '800',
+    color: theme.primary,
   },
-  // Status specific
-  activeNode: {
-    borderColor: '#f59e0b',
-    backgroundColor: '#fbbf24',
-  },
-  completedNode: {
-    borderColor: '#10b981',
-    backgroundColor: '#34d399',
-  },
-  lockedNode: {
-    borderColor: theme.border,
+  progressBarBg: {
+    height: 8,
     backgroundColor: theme.backgroundAlt,
+    borderRadius: 4,
+    overflow: 'hidden',
+  },
+  progressBarFill: {
+    height: '100%',
+    backgroundColor: theme.primary,
+    borderRadius: 4,
+  },
+  // Timeline Section
+  timelineSection: {
+    paddingLeft: 4,
+  },
+  timelineTitle: {
+    fontSize: 18,
+    fontWeight: '800',
+    color: theme.text,
+    marginBottom: 16,
+  },
+  // Roadmap Row
+  nodeRow: {
+    flexDirection: 'row',
+    minHeight: 100,
+  },
+  // Left Line & Dots Column
+  leftColumn: {
+    width: 48,
+    alignItems: 'center',
+  },
+  verticalLine: {
+    position: 'absolute',
+    left: 23,
+    top: 24,
+    bottom: -20, // Overlap next node
+    width: 2,
+    backgroundColor: theme.border,
+  },
+  dotWrapper: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    zIndex: 2,
+    borderWidth: 2,
+  },
+  // Right Card Column
+  rightColumn: {
+    flex: 1,
+    paddingBottom: 24,
+  },
+  journeyCard: {
+    backgroundColor: theme.card,
+    borderRadius: 16,
+    padding: 16,
+    borderWidth: 1.5,
+    borderColor: theme.border,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.02,
+    shadowRadius: 6,
+    elevation: 2,
+  },
+  journeyCardActive: {
+    borderColor: theme.primary,
+    shadowColor: theme.primary,
+    shadowOpacity: 0.08,
+  },
+  journeyCardLocked: {
+    opacity: 0.6,
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  nodeBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+    backgroundColor: theme.backgroundAlt,
+  },
+  nodeBadgeText: {
+    fontSize: 10,
+    fontWeight: '700',
+    textTransform: 'uppercase',
+  },
+  cardTitle: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: theme.text,
+    marginBottom: 6,
+  },
+  cardSub: {
+    fontSize: 12,
+    color: theme.textSecondary,
+    lineHeight: 16,
+    marginBottom: 10,
+  },
+  cardDuration: {
+    fontSize: 11,
+    fontWeight: '600',
+    color: theme.textSecondary,
+  },
+  // Detail Modal Overlay
+  modalOverlay: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'flex-end',
+    zIndex: 10,
+  },
+  modalBackdrop: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  modalContent: {
+    backgroundColor: theme.card,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    padding: 24,
+    paddingBottom: 40,
+    borderWidth: 1,
+    borderColor: theme.border,
+    maxHeight: height * 0.8,
+  },
+  modalDragIndicator: {
+    width: 40,
+    height: 5,
+    backgroundColor: theme.border,
+    borderRadius: 3,
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  modalTitle: {
+    fontSize: 22,
+    fontWeight: '900',
+    color: theme.text,
+    flex: 1,
+    marginRight: 12,
+  },
+  modalDurationRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 16,
+    gap: 8,
+  },
+  modalDurationText: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: theme.primary,
+  },
+  modalDesc: {
+    fontSize: 14,
+    color: theme.textSecondary,
+    lineHeight: 22,
+    marginBottom: 20,
+  },
+  sectionDivider: {
+    height: 1,
+    backgroundColor: theme.border,
+    marginVertical: 16,
+  },
+  sectionTitle: {
+    fontSize: 12,
+    fontWeight: '800',
+    color: theme.text,
+    marginBottom: 10,
+    textTransform: 'uppercase',
+    letterSpacing: 0.5,
+  },
+  skillTagRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginBottom: 20,
+  },
+  skillTag: {
+    backgroundColor: theme.backgroundAlt,
+    borderRadius: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: theme.border,
+  },
+  skillTagText: {
+    fontSize: 12,
+    color: theme.text,
+    fontWeight: '600',
+  },
+  // Resource Link styles
+  resourceCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.backgroundAlt,
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: theme.border,
+  },
+  resourceIconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  resourceInfo: {
+    flex: 1,
+  },
+  resourceTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+    color: theme.text,
+  },
+  resourceDesc: {
+    fontSize: 11,
+    color: theme.textSecondary,
+    marginTop: 2,
+  },
+  ctaButton: {
+    backgroundColor: theme.primary,
+    borderRadius: 16,
+    paddingVertical: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+    shadowColor: theme.primary,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.2,
+    shadowRadius: 10,
+    elevation: 4,
+  },
+  ctaButtonText: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: '#ffffff',
   },
 });

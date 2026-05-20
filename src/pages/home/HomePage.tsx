@@ -63,9 +63,9 @@ export default function HomePage() {
     if (toolId === 'speaking') {
       navigation.navigate('CallWithAi');
     } else if (toolId === 'vocab') {
-      navigation.navigate('VocabPage');
+      navigation.navigate('Practice', { activeTopTab: 'material', activeMaterialTab: 'vocab' });
     } else if (toolId === 'grammar') {
-      navigation.navigate('GrammarPage');
+      navigation.navigate('Practice', { activeTopTab: 'material', activeMaterialTab: 'grammar' });
     } else if (toolId === 'upgrade') {
       navigation.navigate('Upgrade');
     }

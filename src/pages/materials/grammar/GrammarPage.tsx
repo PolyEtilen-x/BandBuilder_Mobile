@@ -5,7 +5,6 @@ import {
   ScrollView,
   TouchableOpacity,
   StatusBar,
-  LayoutAnimation,
   Platform,
   UIManager,
   ActivityIndicator,
@@ -30,17 +29,14 @@ import { MistakeCategory, Mistake } from "@/data/grammar/mistake.model"
 import { styles } from "./GrammarPage.styles"
 import { grammarTranslations } from "./GrammarPage.translations"
 
-if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
-  UIManager.setLayoutAnimationEnabledExperimental(true)
-}
-
 interface Props {
-  navigation: any
+  navigation?: any
+  isTab?: boolean
 }
 
 type TabType = "basics" | "tenses" | "mistakes"
 
-export default function GrammarPage({ navigation }: Props) {
+export default function GrammarPage({ navigation, isTab = false }: Props) {
   const { i18n } = useTranslation()
   const isVi = i18n.language === "vi"
   const t = grammarTranslations[isVi ? "vi" : "en"]
@@ -80,35 +76,36 @@ export default function GrammarPage({ navigation }: Props) {
   }, [])
 
   const toggleExpandBasic = (id: string) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     setExpandedBasicId(expandedBasicId === id ? null : id)
   }
 
   const toggleExpandTense = (id: string) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     setExpandedTenseId(expandedTenseId === id ? null : id)
   }
 
   const toggleExpandMistake = (id: string) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     setExpandedMistakeId(expandedMistakeId === id ? null : id)
   }
 
+  const Wrapper: any = isTab ? View : SafeAreaView;
+
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <StatusBar barStyle="light-content" />
+    <Wrapper style={styles.container} {...(!isTab ? { edges: ["top", "bottom"] } : {})}>
+      {!isTab && <StatusBar barStyle="light-content" />}
       <LinearGradient colors={["#0f172a", "#1e293b"]} style={StyleSheet.absoluteFillObject} />
 
       {/* HEADER BAR */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <ChevronLeft size={24} color="#f8fafc" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>{t.headerTitle}</Text>
-        <View style={styles.headerRight}>
-          <Sparkles size={18} color="#a78bfa" />
+      {!isTab && (
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.backButton} onPress={() => navigation?.goBack()}>
+            <ChevronLeft size={24} color="#f8fafc" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>{t.headerTitle}</Text>
+          <View style={styles.headerRight}>
+            <Sparkles size={18} color="#a78bfa" />
+          </View>
         </View>
-      </View>
+      )}
 
       {/* TABS ROW */}
       <View style={styles.tabsRow}>
@@ -121,7 +118,6 @@ export default function GrammarPage({ navigation }: Props) {
               activeOpacity={0.8}
               style={[styles.tabButton, isActive && styles.tabButtonActive]}
               onPress={() => {
-                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
                 setActiveTab(tab)
               }}
             >
@@ -325,6 +321,6 @@ export default function GrammarPage({ navigation }: Props) {
 
         </ScrollView>
       )}
-    </SafeAreaView>
+    </Wrapper>
   )
 }

@@ -7,9 +7,6 @@ import {
   TouchableOpacity,
   StatusBar,
   TextInput,
-  LayoutAnimation,
-  Platform,
-  UIManager
 } from "react-native"
 import { SafeAreaView } from "react-native-safe-area-context"
 import { LinearGradient } from "expo-linear-gradient"
@@ -30,17 +27,14 @@ import { VocabTopic } from "@/data/vocab/vocab.model"
 import { styles } from "./VocabPage.styles"
 import { vocabTranslations } from "./VocabPage.translations"
 
-if (Platform.OS === "android" && UIManager.setLayoutAnimationEnabledExperimental) {
-  UIManager.setLayoutAnimationEnabledExperimental(true)
-}
-
 interface Props {
-  navigation: any
+  navigation?: any
+  isTab?: boolean
 }
 
 type TabType = "topics" | "flashcards" | "notebook"
 
-export default function VocabPage({ navigation }: Props) {
+export default function VocabPage({ navigation, isTab = false }: Props) {
   const { i18n } = useTranslation()
   const isVi = i18n.language === "vi"
   const t = vocabTranslations[isVi ? "vi" : "en"]
@@ -122,39 +116,41 @@ export default function VocabPage({ navigation }: Props) {
   }, [savedWords, allWords, flashcardIndex])
 
   const handleNextFlashcard = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     setIsFlipped(false)
     setFlashcardIndex((prev) => prev + 1)
   }
 
   const handleFlipCard = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
     setIsFlipped(!isFlipped)
   }
 
+  const Wrapper: any = isTab ? View : SafeAreaView;
+
   return (
-    <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
-      <StatusBar barStyle="light-content" />
+    <Wrapper style={styles.container} {...(!isTab ? { edges: ["top", "bottom"] } : {})}>
+      {!isTab && <StatusBar barStyle="light-content" />}
       <LinearGradient colors={["#0f172a", "#1e293b"]} style={StyleSheet.absoluteFillObject} />
 
       {/* HEADER BAR */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => {
-          if (selectedTopic) {
-            setSelectedTopic(null)
-          } else {
-            navigation.goBack()
-          }
-        }}>
-          <ChevronLeft size={24} color="#f8fafc" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>
-          {selectedTopic ? selectedTopic.topic : t.headerTitle}
-        </Text>
-        <View style={styles.headerRight}>
-          <Sparkles size={18} color="#3b82f6" />
+      {(!isTab || selectedTopic) && (
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.backButton} onPress={() => {
+            if (selectedTopic) {
+              setSelectedTopic(null)
+            } else {
+              navigation?.goBack()
+            }
+          }}>
+            <ChevronLeft size={24} color="#f8fafc" />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>
+            {selectedTopic ? selectedTopic.topic : t.headerTitle}
+          </Text>
+          <View style={styles.headerRight}>
+            <Sparkles size={18} color="#3b82f6" />
+          </View>
         </View>
-      </View>
+      )}
 
       {/* NAVIGATION TABS */}
       {!selectedTopic && (
@@ -168,7 +164,6 @@ export default function VocabPage({ navigation }: Props) {
                 activeOpacity={0.8}
                 style={[styles.tabButton, isActive && styles.tabButtonActive]}
                 onPress={() => {
-                  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
                   setActiveTab(tab)
                 }}
               >
@@ -270,7 +265,6 @@ export default function VocabPage({ navigation }: Props) {
                           activeOpacity={0.85}
                           style={styles.topicCard}
                           onPress={() => {
-                            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
                             setSelectedTopic(topic)
                           }}
                         >
@@ -394,6 +388,6 @@ export default function VocabPage({ navigation }: Props) {
           )}
         </View>
       )}
-    </SafeAreaView>
+    </Wrapper>
   )
 }

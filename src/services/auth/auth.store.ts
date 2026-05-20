@@ -1,11 +1,14 @@
 import { create } from "zustand"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 import { getCurrentUser } from "./auth.service"
 import { apiClient } from "@/api/apiClient.api"
 
 type User = {
     userId: string
     email: string
-    //and more data
+    name?: string
+    fullName?: string
+    avatarUrl?: string
 }
 
 type AuthState = {
@@ -27,6 +30,16 @@ export const useAuthStore = create<AuthState>((set) => ({
         set({ isLoading: true })
 
         try {
+            const token = await AsyncStorage.getItem("auth_token")
+            if (!token) {
+                set({
+                    user: null,
+                    isAuthenticated: false,
+                    isLoading: false
+                })
+                return
+            }
+
             const user = await getCurrentUser()
 
             set({
@@ -56,6 +69,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         } catch (e) {
             console.log("logout error:", e)
         } finally {
+            await AsyncStorage.removeItem("auth_token")
             set({ user: null, isAuthenticated: false })
         }
     }

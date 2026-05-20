@@ -17,8 +17,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    lng: deviceLanguage === 'vi' ? 'vi' : 'vi', // Mặc định là vi cho dự án này
-    fallbackLng: 'vi',
+    lng: 'en', // Cố định lúc mới vào là tiếng anh (English)
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false, // react already safes from xss
     },

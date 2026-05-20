@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import {
   HelpCircle,
   Users,
@@ -23,6 +23,8 @@ import { FlashList } from '@shopify/flash-list';
 import { getStyles } from './style';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { usePracticeSkills, useSkillPreview } from '@/hooks/usePractice';
+import VocabPage from '@/pages/materials/vocab/VocabPage';
+import GrammarPage from '@/pages/materials/grammar/GrammarPage';
 
 interface PracticeSkill {
   id: string;
@@ -108,7 +110,7 @@ const PracticeCardItem = React.memo(({ skill, activeSkill, activeMode, isExamMod
             </Text>
           </View>
         </View>
-
+        
         <Text style={styles.cardTitle} numberOfLines={2}>
           {cardData.title}
         </Text>
@@ -137,7 +139,19 @@ export default function PracticePage() {
   const theme = useThemeColor();
   const styles = useMemo(() => getStyles(theme), [theme]);
   const navigation = useNavigation<any>();
+  const route = useRoute<any>();
 
+  const [activeTopTab, setActiveTopTab] = useState<'practice' | 'material'>('practice');
+  const [activeMaterialTab, setActiveMaterialTab] = useState<'vocab' | 'grammar'>('vocab');
+
+  React.useEffect(() => {
+    if (route.params?.activeTopTab) {
+      setActiveTopTab(route.params.activeTopTab);
+    }
+    if (route.params?.activeMaterialTab) {
+      setActiveMaterialTab(route.params.activeMaterialTab);
+    }
+  }, [route.params]);
   const [activeSkill, setActiveSkill] = useState('listening');
   const [activeMode, setActiveMode] = useState('full');
   const [isExamMode, setIsExamMode] = useState(false);
@@ -163,16 +177,31 @@ export default function PracticePage() {
 
   const ListHeader = useMemo(() => (
     <View>
-      <View style={styles.header}>
-        <View>
-          <Text style={styles.title}>{t('navigation.practice')}</Text>
-          <Text style={styles.subtitle}>Cải thiện kỹ năng IELTS của bạn</Text>
-        </View>
+      {/* Compact Mode Switch Row */}
+      <View style={{ 
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        paddingHorizontal: 24, 
+        paddingTop: 8,
+        paddingBottom: 16 
+      }}>
+        <Text style={{ fontSize: 15, fontWeight: '800', color: theme.text, letterSpacing: -0.2 }}>
+          {isExamMode ? t('practice.real_exam_mode') : t('practice.practice_mode')}
+        </Text>
         
-        {/* Toggle Mode Thi/Luyện tập */}
         <TouchableOpacity 
+          activeOpacity={0.9}
           style={[
-            { flexDirection: 'row', alignItems: 'center', backgroundColor: theme.backgroundAlt, padding: 4, borderRadius: 12, borderWidth: 1, borderColor: theme.border },
+            { 
+              flexDirection: 'row', 
+              alignItems: 'center', 
+              backgroundColor: theme.backgroundAlt, 
+              padding: 2, 
+              borderRadius: 10, 
+              borderWidth: 1, 
+              borderColor: theme.border 
+            },
             isExamMode && { borderColor: '#ef4444' }
           ]}
           onPress={() => setIsExamMode(!isExamMode)}
@@ -181,68 +210,18 @@ export default function PracticePage() {
             { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 },
             !isExamMode && { backgroundColor: theme.primary }
           ]}>
-            <Text style={{ fontSize: 11, fontWeight: '700', color: !isExamMode ? '#fff' : theme.textSecondary }}>PRACTICE</Text>
+            <Text style={{ fontSize: 10, fontWeight: '800', color: !isExamMode ? '#fff' : theme.textSecondary }}>{t('practice.practice_toggle')}</Text>
           </View>
           <View style={[
             { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 },
             isExamMode && { backgroundColor: '#ef4444' }
           ]}>
-            <Text style={{ fontSize: 11, fontWeight: '700', color: isExamMode ? '#fff' : theme.textSecondary }}>REAL EXAM</Text>
+            <Text style={{ fontSize: 10, fontWeight: '800', color: isExamMode ? '#fff' : theme.textSecondary }}>{t('practice.real_exam_toggle')}</Text>
           </View>
         </TouchableOpacity>
       </View>
 
-      {/* Resource Supplementary Labs for all skills */}
-      <View style={{ paddingHorizontal: 24, paddingBottom: 8, flexDirection: 'row', gap: 12 }}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate('VocabPage')}
-          style={{
-            flex: 1,
-            backgroundColor: theme.card,
-            borderRadius: 16,
-            padding: 16,
-            borderWidth: 1,
-            borderColor: theme.border,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 12
-          }}
-        >
-          <View style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: '#10b98115', alignItems: 'center', justifyContent: 'center' }}>
-            <BookOpen size={20} color="#10b981" />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: 14, fontWeight: '700', color: theme.text }}>Vocab Lab</Text>
-            <Text style={{ fontSize: 11, color: theme.textSecondary }}>Từ vựng theo chủ đề</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => navigation.navigate('GrammarPage')}
-          style={{
-            flex: 1,
-            backgroundColor: theme.card,
-            borderRadius: 16,
-            padding: 16,
-            borderWidth: 1,
-            borderColor: theme.border,
-            flexDirection: 'row',
-            alignItems: 'center',
-            gap: 12
-          }}
-        >
-          <View style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: '#3b82f615', alignItems: 'center', justifyContent: 'center' }}>
-            <BrainCircuit size={20} color="#3b82f6" />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Text style={{ fontSize: 14, fontWeight: '700', color: theme.text }}>Grammar Lab</Text>
-            <Text style={{ fontSize: 11, color: theme.textSecondary }}>Luyện cấu trúc tenses</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-
+      {/* IELTS 4-skills tabs */}
       <View style={[styles.skillTabsContainer, { paddingBottom: 0 }]}>
         <View style={styles.skillTabs}>
           {SKILLS.map((s) => (
@@ -296,14 +275,14 @@ export default function PracticePage() {
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
               <Sparkles size={14} color="#8b5cf6" style={{ marginRight: 6 }} />
               <Text style={{ fontSize: 10, fontWeight: '800', color: '#8b5cf6', letterSpacing: 1 }}>
-                AI SPEAKING COACH
+                {t('practice.ai_coach')}
               </Text>
             </View>
             <Text style={{ fontSize: 16, fontWeight: '700', color: theme.text, marginBottom: 4 }}>
-              Luyện Nói Với Giáo Viên AI
+              {t('practice.ai_coach_title')}
             </Text>
             <Text style={{ fontSize: 12, color: theme.textSecondary }}>
-              Nhận phản hồi chấm điểm phát âm IELTS chuẩn quốc tế theo thời gian thực.
+              {t('practice.ai_coach_desc')}
             </Text>
           </View>
           <View style={{
@@ -319,6 +298,7 @@ export default function PracticePage() {
         </TouchableOpacity>
       )}
 
+      {/* Subsections Filters ScrollView */}
       <View style={{ paddingVertical: 16 }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 24, gap: 8 }}>
           {SKILL_CONFIG[activeSkill].hasFull && (
@@ -352,34 +332,98 @@ export default function PracticePage() {
         </ScrollView>
       </View>
     </View>
-  ), [activeSkill, activeMode, theme, styles, t, navigation]);
+  ), [activeSkill, activeMode, isExamMode, theme, styles, navigation]);
 
   const OptimizedList = FlashList as any;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <StatusBar barStyle={theme.text === '#ffffff' ? 'light-content' : 'dark-content'} />
 
-      {isLoading ? (
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <ActivityIndicator size="large" color={theme.primary} />
-        </View>
+      {/* Header title */}
+      <View style={styles.header}>
+        <Text style={styles.title}>{t('navigation.practice')}</Text>
+        <Text style={styles.subtitle}>{t('practice.subtitle')}</Text>
+      </View>
+
+      {/* Top Segmented Tabs: Practice vs Material */}
+      <View style={styles.topTabs}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={[styles.topTab, activeTopTab === 'practice' && styles.topTabActive]}
+          onPress={() => setActiveTopTab('practice')}
+        >
+          <Text style={[styles.topTabText, activeTopTab === 'practice' && styles.topTabTextActive]}>
+            {t('practice.practice_toggle')}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={[styles.topTab, activeTopTab === 'material' && styles.topTabActive]}
+          onPress={() => setActiveTopTab('material')}
+        >
+          <Text style={[styles.topTabText, activeTopTab === 'material' && styles.topTabTextActive]}>
+            {t('practice.material_toggle')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
+      {activeTopTab === 'practice' ? (
+        isLoading ? (
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            <ActivityIndicator size="large" color={theme.primary} />
+          </View>
+        ) : (
+          <View style={{ flex: 1 }}>
+            <OptimizedList
+              data={filteredSkills}
+              renderItem={renderItem}
+              keyExtractor={(item: PracticeSkill) => item.skillContentId || item.id || item._id}
+              ListHeaderComponent={ListHeader}
+              contentContainerStyle={styles.listContent}
+              estimatedItemSize={120}
+              showsVerticalScrollIndicator={false}
+              ListEmptyComponent={
+                <View style={styles.emptyState}>
+                  <Text style={styles.emptyText}>{t('practice.no_sessions')}</Text>
+                </View>
+              }
+            />
+          </View>
+        )
       ) : (
+        /* Material Mode with Inline Subcomponents */
         <View style={{ flex: 1 }}>
-          <OptimizedList
-            data={filteredSkills}
-            renderItem={renderItem}
-            keyExtractor={(item: PracticeSkill) => item.skillContentId || item.id || item._id}
-            ListHeaderComponent={ListHeader}
-            contentContainerStyle={styles.listContent}
-            estimatedItemSize={120}
-            showsVerticalScrollIndicator={false}
-            ListEmptyComponent={
-              <View style={styles.emptyState}>
-                <Text style={styles.emptyText}>No practice sessions found.</Text>
-              </View>
-            }
-          />
+          {/* Sub-tab segmented bar for Vocab Lab vs Grammar Lab */}
+          <View style={[styles.topTabs, { marginTop: 0, marginBottom: 12 }]}>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[styles.topTab, activeMaterialTab === 'vocab' && styles.topTabActive]}
+              onPress={() => setActiveMaterialTab('vocab')}
+            >
+              <Text style={[styles.topTabText, activeMaterialTab === 'vocab' && styles.topTabTextActive, { fontSize: 12 }]}>
+                VOCAB LAB
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              style={[styles.topTab, activeMaterialTab === 'grammar' && styles.topTabActive]}
+              onPress={() => setActiveMaterialTab('grammar')}
+            >
+              <Text style={[styles.topTabText, activeMaterialTab === 'grammar' && styles.topTabTextActive, { fontSize: 12 }]}>
+                GRAMMAR LAB
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Render inline Vocab/Grammar tab components directly */}
+          <View style={{ flex: 1 }}>
+            {activeMaterialTab === 'vocab' ? (
+              <VocabPage isTab={true} />
+            ) : (
+              <GrammarPage isTab={true} />
+            )}
+          </View>
         </View>
       )}
     </SafeAreaView>
