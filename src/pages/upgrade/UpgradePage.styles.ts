@@ -1,0 +1,301 @@
+import { StyleSheet, Dimensions } from "react-native"
+
+const { width } = Dimensions.get("window")
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0f172a",
+  },
+  header: {
+    height: 56,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255, 255, 255, 0.08)",
+  },
+  backButton: {
+    padding: 4,
+  },
+  headerTitle: {
+    color: "#f8fafc",
+    fontSize: 18,
+    fontWeight: "700",
+    marginLeft: 12,
+    flex: 1,
+  },
+  headerRight: {
+    padding: 4,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    color: "#cbd5e1",
+    fontSize: 14,
+    marginTop: 12,
+  },
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 40,
+  },
+  introCard: {
+    backgroundColor: "rgba(30, 41, 59, 0.65)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.06)",
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 20,
+  },
+  introHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 8,
+  },
+  introLabel: {
+    color: "#fbbf24",
+    fontSize: 11,
+    fontWeight: "800",
+  },
+  introTitle: {
+    color: "#f8fafc",
+    fontSize: 22,
+    fontWeight: "800",
+    marginBottom: 8,
+  },
+  introDesc: {
+    color: "#cbd5e1",
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  packageCard: {
+    backgroundColor: "rgba(30, 41, 59, 0.65)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.06)",
+    borderRadius: 24,
+    padding: 24,
+    marginBottom: 20,
+    position: "relative",
+  },
+  packageCardPopular: {
+    borderColor: "#fbbf24",
+    borderWidth: 2,
+    backgroundColor: "rgba(30, 41, 59, 0.8)",
+  },
+  popularBadge: {
+    position: "absolute",
+    top: -12,
+    right: 24,
+    backgroundColor: "#fbbf24",
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 8,
+  },
+  popularBadgeText: {
+    color: "#0f172a",
+    fontSize: 9,
+    fontWeight: "900",
+  },
+  packageName: {
+    color: "#f8fafc",
+    fontSize: 18,
+    fontWeight: "800",
+    marginBottom: 10,
+  },
+  priceRow: {
+    flexDirection: "row",
+    alignItems: "baseline",
+    marginBottom: 16,
+  },
+  priceAmount: {
+    color: "#ffffff",
+    fontSize: 32,
+    fontWeight: "800",
+  },
+  priceUnit: {
+    color: "#cbd5e1",
+    fontSize: 14,
+    fontWeight: "700",
+    marginLeft: 8,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "rgba(255,255,255,0.06)",
+    marginBottom: 20,
+  },
+  featuresList: {
+    gap: 12,
+    marginBottom: 24,
+  },
+  featureRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 10,
+  },
+  featureText: {
+    flex: 1,
+    color: "#cbd5e1",
+    fontSize: 13,
+    lineHeight: 18,
+  },
+  featureHighlight: {
+    color: "#ffffff",
+    fontWeight: "700",
+  },
+  chooseBtnWrap: {
+    borderRadius: 14,
+    overflow: "hidden",
+  },
+  chooseBtn: {
+    paddingVertical: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  chooseBtnText: {
+    color: "#ffffff",
+    fontSize: 15,
+    fontWeight: "700",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(15, 23, 42, 0.85)",
+    justifyContent: "flex-end",
+  },
+  modalContent: {
+    backgroundColor: "#1e293b",
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    maxHeight: "90%",
+    paddingBottom: 24,
+  },
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255,255,255,0.08)",
+  },
+  modalTitle: {
+    color: "#f8fafc",
+    fontSize: 16,
+    fontWeight: "800",
+  },
+  closeModalBtn: {
+    padding: 4,
+  },
+  modalBody: {
+    padding: 20,
+  },
+  modalDesc: {
+    color: "#94a3b8",
+    fontSize: 13,
+    lineHeight: 18,
+    marginBottom: 16,
+  },
+  qrCard: {
+    backgroundColor: "#ffffff",
+    padding: 16,
+    borderRadius: 20,
+    alignSelf: "center",
+    marginBottom: 20,
+    elevation: 4,
+  },
+  qrImage: {
+    width: width * 0.55,
+    height: width * 0.55,
+  },
+  transferDetails: {
+    backgroundColor: "rgba(255,255,255,0.02)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.05)",
+    borderRadius: 16,
+    padding: 16,
+    gap: 12,
+    marginBottom: 20,
+  },
+  detailItem: {
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255,255,255,0.04)",
+    paddingBottom: 8,
+  },
+  detailLabel: {
+    color: "#94a3b8",
+    fontSize: 10,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    marginBottom: 4,
+  },
+  detailValueRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: 8,
+  },
+  detailValue: {
+    color: "#ffffff",
+    fontSize: 14,
+    fontWeight: "700",
+    flex: 1,
+  },
+  detailValueText: {
+    color: "#ffffff",
+    fontSize: 14,
+    fontWeight: "700",
+  },
+  waitingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 10,
+    paddingVertical: 12,
+  },
+  waitingText: {
+    color: "#60a5fa",
+    fontSize: 12,
+    fontWeight: "600",
+  },
+  successContainer: {
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  successIconBox: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    backgroundColor: "rgba(16, 185, 129, 0.1)",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
+  successTitle: {
+    color: "#f8fafc",
+    fontSize: 22,
+    fontWeight: "800",
+    marginBottom: 10,
+  },
+  successDesc: {
+    color: "#cbd5e1",
+    fontSize: 14,
+    textAlign: "center",
+    lineHeight: 20,
+    paddingHorizontal: 20,
+    marginBottom: 32,
+  },
+  profileBtn: {
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 32,
+    paddingVertical: 14,
+    borderRadius: 14,
+    elevation: 2,
+  },
+  profileBtnText: {
+    color: "#0f172a",
+    fontSize: 15,
+    fontWeight: "700",
+  }
+})

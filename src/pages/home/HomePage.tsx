@@ -7,6 +7,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import {
   User,
   ChevronRight,
@@ -18,7 +19,9 @@ import {
   Flame,
   Sun,
   Moon,
-  Languages
+  Languages,
+  Sparkles,
+  ArrowRight
 } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { getStyles } from './style';
@@ -27,10 +30,10 @@ import { useAuthStore } from '@/services/auth/auth.store';
 import { useThemeStore } from '@/services/theme/theme.store';
 
 const TOOLS = [
-  { id: '1', icon: <PenLine size={24} color="#f97316" />, title: "AI Writing Coach", color: "#f97316", desc: "Chấm điểm và sửa lỗi Essay Task 1 & 2 chi tiết từng câu." },
-  { id: '2', icon: <Mic size={24} color="#8b5cf6" />, title: "Speaking Simulator", color: "#8b5cf6", desc: "Luyện nói với AI examiner, nhận phản hồi về phát âm và độ trôi chảy." },
-  { id: '3', icon: <BookOpen size={24} color="#10b981" />, title: "Reading Lab", color: "#10b981", desc: "Hơn 200 bài đọc học thuật kèm giải thích đáp án chi tiết." },
-  { id: '4', icon: <Headphones size={24} color="#3b82f6" />, title: "Listening Practice", color: "#3b82f6", desc: "Luyện nghe với audio chuẩn IELTS và phân tích lỗi sai." },
+  { id: 'speaking', icon: <Mic size={24} color="#8b5cf6" />, title: "AI Speaking Coach", color: "#8b5cf6", desc: "Luyện nói 1:1 với AI examiner, nhận phản hồi phát âm, từ vựng và ngữ pháp IELTS." },
+  { id: 'vocab', icon: <BookOpen size={24} color="#10b981" />, title: "Vocab Lab", color: "#10b981", desc: "Học từ vựng theo chủ đề qua Flashcards thông minh & lưu từ vựng vào Sổ tay." },
+  { id: 'grammar', icon: <PenLine size={24} color="#3b82f6" />, title: "Grammar Lab", color: "#3b82f6", desc: "Chinh phục 12 thì tiếng Anh, cấu trúc câu & phân tích lỗi sai ngữ pháp chi tiết." },
+  { id: 'writing', icon: <PenLine size={24} color="#f97316" />, title: "AI Writing Coach", color: "#f97316", desc: "Chấm điểm và sửa lỗi Essay Task 1 & 2 chi tiết từng câu (Sắp ra mắt)." },
 ];
 
 const STATS = [
@@ -45,6 +48,7 @@ export default function HomePage() {
   const styles = useMemo(() => getStyles(theme), [theme]);
   const { isAuthenticated, user } = useAuthStore();
   const { mode, setMode } = useThemeStore();
+  const navigation = useNavigation<any>();
 
   const toggleTheme = () => {
     setMode(mode === 'light' ? 'dark' : 'light');
@@ -53,6 +57,18 @@ export default function HomePage() {
   const toggleLanguage = () => {
     const nextLang = i18n.language === 'vi' ? 'en' : 'vi';
     i18n.changeLanguage(nextLang);
+  };
+
+  const handleToolPress = (toolId: string) => {
+    if (toolId === 'speaking') {
+      navigation.navigate('CallWithAi');
+    } else if (toolId === 'vocab') {
+      navigation.navigate('VocabPage');
+    } else if (toolId === 'grammar') {
+      navigation.navigate('GrammarPage');
+    } else if (toolId === 'upgrade') {
+      navigation.navigate('Upgrade');
+    }
   };
 
   return (
@@ -117,6 +133,54 @@ export default function HomePage() {
           </View>
         </View>
 
+        {/* Premium Upgrade Banner */}
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => handleToolPress('upgrade')}
+          style={{
+            marginHorizontal: 20,
+            marginBottom: 24,
+            padding: 20,
+            borderRadius: 20,
+            backgroundColor: theme.backgroundAlt,
+            borderWidth: 1,
+            borderColor: theme.warning + '30',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            shadowColor: theme.warning,
+            shadowOffset: { width: 0, height: 6 },
+            shadowOpacity: 0.1,
+            shadowRadius: 12,
+            elevation: 4,
+          }}
+        >
+          <View style={{ flex: 1, marginRight: 12 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
+              <Sparkles size={16} color={theme.warning} style={{ marginRight: 6 }} />
+              <Text style={{ fontSize: 12, fontWeight: '800', color: theme.warning, letterSpacing: 1 }}>
+                MỞ KHÓA BẢN PREMIUM
+              </Text>
+            </View>
+            <Text style={{ fontSize: 16, fontWeight: '700', color: theme.text, marginBottom: 4 }}>
+              Trải nghiệm AI speaking & tài liệu nâng cao
+            </Text>
+            <Text style={{ fontSize: 12, color: theme.textSecondary }}>
+              Luyện nói không giới hạn và nhận phản hồi chấm điểm IELTS chuyên sâu.
+            </Text>
+          </View>
+          <View style={{
+            width: 44,
+            height: 44,
+            borderRadius: 22,
+            backgroundColor: theme.warning + '15',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <ArrowRight size={20} color={theme.warning} />
+          </View>
+        </TouchableOpacity>
+
         {/* Tools Section */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
@@ -132,7 +196,12 @@ export default function HomePage() {
             contentContainerStyle={{ paddingRight: 20 }}
           >
             {TOOLS.map((t) => (
-              <TouchableOpacity key={t.id} style={styles.toolCard}>
+              <TouchableOpacity
+                key={t.id}
+                style={styles.toolCard}
+                activeOpacity={0.7}
+                onPress={() => handleToolPress(t.id)}
+              >
                 <View style={[styles.toolIconWrap, { backgroundColor: t.color + '15' }]}>
                   {t.icon}
                 </View>
@@ -154,6 +223,7 @@ export default function HomePage() {
 
           <TouchableOpacity
             style={[styles.toolCard, { width: '90%', marginLeft: 20, flexDirection: 'row', alignItems: 'center' }]}
+            onPress={() => navigation.navigate('Roadmap')}
           >
             <View style={[styles.toolIconWrap, { marginBottom: 0, marginRight: 16, backgroundColor: theme.primary + '15' }]}>
               <BookOpen size={24} color={theme.primary} />

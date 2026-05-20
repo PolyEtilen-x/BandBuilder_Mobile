@@ -12,7 +12,11 @@ import { useNavigation } from '@react-navigation/native';
 import {
   HelpCircle,
   Users,
-  ChevronRight
+  ChevronRight,
+  Mic,
+  Sparkles,
+  BookOpen,
+  BrainCircuit
 } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { FlashList } from '@shopify/flash-list';
@@ -132,6 +136,7 @@ export default function PracticePage() {
   const { t } = useTranslation();
   const theme = useThemeColor();
   const styles = useMemo(() => getStyles(theme), [theme]);
+  const navigation = useNavigation<any>();
 
   const [activeSkill, setActiveSkill] = useState('listening');
   const [activeMode, setActiveMode] = useState('full');
@@ -187,6 +192,57 @@ export default function PracticePage() {
         </TouchableOpacity>
       </View>
 
+      {/* Resource Supplementary Labs for all skills */}
+      <View style={{ paddingHorizontal: 24, paddingBottom: 8, flexDirection: 'row', gap: 12 }}>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('VocabPage')}
+          style={{
+            flex: 1,
+            backgroundColor: theme.card,
+            borderRadius: 16,
+            padding: 16,
+            borderWidth: 1,
+            borderColor: theme.border,
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 12
+          }}
+        >
+          <View style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: '#10b98115', alignItems: 'center', justifyContent: 'center' }}>
+            <BookOpen size={20} color="#10b981" />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontSize: 14, fontWeight: '700', color: theme.text }}>Vocab Lab</Text>
+            <Text style={{ fontSize: 11, color: theme.textSecondary }}>Từ vựng theo chủ đề</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          activeOpacity={0.8}
+          onPress={() => navigation.navigate('GrammarPage')}
+          style={{
+            flex: 1,
+            backgroundColor: theme.card,
+            borderRadius: 16,
+            padding: 16,
+            borderWidth: 1,
+            borderColor: theme.border,
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 12
+          }}
+        >
+          <View style={{ width: 36, height: 36, borderRadius: 10, backgroundColor: '#3b82f615', alignItems: 'center', justifyContent: 'center' }}>
+            <BrainCircuit size={20} color="#3b82f6" />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontSize: 14, fontWeight: '700', color: theme.text }}>Grammar Lab</Text>
+            <Text style={{ fontSize: 11, color: theme.textSecondary }}>Luyện cấu trúc tenses</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
+
       <View style={[styles.skillTabsContainer, { paddingBottom: 0 }]}>
         <View style={styles.skillTabs}>
           {SKILLS.map((s) => (
@@ -211,6 +267,57 @@ export default function PracticePage() {
           ))}
         </View>
       </View>
+
+      {/* AI Speaking Coach Premium banner inside Speaking Skill tab */}
+      {activeSkill === 'speaking' && (
+        <TouchableOpacity
+          activeOpacity={0.9}
+          onPress={() => navigation.navigate('CallWithAi')}
+          style={{
+            marginHorizontal: 24,
+            marginTop: 16,
+            marginBottom: 8,
+            padding: 20,
+            borderRadius: 20,
+            backgroundColor: theme.backgroundAlt,
+            borderWidth: 1.5,
+            borderColor: '#8b5cf650',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            shadowColor: '#8b5cf6',
+            shadowOffset: { width: 0, height: 6 },
+            shadowOpacity: 0.12,
+            shadowRadius: 12,
+            elevation: 4,
+          }}
+        >
+          <View style={{ flex: 1, marginRight: 12 }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
+              <Sparkles size={14} color="#8b5cf6" style={{ marginRight: 6 }} />
+              <Text style={{ fontSize: 10, fontWeight: '800', color: '#8b5cf6', letterSpacing: 1 }}>
+                AI SPEAKING COACH
+              </Text>
+            </View>
+            <Text style={{ fontSize: 16, fontWeight: '700', color: theme.text, marginBottom: 4 }}>
+              Luyện Nói Với Giáo Viên AI
+            </Text>
+            <Text style={{ fontSize: 12, color: theme.textSecondary }}>
+              Nhận phản hồi chấm điểm phát âm IELTS chuẩn quốc tế theo thời gian thực.
+            </Text>
+          </View>
+          <View style={{
+            width: 44,
+            height: 44,
+            borderRadius: 22,
+            backgroundColor: '#8b5cf615',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <Mic size={20} color="#8b5cf6" />
+          </View>
+        </TouchableOpacity>
+      )}
 
       <View style={{ paddingVertical: 16 }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 24, gap: 8 }}>
@@ -245,7 +352,7 @@ export default function PracticePage() {
         </ScrollView>
       </View>
     </View>
-  ), [activeSkill, activeMode, theme, styles, t]);
+  ), [activeSkill, activeMode, theme, styles, t, navigation]);
 
   const OptimizedList = FlashList as any;
 

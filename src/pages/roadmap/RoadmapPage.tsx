@@ -7,7 +7,8 @@ import {
   StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Check, Lock, Star } from 'lucide-react-native';
+import { useNavigation } from '@react-navigation/native';
+import { Check, Lock, Star, Sparkles } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { getStyles } from './style';
 import { useThemeColor } from '@/hooks/useThemeColor';
@@ -17,6 +18,7 @@ export default function RoadmapPage() {
   const { t } = useTranslation();
   const theme = useThemeColor();
   const styles = useMemo(() => getStyles(theme), [theme]);
+  const navigation = useNavigation<any>();
 
   // Xác định node hiện tại (node đầu tiên chưa hoàn thành)
   const firstUncompletedIndex = roadmapData.nodes.findIndex(node => !node.isCompleted);
@@ -77,8 +79,54 @@ export default function RoadmapPage() {
         contentContainerStyle={styles.scrollContent}
       >
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>{roadmapData.title}</Text>
-          <Text style={styles.headerSub}>{roadmapData.description}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
+            <View style={{ flex: 1, marginRight: 16 }}>
+              <Text style={styles.headerTitle}>{roadmapData.title}</Text>
+              <Text style={styles.headerSub}>{roadmapData.description}</Text>
+            </View>
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate('RoadmapSetup')}
+              style={{
+                backgroundColor: theme.primary + '15',
+                borderWidth: 1,
+                borderColor: theme.primary + '40',
+                borderRadius: 12,
+                padding: 10,
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <Sparkles size={20} color={theme.primary} />
+            </TouchableOpacity>
+          </View>
+          
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate('RoadmapSetup')}
+            style={{
+              backgroundColor: theme.primary,
+              borderRadius: 12,
+              paddingVertical: 12,
+              paddingHorizontal: 16,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginTop: 4,
+              marginBottom: 16,
+              gap: 8,
+              shadowColor: theme.primary,
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.2,
+              shadowRadius: 8,
+              elevation: 4
+            }}
+          >
+            <Sparkles size={16} color="#ffffff" />
+            <Text style={{ fontSize: 13, fontWeight: '700', color: '#ffffff' }}>
+              Tái thiết kế Lộ trình cá nhân (AI Architect)
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {roadmapData.nodes.map((node, index) => renderNode(node, index))}

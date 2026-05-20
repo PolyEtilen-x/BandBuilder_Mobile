@@ -5,18 +5,7 @@ export const apiClient = axios.create({
   timeout: 10000,
 })
 
-let isRefreshing = false
-let refreshSubscribers: (() => void)[] = []
-
-function subscribeTokenRefresh(cb: () => void) {
-  refreshSubscribers.push(cb)
-}
-
-function onRefreshed() {
-  refreshSubscribers.forEach((cb) => cb())
-  refreshSubscribers = []
-}
-let refreshPromise: Promise<any> | null = null
+let refreshPromise: Promise<unknown> | null = null
 
 apiClient.interceptors.response.use(
   (res) => res,

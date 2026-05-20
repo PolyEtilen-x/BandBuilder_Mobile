@@ -1,0 +1,247 @@
+import { StyleSheet, Platform } from "react-native"
+
+export const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#0f172a",
+  },
+  header: {
+    height: 56,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: "rgba(255, 255, 255, 0.08)",
+  },
+  backButton: {
+    padding: 4,
+  },
+  headerTitle: {
+    color: "#f8fafc",
+    fontSize: 18,
+    fontWeight: "700",
+    marginLeft: 12,
+    flex: 1,
+  },
+  headerRight: {
+    padding: 4,
+  },
+  tabsRow: {
+    flexDirection: "row",
+    paddingHorizontal: 16,
+    marginTop: 12,
+    gap: 8,
+  },
+  tabButton: {
+    flex: 1,
+    paddingVertical: 10,
+    borderRadius: 12,
+    backgroundColor: "rgba(255,255,255,0.03)",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.05)",
+  },
+  tabButtonActive: {
+    backgroundColor: "rgba(167, 139, 250, 0.15)",
+    borderColor: "#a78bfa",
+  },
+  tabButtonText: {
+    color: "#94a3b8",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  tabButtonTextActive: {
+    color: "#a78bfa",
+    fontWeight: "700",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingText: {
+    color: "#cbd5e1",
+    fontSize: 14,
+    marginTop: 12,
+  },
+  scrollContent: {
+    padding: 16,
+    paddingBottom: 32,
+  },
+  listContainer: {
+    gap: 12,
+  },
+  heroBadgeRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    backgroundColor: "rgba(255,255,255,0.03)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.06)",
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 12,
+    marginBottom: 4,
+  },
+  heroBadgeText: {
+    color: "#cbd5e1",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  itemCard: {
+    backgroundColor: "rgba(30, 41, 59, 0.65)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 255, 255, 0.06)",
+    borderRadius: 16,
+    overflow: "hidden",
+  },
+  itemCardExpanded: {
+    borderColor: "rgba(167, 139, 250, 0.3)",
+  },
+  cardHeaderTrigger: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 16,
+    justifyContent: "space-between",
+  },
+  cardHeaderTitleCol: {
+    flex: 1,
+    paddingRight: 16,
+  },
+  itemTitle: {
+    color: "#f8fafc",
+    fontSize: 16,
+    fontWeight: "700",
+    marginBottom: 4,
+  },
+  itemSubtitle: {
+    color: "#94a3b8",
+    fontSize: 12,
+  },
+  formulaText: {
+    color: "#a78bfa",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  cardBody: {
+    paddingHorizontal: 16,
+    paddingBottom: 20,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: "rgba(255,255,255,0.06)",
+    marginBottom: 16,
+  },
+  sectionLabel: {
+    color: "#94a3b8",
+    fontSize: 11,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    marginBottom: 6,
+    letterSpacing: 0.5,
+  },
+  explanationText: {
+    color: "#cbd5e1",
+    fontSize: 14,
+    lineHeight: 22,
+    marginBottom: 16,
+  },
+  examplesContainer: {
+    marginTop: 8,
+  },
+  exampleBulletRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    marginBottom: 10,
+    paddingLeft: 4,
+  },
+  bulletDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#fbbf24",
+    marginTop: 8,
+    marginRight: 10,
+  },
+  exampleBulletText: {
+    flex: 1,
+    color: "#f8fafc",
+    fontSize: 13,
+    lineHeight: 18,
+    fontStyle: "italic",
+  },
+  formulaBox: {
+    backgroundColor: "rgba(167, 139, 250, 0.08)",
+    borderWidth: 1,
+    borderColor: "rgba(167, 139, 250, 0.2)",
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+    marginBottom: 16,
+  },
+  formulaBoxText: {
+    color: "#c084fc",
+    fontFamily: Platform.OS === "ios" ? "Courier" : "monospace",
+    fontSize: 14,
+    fontWeight: "700",
+  },
+  mistakeBlock: {
+    marginBottom: 16,
+  },
+  mistakeHeading: {
+    color: "#ffffff",
+    fontSize: 15,
+    fontWeight: "700",
+    marginBottom: 12,
+  },
+  errorSideRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 8,
+    backgroundColor: "rgba(255,255,255,0.02)",
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 10,
+  },
+  errorSideIcon: {
+    flexShrink: 0,
+  },
+  errorWrongText: {
+    flex: 1,
+    color: "#f87171",
+    fontSize: 13,
+    fontStyle: "italic",
+  },
+  errorCorrectText: {
+    flex: 1,
+    color: "#34d399",
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  mistakeExplainBox: {
+    backgroundColor: "rgba(255,255,255,0.01)",
+    borderLeftWidth: 3,
+    borderLeftColor: "#a78bfa",
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 6,
+  },
+  mistakeExplainLabel: {
+    color: "#94a3b8",
+    fontSize: 10,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    marginBottom: 2,
+  },
+  mistakeExplainText: {
+    color: "#cbd5e1",
+    fontSize: 12,
+    lineHeight: 18,
+  },
+  subDivider: {
+    height: 1,
+    backgroundColor: "rgba(255,255,255,0.04)",
+    marginVertical: 16,
+  }
+})
