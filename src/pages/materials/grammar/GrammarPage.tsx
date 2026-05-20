@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import {
   View,
   Text,
@@ -26,8 +26,8 @@ import {
 import { useTranslation } from "react-i18next"
 import { grammarApi } from "@/api/grammar.api"
 import { MistakeCategory, Mistake } from "@/data/grammar/mistake.model"
-import { styles } from "./GrammarPage.styles"
-import { grammarTranslations } from "./GrammarPage.translations"
+import { getStyles } from "./GrammarPage.styles"
+import { useThemeColor } from "@/hooks/useThemeColor"
 
 interface Props {
   navigation?: any
@@ -37,9 +37,9 @@ interface Props {
 type TabType = "basics" | "tenses" | "mistakes"
 
 export default function GrammarPage({ navigation, isTab = false }: Props) {
-  const { i18n } = useTranslation()
-  const isVi = i18n.language === "vi"
-  const t = grammarTranslations[isVi ? "vi" : "en"]
+  const { t } = useTranslation()
+  const theme = useThemeColor()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [activeTab, setActiveTab] = useState<TabType>("basics")
   const [loading, setLoading] = useState(true)
@@ -91,18 +91,20 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
 
   return (
     <Wrapper style={styles.container} {...(!isTab ? { edges: ["top", "bottom"] } : {})}>
-      {!isTab && <StatusBar barStyle="light-content" />}
-      <LinearGradient colors={["#0f172a", "#1e293b"]} style={StyleSheet.absoluteFillObject} />
+      {!isTab && <StatusBar barStyle={theme.text === '#ffffff' ? "light-content" : "dark-content"} />}
+      {!isTab && (
+        <LinearGradient colors={["#0f172a", "#1e293b"]} style={StyleSheet.absoluteFillObject} />
+      )}
 
       {/* HEADER BAR */}
       {!isTab && (
         <View style={styles.header}>
           <TouchableOpacity style={styles.backButton} onPress={() => navigation?.goBack()}>
-            <ChevronLeft size={24} color="#f8fafc" />
+            <ChevronLeft size={24} color={theme.text} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>{t.headerTitle}</Text>
+          <Text style={styles.headerTitle}>{t('grammar.headerTitle')}</Text>
           <View style={styles.headerRight}>
-            <Sparkles size={18} color="#a78bfa" />
+            <Sparkles size={18} color={theme.primary} />
           </View>
         </View>
       )}
@@ -111,7 +113,11 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
       <View style={styles.tabsRow}>
         {(["basics", "tenses", "mistakes"] as TabType[]).map((tab) => {
           const isActive = activeTab === tab
-          const label = tab === "basics" ? t.tabBasics : tab === "tenses" ? t.tabTenses : t.tabMistakes
+          const label = tab === "basics" 
+            ? t('grammar.tabBasics') 
+            : tab === "tenses" 
+              ? t('grammar.tabTenses') 
+              : t('grammar.tabMistakes')
           return (
             <TouchableOpacity
               key={tab}
@@ -131,8 +137,8 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
 
       {loading ? (
         <View style={styles.loadingContainer}>
-          <ActivityIndicator size="large" color="#a78bfa" />
-          <Text style={styles.loadingText}>{t.loadingText}</Text>
+          <ActivityIndicator size="large" color={theme.primary} />
+          <Text style={styles.loadingText}>{t('grammar.loadingText')}</Text>
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
@@ -141,8 +147,8 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
           {activeTab === "basics" && (
             <View style={styles.listContainer}>
               <View style={styles.heroBadgeRow}>
-                <BookOpen size={16} color="#a78bfa" />
-                <Text style={styles.heroBadgeText}>{t.basicsBadge}</Text>
+                <BookOpen size={16} color={theme.primary} />
+                <Text style={styles.heroBadgeText}>{t('grammar.basicsBadge')}</Text>
               </View>
 
               {basics.map((item) => {
@@ -169,12 +175,12 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
                       <View style={styles.cardBody}>
                         <View style={styles.divider} />
                         
-                        <Text style={styles.sectionLabel}>{t.explanationLabel}</Text>
+                        <Text style={styles.sectionLabel}>{t('grammar.explanationLabel')}</Text>
                         <Text style={styles.explanationText}>{item.content}</Text>
 
                         {item.examples && item.examples.length > 0 && (
                           <View style={styles.examplesContainer}>
-                            <Text style={styles.sectionLabel}>{t.examplesLabel}</Text>
+                            <Text style={styles.sectionLabel}>{t('grammar.examplesLabel')}</Text>
                             {item.examples.map((ex: string, index: number) => (
                               <View key={index} style={styles.exampleBulletRow}>
                                 <View style={styles.bulletDot} />
@@ -195,8 +201,8 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
           {activeTab === "tenses" && (
             <View style={styles.listContainer}>
               <View style={styles.heroBadgeRow}>
-                <Clock size={16} color="#a78bfa" />
-                <Text style={styles.heroBadgeText}>{t.tensesBadge}</Text>
+                <Clock size={16} color={theme.primary} />
+                <Text style={styles.heroBadgeText}>{t('grammar.tensesBadge')}</Text>
               </View>
 
               {tenses.map((tense) => {
@@ -223,20 +229,20 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
                       <View style={styles.cardBody}>
                         <View style={styles.divider} />
 
-                        <Text style={styles.sectionLabel}>{t.formulaLabel}</Text>
+                        <Text style={styles.sectionLabel}>{t('grammar.formulaLabel')}</Text>
                         <View style={styles.formulaBox}>
                           <Text style={styles.formulaBoxText}>{tense.formula}</Text>
                         </View>
 
-                        <Text style={styles.sectionLabel}>{t.usageLabel}</Text>
+                        <Text style={styles.sectionLabel}>{t('grammar.usageLabel')}</Text>
                         <Text style={styles.explanationText}>{tense.use}</Text>
 
                         {tense.examples && tense.examples.length > 0 && (
                           <View style={styles.examplesContainer}>
-                            <Text style={styles.sectionLabel}>{t.tensesExamplesLabel}</Text>
+                            <Text style={styles.sectionLabel}>{t('grammar.tensesExamplesLabel')}</Text>
                             {tense.examples.map((ex: string, idx: number) => (
                               <View key={idx} style={styles.exampleBulletRow}>
-                                <View style={[styles.bulletDot, { backgroundColor: "#a78bfa" }]} />
+                                <View style={[styles.bulletDot, { backgroundColor: theme.primary }]} />
                                 <Text style={styles.exampleBulletText}>{ex}</Text>
                               </View>
                             ))}
@@ -254,8 +260,8 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
           {activeTab === "mistakes" && (
             <View style={styles.listContainer}>
               <View style={styles.heroBadgeRow}>
-                <AlertTriangle size={16} color="#fbbf24" />
-                <Text style={styles.heroBadgeText}>{t.mistakesBadge}</Text>
+                <AlertTriangle size={16} color={theme.warning} />
+                <Text style={styles.heroBadgeText}>{t('grammar.mistakesBadge')}</Text>
               </View>
 
               {mistakes.map((category) => {
@@ -270,7 +276,7 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
                       <View style={styles.cardHeaderTitleCol}>
                         <Text style={styles.itemTitle}>{category.category}</Text>
                         <Text style={styles.itemSubtitle}>
-                          {t.mistakesCount(category.mistakes.length)}
+                          {t('grammar.mistakesCount', { count: category.mistakes.length })}
                         </Text>
                       </View>
                       {isExpanded ? (
@@ -287,7 +293,7 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
                         {category.mistakes.map((item: Mistake, idx: number) => (
                           <View key={idx} style={styles.mistakeBlock}>
                             <Text style={styles.mistakeHeading}>
-                              {t.mistakeIndex(idx + 1)}
+                              {t('grammar.mistakeIndex', { idx: idx + 1 })}
                             </Text>
                             
                             {/* WRONG EX */}
@@ -304,7 +310,7 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
 
                             {/* EXPLANATION */}
                             <View style={styles.mistakeExplainBox}>
-                              <Text style={styles.mistakeExplainLabel}>{t.whyLabel}</Text>
+                              <Text style={styles.mistakeExplainLabel}>{t('grammar.whyLabel')}</Text>
                               <Text style={styles.mistakeExplainText}>{item.note}</Text>
                             </View>
                             

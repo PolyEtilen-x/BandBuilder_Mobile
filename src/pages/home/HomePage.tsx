@@ -89,7 +89,7 @@ export default function HomePage() {
           </View>
         </View>
 
-        <View style={{ flexDirection: 'row', gap: 12 }}>
+        <View style={styles.headerActions}>
           <TouchableOpacity onPress={toggleTheme} style={styles.avatar}>
             {mode === 'dark' ? (
               <Sun size={20} color={theme.warning} />
@@ -137,46 +137,23 @@ export default function HomePage() {
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => handleToolPress('upgrade')}
-          style={{
-            marginHorizontal: 20,
-            marginBottom: 24,
-            padding: 20,
-            borderRadius: 20,
-            backgroundColor: theme.backgroundAlt,
-            borderWidth: 1,
-            borderColor: theme.warning + '30',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            shadowColor: theme.warning,
-            shadowOffset: { width: 0, height: 6 },
-            shadowOpacity: 0.1,
-            shadowRadius: 12,
-            elevation: 4,
-          }}
+          style={styles.premiumBanner}
         >
-          <View style={{ flex: 1, marginRight: 12 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
-              <Sparkles size={16} color={theme.warning} style={{ marginRight: 6 }} />
-              <Text style={{ fontSize: 12, fontWeight: '800', color: theme.warning, letterSpacing: 1 }}>
+          <View style={styles.premiumTextWrap}>
+            <View style={styles.premiumBadgeRow}>
+              <Sparkles size={16} color={theme.warning} style={styles.premiumBadgeIcon} />
+              <Text style={styles.premiumBadgeText}>
                 MỞ KHÓA BẢN PREMIUM
               </Text>
             </View>
-            <Text style={{ fontSize: 16, fontWeight: '700', color: theme.text, marginBottom: 4 }}>
+            <Text style={styles.premiumTitle}>
               Trải nghiệm AI speaking & tài liệu nâng cao
             </Text>
-            <Text style={{ fontSize: 12, color: theme.textSecondary }}>
+            <Text style={styles.premiumDesc}>
               Luyện nói không giới hạn và nhận phản hồi chấm điểm IELTS chuyên sâu.
             </Text>
           </View>
-          <View style={{
-            width: 44,
-            height: 44,
-            borderRadius: 22,
-            backgroundColor: theme.warning + '15',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
+          <View style={styles.premiumIconCircle}>
             <ArrowRight size={20} color={theme.warning} />
           </View>
         </TouchableOpacity>
@@ -193,7 +170,7 @@ export default function HomePage() {
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingRight: 20 }}
+            contentContainerStyle={styles.toolsScrollContent}
           >
             {TOOLS.map((t) => (
               <TouchableOpacity
@@ -222,13 +199,13 @@ export default function HomePage() {
           </View>
 
           <TouchableOpacity
-            style={[styles.toolCard, { width: '90%', marginLeft: 20, flexDirection: 'row', alignItems: 'center' }]}
+            style={styles.lessonCard}
             onPress={() => navigation.navigate('Roadmap')}
           >
-            <View style={[styles.toolIconWrap, { marginBottom: 0, marginRight: 16, backgroundColor: theme.primary + '15' }]}>
+            <View style={styles.lessonIconWrap}>
               <BookOpen size={24} color={theme.primary} />
             </View>
-            <View style={{ flex: 1 }}>
+            <View style={styles.lessonTextWrap}>
               <Text style={styles.toolTitle}>Reading: Multiple Choice</Text>
               <Text style={styles.toolDesc}>Bài 5: Phân tích các bẫy thường gặp</Text>
             </View>

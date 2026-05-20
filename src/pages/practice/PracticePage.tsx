@@ -61,14 +61,13 @@ const PracticeCardItem = React.memo(({ skill, activeSkill, activeMode, isExamMod
     });
   };
 
-  // Trạng thái đang tải dữ liệu chi tiết
   if (isLoading) {
     return (
       <View style={[styles.practiceCard, { opacity: 0.6 }]}>
         <View style={[styles.cardAccent, { backgroundColor: theme.border }]} />
         <View style={styles.cardMainContent}>
-          <ActivityIndicator size="small" color={accentColor} style={{ alignSelf: 'flex-start', marginBottom: 10 }} />
-          <View style={{ height: 16, backgroundColor: theme.backgroundAlt, borderRadius: 4, width: '80%' }} />
+          <ActivityIndicator size="small" color={accentColor} style={styles.loaderIndicator} />
+          <View style={styles.loaderSkeleton} />
         </View>
       </View>
     );
@@ -178,45 +177,36 @@ export default function PracticePage() {
   const ListHeader = useMemo(() => (
     <View>
       {/* Compact Mode Switch Row */}
-      <View style={{ 
-        flexDirection: 'row', 
-        justifyContent: 'space-between', 
-        alignItems: 'center', 
-        paddingHorizontal: 24, 
-        paddingTop: 8,
-        paddingBottom: 16 
-      }}>
-        <Text style={{ fontSize: 15, fontWeight: '800', color: theme.text, letterSpacing: -0.2 }}>
+      <View style={styles.modeHeaderRow}>
+        <Text style={styles.modeTitleText}>
           {isExamMode ? t('practice.real_exam_mode') : t('practice.practice_mode')}
         </Text>
         
         <TouchableOpacity 
           activeOpacity={0.9}
           style={[
-            { 
-              flexDirection: 'row', 
-              alignItems: 'center', 
-              backgroundColor: theme.backgroundAlt, 
-              padding: 2, 
-              borderRadius: 10, 
-              borderWidth: 1, 
-              borderColor: theme.border 
-            },
-            isExamMode && { borderColor: '#ef4444' }
+            styles.compactModeSwitch,
+            isExamMode && styles.compactModeSwitchExam
           ]}
           onPress={() => setIsExamMode(!isExamMode)}
         >
           <View style={[
-            { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 },
-            !isExamMode && { backgroundColor: theme.primary }
+            styles.switchButton,
+            !isExamMode && styles.switchButtonActivePractice
           ]}>
-            <Text style={{ fontSize: 10, fontWeight: '800', color: !isExamMode ? '#fff' : theme.textSecondary }}>{t('practice.practice_toggle')}</Text>
+            <Text style={[
+              styles.switchButtonText,
+              { color: !isExamMode ? '#fff' : theme.textSecondary }
+            ]}>{t('practice.practice_toggle')}</Text>
           </View>
           <View style={[
-            { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8 },
-            isExamMode && { backgroundColor: '#ef4444' }
+            styles.switchButton,
+            isExamMode && styles.switchButtonActiveExam
           ]}>
-            <Text style={{ fontSize: 10, fontWeight: '800', color: isExamMode ? '#fff' : theme.textSecondary }}>{t('practice.real_exam_toggle')}</Text>
+            <Text style={[
+              styles.switchButtonText,
+              { color: isExamMode ? '#fff' : theme.textSecondary }
+            ]}>{t('practice.real_exam_toggle')}</Text>
           </View>
         </TouchableOpacity>
       </View>
@@ -252,64 +242,40 @@ export default function PracticePage() {
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => navigation.navigate('CallWithAi')}
-          style={{
-            marginHorizontal: 24,
-            marginTop: 16,
-            marginBottom: 8,
-            padding: 20,
-            borderRadius: 20,
-            backgroundColor: theme.backgroundAlt,
-            borderWidth: 1.5,
-            borderColor: '#8b5cf650',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            shadowColor: '#8b5cf6',
-            shadowOffset: { width: 0, height: 6 },
-            shadowOpacity: 0.12,
-            shadowRadius: 12,
-            elevation: 4,
-          }}
+          style={styles.speakingCoachBanner}
         >
-          <View style={{ flex: 1, marginRight: 12 }}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 6 }}>
-              <Sparkles size={14} color="#8b5cf6" style={{ marginRight: 6 }} />
-              <Text style={{ fontSize: 10, fontWeight: '800', color: '#8b5cf6', letterSpacing: 1 }}>
+          <View style={styles.speakingCoachContent}>
+            <View style={styles.speakingCoachHeader}>
+              <Sparkles size={14} color="#8b5cf6" style={styles.speakingCoachSparklesIcon} />
+              <Text style={styles.speakingCoachTag}>
                 {t('practice.ai_coach')}
               </Text>
             </View>
-            <Text style={{ fontSize: 16, fontWeight: '700', color: theme.text, marginBottom: 4 }}>
+            <Text style={styles.speakingCoachTitle}>
               {t('practice.ai_coach_title')}
             </Text>
-            <Text style={{ fontSize: 12, color: theme.textSecondary }}>
+            <Text style={styles.speakingCoachDesc}>
               {t('practice.ai_coach_desc')}
             </Text>
           </View>
-          <View style={{
-            width: 44,
-            height: 44,
-            borderRadius: 22,
-            backgroundColor: '#8b5cf615',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }}>
+          <View style={styles.speakingCoachMicIconContainer}>
             <Mic size={20} color="#8b5cf6" />
           </View>
         </TouchableOpacity>
       )}
 
       {/* Subsections Filters ScrollView */}
-      <View style={{ paddingVertical: 16 }}>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ paddingHorizontal: 24, gap: 8 }}>
+      <View style={styles.subSectionsFilterWrapper}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.subSectionsFilterScrollContent}>
           {SKILL_CONFIG[activeSkill].hasFull && (
             <TouchableOpacity
               onPress={() => setActiveMode('full')}
               style={[
-                { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: theme.border },
-                activeMode === 'full' && { backgroundColor: theme.primary, borderColor: theme.primary }
+                styles.subSectionsFilterButton,
+                activeMode === 'full' && styles.subSectionsFilterButtonActive
               ]}
             >
-              <Text style={{ fontSize: 13, fontWeight: '600', color: activeMode === 'full' ? '#fff' : theme.textSecondary }}>
+              <Text style={activeMode === 'full' ? styles.subSectionsFilterButtonTextActive : styles.subSectionsFilterButtonText}>
                 Full Test
               </Text>
             </TouchableOpacity>
@@ -320,11 +286,11 @@ export default function PracticePage() {
               key={label}
               onPress={() => setActiveMode(String(i + 1))}
               style={[
-                { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: theme.border },
-                activeMode === String(i + 1) && { backgroundColor: theme.primary, borderColor: theme.primary }
+                styles.subSectionsFilterButton,
+                activeMode === String(i + 1) && styles.subSectionsFilterButtonActive
               ]}
             >
-              <Text style={{ fontSize: 13, fontWeight: '600', color: activeMode === String(i + 1) ? '#fff' : theme.textSecondary }}>
+              <Text style={activeMode === String(i + 1) ? styles.subSectionsFilterButtonTextActive : styles.subSectionsFilterButtonText}>
                 {label}
               </Text>
             </TouchableOpacity>
@@ -340,11 +306,13 @@ export default function PracticePage() {
     <SafeAreaView style={styles.container} edges={['top', 'left', 'right']}>
       <StatusBar barStyle={theme.text === '#ffffff' ? 'light-content' : 'dark-content'} />
 
-      {/* Header title */}
-      <View style={styles.header}>
-        <Text style={styles.title}>{t('navigation.practice')}</Text>
-        <Text style={styles.subtitle}>{t('practice.subtitle')}</Text>
-      </View>
+      {/* Header title - hidden in material mode to save space */}
+      {activeTopTab === 'practice' && (
+        <View style={styles.header}>
+          <Text style={styles.title}>{t('navigation.practice')}</Text>
+          <Text style={styles.subtitle}>{t('practice.subtitle')}</Text>
+        </View>
+      )}
 
       {/* Top Segmented Tabs: Practice vs Material */}
       <View style={styles.topTabs}>
@@ -370,11 +338,11 @@ export default function PracticePage() {
 
       {activeTopTab === 'practice' ? (
         isLoading ? (
-          <View style={{ flex: 1, justifyContent: 'center' }}>
+          <View style={styles.listLoaderContainer}>
             <ActivityIndicator size="large" color={theme.primary} />
           </View>
         ) : (
-          <View style={{ flex: 1 }}>
+          <View style={styles.flex1}>
             <OptimizedList
               data={filteredSkills}
               renderItem={renderItem}
@@ -393,31 +361,31 @@ export default function PracticePage() {
         )
       ) : (
         /* Material Mode with Inline Subcomponents */
-        <View style={{ flex: 1 }}>
+        <View style={styles.flex1}>
           {/* Sub-tab segmented bar for Vocab Lab vs Grammar Lab */}
-          <View style={[styles.topTabs, { marginTop: 0, marginBottom: 12 }]}>
+          <View style={styles.materialSubTabs}>
             <TouchableOpacity
               activeOpacity={0.8}
-              style={[styles.topTab, activeMaterialTab === 'vocab' && styles.topTabActive]}
+              style={[styles.materialSubTab, activeMaterialTab === 'vocab' && styles.materialSubTabActive]}
               onPress={() => setActiveMaterialTab('vocab')}
             >
-              <Text style={[styles.topTabText, activeMaterialTab === 'vocab' && styles.topTabTextActive, { fontSize: 12 }]}>
+              <Text style={[styles.materialSubTabText, activeMaterialTab === 'vocab' && styles.materialSubTabTextActive]}>
                 VOCAB LAB
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               activeOpacity={0.8}
-              style={[styles.topTab, activeMaterialTab === 'grammar' && styles.topTabActive]}
+              style={[styles.materialSubTab, activeMaterialTab === 'grammar' && styles.materialSubTabActive]}
               onPress={() => setActiveMaterialTab('grammar')}
             >
-              <Text style={[styles.topTabText, activeMaterialTab === 'grammar' && styles.topTabTextActive, { fontSize: 12 }]}>
+              <Text style={[styles.materialSubTabText, activeMaterialTab === 'grammar' && styles.materialSubTabTextActive]}>
                 GRAMMAR LAB
               </Text>
             </TouchableOpacity>
           </View>
 
           {/* Render inline Vocab/Grammar tab components directly */}
-          <View style={{ flex: 1 }}>
+          <View style={styles.flex1}>
             {activeMaterialTab === 'vocab' ? (
               <VocabPage isTab={true} />
             ) : (

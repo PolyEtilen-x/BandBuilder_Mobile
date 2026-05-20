@@ -24,8 +24,8 @@ import {
 import { useTranslation } from "react-i18next"
 import { vocabApi } from "@/api/vocab.api"
 import { VocabTopic } from "@/data/vocab/vocab.model"
-import { styles } from "./VocabPage.styles"
-import { vocabTranslations } from "./VocabPage.translations"
+import { getStyles } from "./VocabPage.styles"
+import { useThemeColor } from "@/hooks/useThemeColor"
 
 interface Props {
   navigation?: any
@@ -35,9 +35,9 @@ interface Props {
 type TabType = "topics" | "flashcards" | "notebook"
 
 export default function VocabPage({ navigation, isTab = false }: Props) {
-  const { i18n } = useTranslation()
-  const isVi = i18n.language === "vi"
-  const t = vocabTranslations[isVi ? "vi" : "en"]
+  const { t } = useTranslation()
+  const theme = useThemeColor()
+  const styles = useMemo(() => getStyles(theme), [theme])
 
   const [activeTab, setActiveTab] = useState<TabType>("topics")
   const [topics, setTopics] = useState<VocabTopic[]>([])
@@ -124,12 +124,14 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
     setIsFlipped(!isFlipped)
   }
 
-  const Wrapper: any = isTab ? View : SafeAreaView;
+  const Wrapper: any = isTab ? View : SafeAreaView
 
   return (
     <Wrapper style={styles.container} {...(!isTab ? { edges: ["top", "bottom"] } : {})}>
-      {!isTab && <StatusBar barStyle="light-content" />}
-      <LinearGradient colors={["#0f172a", "#1e293b"]} style={StyleSheet.absoluteFillObject} />
+      {!isTab && <StatusBar barStyle={theme.text === '#ffffff' ? "light-content" : "dark-content"} />}
+      {!isTab && (
+        <LinearGradient colors={["#0f172a", "#1e293b"]} style={StyleSheet.absoluteFillObject} />
+      )}
 
       {/* HEADER BAR */}
       {(!isTab || selectedTopic) && (
@@ -141,13 +143,13 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
               navigation?.goBack()
             }
           }}>
-            <ChevronLeft size={24} color="#f8fafc" />
+            <ChevronLeft size={24} color={theme.text} />
           </TouchableOpacity>
           <Text style={styles.headerTitle}>
-            {selectedTopic ? selectedTopic.topic : t.headerTitle}
+            {selectedTopic ? selectedTopic.topic : t('vocab.headerTitle')}
           </Text>
           <View style={styles.headerRight}>
-            <Sparkles size={18} color="#3b82f6" />
+            <Sparkles size={18} color={theme.primary} />
           </View>
         </View>
       )}
@@ -157,7 +159,11 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
         <View style={styles.tabsRow}>
           {(["topics", "flashcards", "notebook"] as TabType[]).map((tab) => {
             const isActive = activeTab === tab
-            const label = tab === "topics" ? t.tabTopics : tab === "flashcards" ? t.tabFlashcards : t.tabNotebook
+            const label = tab === "topics" 
+              ? t('vocab.tabTopics') 
+              : tab === "flashcards" 
+                ? t('vocab.tabFlashcards') 
+                : t('vocab.tabNotebook')
             return (
               <TouchableOpacity
                 key={tab}
@@ -179,10 +185,10 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
       {/* SEARCH BAR (Only for list modes) */}
       {!selectedTopic && activeTab === "topics" && (
         <View style={styles.searchBarWrap}>
-          <Search size={18} color="#64748b" style={styles.searchIcon} />
+          <Search size={18} color={theme.textSecondary} style={styles.searchIcon} />
           <TextInput
-            placeholder={t.searchPlaceholder}
-            placeholderTextColor="#64748b"
+            placeholder={t('vocab.searchPlaceholder')}
+            placeholderTextColor={theme.textSecondary}
             style={styles.searchInput}
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -192,8 +198,8 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
 
       {loading ? (
         <View style={styles.loadingContainer}>
-          <RefreshCw size={36} color="#3b82f6" style={styles.loadingSpinner} />
-          <Text style={styles.loadingText}>{t.loadingText}</Text>
+          <RefreshCw size={36} color={theme.primary} style={styles.loadingSpinner} />
+          <Text style={styles.loadingText}>{t('vocab.loadingText')}</Text>
         </View>
       ) : (
         <View style={styles.body}>
@@ -203,7 +209,7 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
               <View style={styles.detailHero}>
                 <Text style={styles.detailTopicTitle}>{selectedTopic.topic}</Text>
                 <Text style={styles.detailTopicStats}>
-                  {t.detailStats(selectedTopic.vocab_list.length)}
+                  {t('vocab.detailStats', { count: selectedTopic.vocab_list.length })}
                 </Text>
               </View>
 
@@ -221,7 +227,7 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
                     >
                       <Heart
                         size={22}
-                        color={word.isSaved ? "#ef4444" : "#94a3b8"}
+                        color={word.isSaved ? "#ef4444" : theme.textSecondary}
                         fill={word.isSaved ? "#ef4444" : "transparent"}
                       />
                     </TouchableOpacity>
@@ -229,19 +235,19 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
 
                   <View style={styles.divider} />
 
-                  <Text style={styles.meaningLabel}>{t.meaningLabel}</Text>
+                  <Text style={styles.meaningLabel}>{t('vocab.meaningLabel')}</Text>
                   <Text style={styles.wordMeaning}>{word.meaning}</Text>
 
                   {word.example && (
                     <>
-                      <Text style={styles.exampleLabel}>{t.exampleLabel}</Text>
+                      <Text style={styles.exampleLabel}>{t('vocab.exampleLabel')}</Text>
                       <Text style={styles.wordExample}>"{word.example}"</Text>
                     </>
                   )}
 
                   {word.synonyms && word.synonyms.length > 0 && (
                     <View style={styles.synonymsRow}>
-                      <Text style={styles.synonymsLabel}>{t.synonymsLabel}</Text>
+                      <Text style={styles.synonymsLabel}>{t('vocab.synonymsLabel')}</Text>
                       <Text style={styles.wordSynonyms}>{word.synonyms.join(", ")}</Text>
                     </View>
                   )}
@@ -269,7 +275,7 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
                           }}
                         >
                           <View style={styles.topicCardHeader}>
-                            <FolderOpen size={20} color="#3b82f6" />
+                            <FolderOpen size={20} color={theme.primary} />
                             <Text style={styles.topicCardTitle}>{topic.topic}</Text>
                           </View>
 
@@ -279,9 +285,9 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
 
                           <View style={styles.topicCardMeta}>
                             <Text style={styles.topicCardCount}>
-                              {t.savedMeta(saved, total)}
+                              {t('vocab.savedMeta', { saved, total })}
                             </Text>
-                            <ChevronRight size={16} color="#475569" />
+                            <ChevronRight size={16} color={theme.textSecondary} />
                           </View>
                         </TouchableOpacity>
                       )
@@ -301,7 +307,10 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
                         style={[styles.flashcard, isFlipped && styles.flashcardFlipped]}
                       >
                         <LinearGradient
-                          colors={isFlipped ? ["#1e293b", "#0f172a"] : ["#1e40af", "#1e3a8a"]}
+                          colors={isFlipped 
+                            ? (theme.text === '#ffffff' ? ["#1e293b", "#0f172a"] : ["#ffffff", "#f1f5f9"])
+                            : ["#1e40af", "#1e3a8a"]
+                          }
                           style={styles.flashcardGradient}
                         >
                           {!isFlipped ? (
@@ -309,16 +318,16 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
                               <BookOpen size={48} color="#93c5fd" style={styles.cardIcon} />
                               <Text style={styles.cardSpelling}>{currentFlashcard.word}</Text>
                               <Text style={styles.cardPhonetics}>{currentFlashcard.pronunciation}</Text>
-                              <Text style={styles.tapToFlipText}>{t.tapToFlip}</Text>
+                              <Text style={styles.tapToFlipText}>{t('vocab.tapToFlip')}</Text>
                             </View>
                           ) : (
                             <View style={styles.cardSide}>
                               <Bookmark size={40} color="#f87171" style={styles.cardIcon} />
-                              <Text style={styles.cardMeaning}>{currentFlashcard.meaning}</Text>
+                              <Text style={[styles.cardMeaning, { color: theme.text }]}>{currentFlashcard.meaning}</Text>
                               {currentFlashcard.example && (
-                                <Text style={styles.cardExample}>"{currentFlashcard.example}"</Text>
+                                <Text style={[styles.cardExample, { color: theme.textSecondary }]}>"{currentFlashcard.example}"</Text>
                               )}
-                              <Text style={styles.tapToFlipText}>{t.tapToFlipBack}</Text>
+                              <Text style={styles.tapToFlipText}>{t('vocab.tapToFlipBack')}</Text>
                             </View>
                           )}
                         </LinearGradient>
@@ -330,15 +339,15 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
                           onPress={handleNextFlashcard}
                           style={styles.nextCardButton}
                         >
-                          <Text style={styles.nextCardButtonText}>{t.nextCard}</Text>
-                          <ChevronRight size={18} color="#0f172a" />
+                          <Text style={styles.nextCardButtonText}>{t('vocab.nextCard')}</Text>
+                          <ChevronRight size={18} color="#ffffff" />
                         </TouchableOpacity>
                       </View>
                     </View>
                   ) : (
                     <View style={styles.emptyContainer}>
-                      <BookOpen size={48} color="#475569" />
-                      <Text style={styles.emptyText}>{t.emptyWords}</Text>
+                      <BookOpen size={48} color={theme.textSecondary} />
+                      <Text style={styles.emptyText}>{t('vocab.emptyWords')}</Text>
                     </View>
                   )}
                 </View>
@@ -371,15 +380,15 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
 
                         <View style={styles.divider} />
 
-                        <Text style={styles.meaningLabel}>{t.meaningLabel}</Text>
+                        <Text style={styles.meaningLabel}>{t('vocab.meaningLabel')}</Text>
                         <Text style={styles.wordMeaning}>{word.meaning}</Text>
                         {word.example && <Text style={styles.wordExample}>"{word.example}"</Text>}
                       </View>
                     ))
                   ) : (
                     <View style={styles.emptyContainer}>
-                      <Heart size={48} color="#475569" />
-                      <Text style={styles.emptyText}>{t.notebookEmpty}</Text>
+                      <Heart size={48} color={theme.textSecondary} />
+                      <Text style={styles.emptyText}>{t('vocab.notebookEmpty')}</Text>
                     </View>
                   )}
                 </ScrollView>

@@ -88,9 +88,9 @@ export default function PracticeTestPage() {
 
   if (isLoading) {
     return (
-      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+      <View style={[styles.container, styles.loaderContainer]}>
         <ActivityIndicator size="large" color={theme.primary} />
-        <Text style={{ marginTop: 16, color: theme.textSecondary, fontWeight: '600' }}>
+        <Text style={styles.loaderText}>
           Preparing your {isExamMode ? 'Exam' : 'Practice'} session...
         </Text>
       </View>
@@ -99,13 +99,13 @@ export default function PracticeTestPage() {
 
   if (error || !test || !currentUnit) {
     return (
-      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center', padding: 24 }]}>
-        <Info size={48} color="#ef4444" style={{ marginBottom: 16 }} />
-        <Text style={{ color: '#ef4444', fontSize: 16, fontWeight: '700', textAlign: 'center' }}>
+      <View style={[styles.container, styles.errorContainer]}>
+        <Info size={48} color="#ef4444" style={styles.errorIcon} />
+        <Text style={styles.errorText}>
           Failed to load test data. Please try again.
         </Text>
         <TouchableOpacity
-          style={[styles.submitButton, { marginTop: 24, marginLeft: 0, paddingHorizontal: 32 }]}
+          style={[styles.submitButton, styles.errorSubmitButton]}
           onPress={() => navigation.goBack()}
         >
           <Text style={styles.submitButtonText}>Go Back</Text>
@@ -119,24 +119,24 @@ export default function PracticeTestPage() {
       <StatusBar barStyle={theme.text === '#ffffff' ? 'light-content' : 'dark-content'} />
 
       {/* HEADER - Tùy chỉnh theo Mode */}
-      <View style={[styles.header, isExamMode && { backgroundColor: '#1e293b', borderBottomWidth: 0 }]}>
+      <View style={[styles.header, isExamMode && styles.examHeader]}>
         <TouchableOpacity onPress={handleExit}>
           <ChevronLeft size={24} color={isExamMode ? '#fff' : theme.text} />
         </TouchableOpacity>
 
         <View style={styles.headerLeft}>
-          <Text style={[styles.testTitle, isExamMode && { color: '#fff' }]} numberOfLines={1}>
+          <Text style={[styles.testTitle, isExamMode && styles.examTestTitle]} numberOfLines={1}>
             {isExamMode ? 'REAL EXAM' : (test.source || 'PRACTICE')}
           </Text>
         </View>
 
-        <View style={[styles.timerContainer, isExamMode && { backgroundColor: 'rgba(255,255,255,0.1)' }]}>
+        <View style={[styles.timerContainer, isExamMode && styles.examTimerContainer]}>
           <TimerIcon size={14} color={isExamMode ? '#fff' : theme.primary} />
-          <Text style={[styles.timerText, isExamMode && { color: '#fff' }]}>{formatTime(timeLeft)}</Text>
+          <Text style={[styles.timerText, isExamMode && styles.examTimerText]}>{formatTime(timeLeft)}</Text>
         </View>
 
         <TouchableOpacity
-          style={[styles.submitButton, isExamMode && { backgroundColor: '#3b82f6' }]}
+          style={[styles.submitButton, isExamMode && styles.examSubmitButton]}
           activeOpacity={0.8}
         >
           <Text style={styles.submitButtonText}>Submit</Text>
@@ -186,19 +186,19 @@ export default function PracticeTestPage() {
 
       {/* DICTIONARY MODAL */}
       <Modal visible={isDictOpen} animationType="slide" transparent={true} onRequestClose={() => setIsDictOpen(false)}>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }}>
-          <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ backgroundColor: theme.card, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, height: '70%' }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <Text style={{ fontSize: 18, fontWeight: '800', color: theme.text }}>Dictionary</Text>
-              <TouchableOpacity onPress={() => setIsDictOpen(false)} style={{ padding: 4 }}>
+        <View style={styles.modalOverlay}>
+          <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.dictionaryContent}>
+            <View style={styles.modalHeaderRow}>
+              <Text style={styles.modalTitle}>Dictionary</Text>
+              <TouchableOpacity onPress={() => setIsDictOpen(false)} style={styles.modalCloseButton}>
                 <X size={24} color={theme.text} />
               </TouchableOpacity>
             </View>
 
-            <View style={{ flexDirection: 'row', backgroundColor: theme.backgroundAlt, borderRadius: 12, paddingHorizontal: 12, alignItems: 'center', borderWidth: 1, borderColor: theme.border }}>
+            <View style={styles.searchBar}>
               <Search size={18} color={theme.textSecondary} />
               <TextInput
-                style={{ flex: 1, height: 44, paddingHorizontal: 10, color: theme.text, fontWeight: '600' }}
+                style={styles.searchInput}
                 placeholder="Search word..."
                 placeholderTextColor={theme.textSecondary}
                 value={dictSearch}
@@ -207,21 +207,21 @@ export default function PracticeTestPage() {
               />
             </View>
 
-            <ScrollView style={{ flex: 1, marginTop: 20 }} showsVerticalScrollIndicator={false}>
+            <ScrollView style={styles.dictScrollView} showsVerticalScrollIndicator={false}>
               {dictSearch ? (
                 <View>
-                  <Text style={{ fontSize: 20, fontWeight: '800', color: theme.primary }}>{dictSearch}</Text>
-                  <Text style={{ fontSize: 14, color: theme.textSecondary, marginTop: 4, fontStyle: 'italic' }}>/ˈdɪkʃənəri/</Text>
-                  <View style={{ marginTop: 16, padding: 16, backgroundColor: theme.backgroundAlt, borderRadius: 12, borderWidth: 1, borderColor: theme.border }}>
-                    <Text style={{ fontSize: 15, lineHeight: 24, color: theme.text }}>
-                      Sample definition for "<Text style={{ fontWeight: '700' }}>{dictSearch}</Text>". In a real app, this would call an API like Oxford or Cambridge dictionary.
+                  <Text style={styles.dictResultWord}>{dictSearch}</Text>
+                  <Text style={styles.dictResultPhonetic}>/ˈdɪkʃənəri/</Text>
+                  <View style={styles.dictResultBox}>
+                    <Text style={styles.dictResultText}>
+                      Sample definition for "<Text style={styles.dictResultBoldText}>{dictSearch}</Text>". In a real app, this would call an API like Oxford or Cambridge dictionary.
                     </Text>
                   </View>
                 </View>
               ) : (
-                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop: 100 }}>
+                <View style={styles.dictEmptyState}>
                   <Book size={64} color={theme.border} strokeWidth={1} />
-                  <Text style={{ marginTop: 16, color: theme.textSecondary, fontSize: 15, fontWeight: '500' }}>Type a word to look up its meaning</Text>
+                  <Text style={styles.dictEmptyText}>Type a word to look up its meaning</Text>
                 </View>
               )}
             </ScrollView>
@@ -231,20 +231,20 @@ export default function PracticeTestPage() {
 
       {/* NOTES MODAL */}
       <Modal visible={isNoteOpen} animationType="slide" transparent={true} onRequestClose={() => setIsNoteOpen(false)}>
-        <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.5)', justifyContent: 'flex-end' }}>
-          <View style={{ backgroundColor: theme.card, borderTopLeftRadius: 24, borderTopRightRadius: 24, padding: 20, height: '60%' }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+        <View style={styles.modalOverlay}>
+          <View style={styles.notesContent}>
+            <View style={styles.modalHeaderRow}>
+              <View style={styles.notesHeaderTitleGroup}>
                 <StickyNote size={20} color={theme.primary} />
-                <Text style={{ fontSize: 18, fontWeight: '800', color: theme.text }}>Your Notes</Text>
+                <Text style={styles.modalTitle}>Your Notes</Text>
               </View>
-              <TouchableOpacity onPress={() => setIsNoteOpen(false)} style={{ padding: 4 }}>
+              <TouchableOpacity onPress={() => setIsNoteOpen(false)} style={styles.modalCloseButton}>
                 <X size={24} color={theme.text} />
               </TouchableOpacity>
             </View>
 
             <TextInput
-              style={{ flex: 1, backgroundColor: theme.backgroundAlt, borderRadius: 12, padding: 16, color: theme.text, fontSize: 16, textAlignVertical: 'top', borderWidth: 1, borderColor: theme.border, lineHeight: 24 }}
+              style={styles.notesInput}
               multiline
               placeholder="Write your notes here..."
               placeholderTextColor={theme.textSecondary}
@@ -253,11 +253,11 @@ export default function PracticeTestPage() {
             />
 
             <TouchableOpacity
-              style={{ backgroundColor: theme.primary, height: 50, borderRadius: 12, marginTop: 20, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+              style={styles.notesSaveButton}
               onPress={() => setIsNoteOpen(false)}
             >
               <Save size={18} color="#fff" />
-              <Text style={{ color: '#fff', fontWeight: '800', fontSize: 16 }}>Save Note</Text>
+              <Text style={styles.notesSaveButtonText}>Save Note</Text>
             </TouchableOpacity>
           </View>
         </View>

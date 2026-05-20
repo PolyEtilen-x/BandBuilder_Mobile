@@ -41,11 +41,11 @@ export default function ProfilePage() {
   // Đăng xuất với hộp thoại xác nhận chuyên nghiệp
   const handleLogout = () => {
     Alert.alert(
-      "Đăng xuất",
-      "Bạn có chắc chắn muốn đăng xuất khỏi tài khoản không?",
+      t('profile.alert_title'),
+      t('profile.alert_desc'),
       [
-        { text: "Hủy bỏ", style: "cancel" },
-        { text: "Đăng xuất", style: "destructive", onPress: async () => await logout() }
+        { text: t('profile.cancel'), style: "cancel" },
+        { text: t('profile.logout_btn'), style: "destructive", onPress: async () => await logout() }
       ]
     );
   };
@@ -73,20 +73,12 @@ export default function ProfilePage() {
         {/* TRẠNG THÁI CHƯA ĐĂNG NHẬP */}
         {!isAuthenticated ? (
           <View style={styles.loginCard}>
-            <View style={{
-              width: 64,
-              height: 64,
-              borderRadius: 32,
-              backgroundColor: theme.primary + '15',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 12
-            }}>
+            <View style={styles.loginIconContainer}>
               <User size={32} color={theme.primary} />
             </View>
-            <Text style={styles.loginTitle}>Bắt đầu hành trình IELTS</Text>
+            <Text style={styles.loginTitle}>{t('profile.login_title')}</Text>
             <Text style={styles.loginDesc}>
-              Đăng nhập để theo dõi lộ trình học cá nhân hóa bằng AI, lưu lại từ vựng và luyện nói trực tiếp cùng AI Speaking Coach.
+              {t('profile.login_desc')}
             </Text>
             <TouchableOpacity 
               activeOpacity={0.8}
@@ -94,7 +86,7 @@ export default function ProfilePage() {
               onPress={loginWithGoogle}
             >
               <Sparkles size={18} color="#ffffff" />
-              <Text style={styles.googleButtonText}>Đăng nhập bằng Google</Text>
+              <Text style={styles.googleButtonText}>{t('profile.google_button')}</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -103,14 +95,8 @@ export default function ProfilePage() {
             {/* Header Section */}
             <View style={styles.header}>
               <View style={styles.avatarContainer}>
-                <View style={{ 
-                  width: '100%', 
-                  height: '100%', 
-                  backgroundColor: theme.primary + '20', 
-                  alignItems: 'center', 
-                  justifyContent: 'center' 
-                }}>
-                  <Text style={{ fontSize: 32, fontWeight: '800', color: theme.primary }}>
+                <View style={styles.avatarInnerContainer}>
+                  <Text style={styles.avatarText}>
                     {(user?.name || user?.fullName || user?.email || 'U').charAt(0).toUpperCase()}
                   </Text>
                 </View>
@@ -119,65 +105,65 @@ export default function ProfilePage() {
                 {user?.name || user?.fullName || user?.email?.split('@')[0] || 'User'}
               </Text>
               <Text style={styles.userEmail}>{user?.email || 'user@bandbuilder.io'}</Text>
-
+ 
               <View style={styles.proBadge}>
-                <Text style={styles.proBadgeText}>Premium Member</Text>
+                <Text style={styles.proBadgeText}>{t('profile.premium_member')}</Text>
               </View>
             </View>
-
+ 
             {/* Stats Section - Hiển thị chỉ số động */}
             <View style={styles.statsContainer}>
               <View style={styles.statCard}>
-                <Target size={20} color={theme.primary} style={{ marginBottom: 8 }} />
+                <Target size={20} color={theme.primary} style={styles.statIcon} />
                 <Text style={styles.statValue}>Band {targetBand}</Text>
-                <Text style={styles.statLabel}>Mục tiêu</Text>
+                <Text style={styles.statLabel}>{t('profile.target')}</Text>
               </View>
               <View style={styles.statCard}>
-                <Zap size={20} color="#f97316" style={{ marginBottom: 8 }} />
-                <Text style={styles.statValue}>{learningStreak} ngày</Text>
-                <Text style={styles.statLabel}>Streak</Text>
+                <Zap size={20} color="#f97316" style={styles.statIcon} />
+                <Text style={styles.statValue}>{learningStreak} {i18n.language === 'vi' ? 'ngày' : 'days'}</Text>
+                <Text style={styles.statLabel}>{t('profile.streak')}</Text>
               </View>
               <View style={styles.statCard}>
-                <Award size={20} color="#10b981" style={{ marginBottom: 8 }} />
+                <Award size={20} color="#10b981" style={styles.statIcon} />
                 <Text style={styles.statValue}>{completedStages}/{totalStages}</Text>
-                <Text style={styles.statLabel}>Hoàn thành</Text>
+                <Text style={styles.statLabel}>{t('profile.completed')}</Text>
               </View>
             </View>
           </>
         )}
-
+ 
         {/* Account Settings */}
         {isAuthenticated && (
           <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Tài khoản</Text>
+            <Text style={styles.sectionTitle}>{t('profile.account')}</Text>
             <View style={styles.menuGroup}>
               <TouchableOpacity style={styles.menuItem}>
                 <View style={[styles.menuIconContainer, { backgroundColor: theme.primary + '15' }]}>
                   <Settings size={20} color={theme.primary} />
                 </View>
-                <Text style={styles.menuText}>Thiết lập tài khoản</Text>
+                <Text style={styles.menuText}>{t('profile.account_settings')}</Text>
                 <ChevronRight size={18} color={theme.border} />
               </TouchableOpacity>
               <TouchableOpacity style={styles.menuItem}>
                 <View style={[styles.menuIconContainer, { backgroundColor: '#10b98115' }]}>
                   <ShieldCheck size={20} color="#10b981" />
                 </View>
-                <Text style={styles.menuText}>Bảo mật & Quyền riêng tư</Text>
+                <Text style={styles.menuText}>{t('profile.privacy_security')}</Text>
                 <ChevronRight size={18} color={theme.border} />
               </TouchableOpacity>
             </View>
           </View>
         )}
-
+ 
         {/* Preferences Settings */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Tùy chỉnh ứng dụng</Text>
+          <Text style={styles.sectionTitle}>{t('profile.app_preferences')}</Text>
           <View style={styles.menuGroup}>
             <TouchableOpacity style={styles.menuItem} onPress={toggleLanguage}>
               <View style={[styles.menuIconContainer, { backgroundColor: '#8b5cf615' }]}>
                 <Globe size={20} color="#8b5cf6" />
               </View>
-              <Text style={styles.menuText}>Ngôn ngữ ứng dụng</Text>
+              <Text style={styles.menuText}>{t('profile.app_language')}</Text>
               <Text style={styles.menuValue}>{i18n.language === 'vi' ? 'Tiếng Việt' : 'English'}</Text>
               <ChevronRight size={18} color={theme.border} />
             </TouchableOpacity>
@@ -185,18 +171,18 @@ export default function ProfilePage() {
               <View style={[styles.menuIconContainer, { backgroundColor: '#f59e0b15' }]}>
                 {mode === 'dark' ? <Moon size={20} color="#f59e0b" /> : <Sun size={20} color="#f59e0b" />}
               </View>
-              <Text style={styles.menuText}>Giao diện (Theme)</Text>
-              <Text style={styles.menuValue}>{mode === 'dark' ? 'Tối' : 'Sáng'}</Text>
+              <Text style={styles.menuText}>{t('profile.theme')}</Text>
+              <Text style={styles.menuValue}>{mode === 'dark' ? t('profile.dark') : t('profile.light')}</Text>
               <ChevronRight size={18} color={theme.border} />
             </TouchableOpacity>
           </View>
         </View>
-
+ 
         {/* Nút Đăng xuất cho người dùng đã authenticated */}
         {isAuthenticated && (
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
             <LogOut size={20} color="#ef4444" />
-            <Text style={styles.logoutText}>Đăng xuất tài khoản</Text>
+            <Text style={styles.logoutText}>{t('profile.logout_btn')}</Text>
           </TouchableOpacity>
         )}
       </ScrollView>

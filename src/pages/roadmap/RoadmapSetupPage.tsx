@@ -26,7 +26,6 @@ import {
 } from "lucide-react-native"
 import { useTranslation } from "react-i18next"
 import { styles } from "./RoadmapSetupPage.styles"
-import { setupTranslations } from "./RoadmapSetupPage.translations"
 
 interface Props {
   navigation: any
@@ -35,9 +34,7 @@ interface Props {
 type LearningType = "ielts" | "general"
 
 export default function RoadmapSetupPage({ navigation }: Props) {
-  const { i18n } = useTranslation()
-  const isVi = i18n.language === "vi"
-  const t = isVi ? setupTranslations.vi : setupTranslations.en
+  const { t } = useTranslation()
 
   const [learningType, setLearningType] = useState<LearningType>("ielts")
   const [currentLevel, setCurrentLevel] = useState("5.0")
@@ -88,7 +85,7 @@ export default function RoadmapSetupPage({ navigation }: Props) {
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <ChevronLeft size={24} color="#f8fafc" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{t.headerTitle}</Text>
+        <Text style={styles.headerTitle}>{t('roadmapSetup.headerTitle')}</Text>
         <View style={styles.headerRight}>
           <Compass size={18} color="#3b82f6" />
         </View>
@@ -97,8 +94,8 @@ export default function RoadmapSetupPage({ navigation }: Props) {
       {isAssembling ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#3b82f6" />
-          <Text style={styles.loadingTitle}>{t.loadingTitle}</Text>
-          <Text style={styles.loadingDesc}>{t.loadingDesc}</Text>
+          <Text style={styles.loadingTitle}>{t('roadmapSetup.loadingTitle')}</Text>
+          <Text style={styles.loadingDesc}>{t('roadmapSetup.loadingDesc')}</Text>
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
@@ -107,15 +104,15 @@ export default function RoadmapSetupPage({ navigation }: Props) {
           <View style={styles.introCard}>
             <View style={styles.badgeRow}>
               <Compass size={14} color="#3b82f6" />
-              <Text style={styles.badgeText}>{t.engineBadge}</Text>
+              <Text style={styles.badgeText}>{t('roadmapSetup.engineBadge')}</Text>
             </View>
-            <Text style={styles.introTitle}>{t.introTitle}</Text>
-            <Text style={styles.introDesc}>{t.introDesc}</Text>
+            <Text style={styles.introTitle}>{t('roadmapSetup.introTitle')}</Text>
+            <Text style={styles.introDesc}>{t('roadmapSetup.introDesc')}</Text>
           </View>
 
           {/* 1. FOCUS SELECTION */}
           <View style={styles.sectionCard}>
-            <Text style={styles.sectionLabel}>{t.learningFocusTitle}</Text>
+            <Text style={styles.sectionLabel}>{t('roadmapSetup.learningFocusTitle')}</Text>
 
             <View style={styles.focusRow}>
               <TouchableOpacity
@@ -132,7 +129,7 @@ export default function RoadmapSetupPage({ navigation }: Props) {
                   <GraduationCap size={22} color={learningType === "ielts" ? "#ffffff" : "#64748b"} />
                 </View>
                 <Text style={styles.focusTitle}>IELTS Academic</Text>
-                <Text style={styles.focusDesc}>{t.targetBandDesc}</Text>
+                <Text style={styles.focusDesc}>{t('roadmapSetup.targetBandDesc')}</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -149,20 +146,20 @@ export default function RoadmapSetupPage({ navigation }: Props) {
                   <BookOpen size={22} color={learningType === "general" ? "#ffffff" : "#64748b"} />
                 </View>
                 <Text style={styles.focusTitle}>General English</Text>
-                <Text style={styles.focusDesc}>{t.cefrLevelDesc}</Text>
+                <Text style={styles.focusDesc}>{t('roadmapSetup.cefrLevelDesc')}</Text>
               </TouchableOpacity>
             </View>
           </View>
 
           {/* 2. BASELINE vs TARGET LEVEL */}
           <View style={styles.sectionCard}>
-            <Text style={styles.sectionLabel}>{t.levelExpectationTitle}</Text>
+            <Text style={styles.sectionLabel}>{t('roadmapSetup.levelExpectationTitle')}</Text>
 
             <View style={styles.selectorPairRow}>
               <View style={styles.selectorCol}>
                 <View style={styles.levelLabelRow}>
                   <Target size={14} color="#cbd5e1" />
-                  <Text style={styles.levelLabel}>{t.currentLevelLabel}</Text>
+                  <Text style={styles.levelLabel}>{t('roadmapSetup.currentLevelLabel')}</Text>
                 </View>
                 <ScrollView
                   horizontal
@@ -190,7 +187,7 @@ export default function RoadmapSetupPage({ navigation }: Props) {
               <View style={styles.selectorCol}>
                 <View style={styles.levelLabelRow}>
                   <Sparkles size={14} color="#fbbf24" />
-                  <Text style={styles.levelLabel}>{t.targetLevelLabel}</Text>
+                  <Text style={styles.levelLabel}>{t('roadmapSetup.targetLevelLabel')}</Text>
                 </View>
                 <ScrollView
                   horizontal
@@ -219,7 +216,7 @@ export default function RoadmapSetupPage({ navigation }: Props) {
 
           {/* 3. CORE SKILLS BREAKDOWN */}
           <View style={styles.sectionCard}>
-            <Text style={styles.sectionLabel}>{t.adjustSkillTitle}</Text>
+            <Text style={styles.sectionLabel}>{t('roadmapSetup.adjustSkillTitle')}</Text>
 
             {(Object.keys(skills) as Array<keyof typeof skills>).map((skill) => {
               const val = skills[skill]
@@ -265,7 +262,7 @@ export default function RoadmapSetupPage({ navigation }: Props) {
           >
             <LinearGradient colors={["#3b82f6", "#1d4ed8"]} style={styles.submitBtn}>
               <Zap size={18} color="#fff" />
-              <Text style={styles.submitBtnText}>{t.generateBtnText}</Text>
+              <Text style={styles.submitBtnText}>{t('roadmapSetup.generateBtnText')}</Text>
               <ChevronRight size={18} color="#fff" />
             </LinearGradient>
           </TouchableOpacity>

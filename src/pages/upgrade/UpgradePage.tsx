@@ -26,16 +26,13 @@ import {
 import { useTranslation } from "react-i18next"
 import { paymentApi, CreditPackage, PaymentInitiateResponse } from "@/api/payment.api"
 import { styles } from "./UpgradePage.styles"
-import { upgradeTranslations } from "./UpgradePage.translations"
 
 interface Props {
   navigation: any
 }
 
 export default function UpgradePage({ navigation }: Props) {
-  const { i18n } = useTranslation()
-  const isVi = i18n.language === "vi"
-  const t = upgradeTranslations[isVi ? "vi" : "en"]
+  const { t } = useTranslation()
 
   const [selectedPackage, setSelectedPackage] = useState<CreditPackage | null>(null)
   const [paymentData, setPaymentData] = useState<PaymentInitiateResponse | null>(null)
@@ -60,7 +57,7 @@ export default function UpgradePage({ navigation }: Props) {
       setIsPaid(false)
       setModalVisible(true)
     } catch (error) {
-      Alert.alert(t.paymentErrorTitle, t.paymentErrorDesc)
+      Alert.alert(t('upgrade.paymentErrorTitle'), t('upgrade.paymentErrorDesc'))
     }
   }
 
@@ -89,7 +86,7 @@ export default function UpgradePage({ navigation }: Props) {
 
   const copyToClipboard = (text: string) => {
     Clipboard.setString(text)
-    Alert.alert(t.copiedTitle, t.copiedDesc)
+    Alert.alert(t('upgrade.copiedTitle'), t('upgrade.copiedDesc'))
   }
 
   return (
@@ -102,7 +99,7 @@ export default function UpgradePage({ navigation }: Props) {
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <ChevronLeft size={24} color="#f8fafc" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{t.title}</Text>
+        <Text style={styles.headerTitle}>{t('upgrade.title')}</Text>
         <View style={styles.headerRight}>
           <Sparkles size={18} color="#fbbf24" />
         </View>
@@ -111,18 +108,18 @@ export default function UpgradePage({ navigation }: Props) {
       {isLoading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#3b82f6" />
-          <Text style={styles.loadingText}>{t.loadingText}</Text>
+          <Text style={styles.loadingText}>{t('upgrade.loadingText')}</Text>
         </View>
       ) : (
         <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
           
           <View style={styles.introCard}>
             <View style={styles.introHeader}>
-              <Text style={styles.introLabel}>{t.introLabel}</Text>
+              <Text style={styles.introLabel}>{t('upgrade.introLabel')}</Text>
               <Sparkles size={16} color="#fbbf24" />
             </View>
-            <Text style={styles.introTitle}>{t.introTitle}</Text>
-            <Text style={styles.introDesc}>{t.introDesc}</Text>
+            <Text style={styles.introTitle}>{t('upgrade.introTitle')}</Text>
+            <Text style={styles.introDesc}>{t('upgrade.introDesc')}</Text>
           </View>
 
           {/* Pricing Package Cards */}
@@ -132,7 +129,7 @@ export default function UpgradePage({ navigation }: Props) {
               <View key={pkg.id} style={[styles.packageCard, isPopular && styles.packageCardPopular]}>
                 {isPopular && (
                   <View style={styles.popularBadge}>
-                    <Text style={styles.popularBadgeText}>{t.bestValue}</Text>
+                    <Text style={styles.popularBadgeText}>{t('upgrade.bestValue')}</Text>
                   </View>
                 )}
 
@@ -150,25 +147,25 @@ export default function UpgradePage({ navigation }: Props) {
                     <Check size={16} color="#10b981" />
                     <Text style={styles.featureText}>
                       <Text style={styles.featureHighlight}>{pkg.credits} </Text>
-                      {t.speakingCredits}
+                      {t('upgrade.speakingCredits')}
                     </Text>
                   </View>
 
                   <View style={styles.featureRow}>
                     <Check size={16} color="#10b981" />
-                    <Text style={styles.featureText}>{t.pronunciationMetrics}</Text>
+                    <Text style={styles.featureText}>{t('upgrade.pronunciationMetrics')}</Text>
                   </View>
 
                   <View style={styles.featureRow}>
                     <Check size={16} color="#10b981" />
-                    <Text style={styles.featureText}>{t.grammarCorrections}</Text>
+                    <Text style={styles.featureText}>{t('upgrade.grammarCorrections')}</Text>
                   </View>
 
                   {pkg.bonusCredit > 0 && (
                     <View style={styles.featureRow}>
                       <Check size={16} color="#fbbf24" />
                       <Text style={[styles.featureText, { color: "#fbbf24" }]}>
-                        {t.bonusPractice(pkg.bonusCredit)}
+                        {t('upgrade.bonusPractice', { bonus: pkg.bonusCredit })}
                       </Text>
                     </View>
                   )}
@@ -183,7 +180,7 @@ export default function UpgradePage({ navigation }: Props) {
                     colors={isPopular ? ["#fbbf24", "#d97706"] : ["#3b82f6", "#2563eb"]}
                     style={styles.chooseBtn}
                   >
-                    <Text style={styles.chooseBtnText}>{t.unlockNow}</Text>
+                    <Text style={styles.chooseBtnText}>{t('upgrade.unlockNow')}</Text>
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
@@ -205,7 +202,7 @@ export default function UpgradePage({ navigation }: Props) {
             {/* Modal Header */}
             <View style={styles.modalHeader}>
               <Text style={styles.modalTitle}>
-                {isPaid ? t.paymentComplete : t.scanQrToPay}
+                {isPaid ? t('upgrade.paymentComplete') : t('upgrade.scanQrToPay')}
               </Text>
               {!isPaid && (
                 <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeModalBtn}>
@@ -218,7 +215,7 @@ export default function UpgradePage({ navigation }: Props) {
               <ScrollView contentContainerStyle={styles.modalBody} showsVerticalScrollIndicator={false}>
                 {!isPaid ? (
                   <>
-                    <Text style={styles.modalDesc}>{t.autoTopUpInfo}</Text>
+                    <Text style={styles.modalDesc}>{t('upgrade.autoTopUpInfo')}</Text>
 
                     {/* QR code displaying */}
                     <View style={styles.qrCard}>
@@ -233,7 +230,7 @@ export default function UpgradePage({ navigation }: Props) {
                     <View style={styles.transferDetails}>
                       
                       <View style={styles.detailItem}>
-                        <Text style={styles.detailLabel}>{t.amount}</Text>
+                        <Text style={styles.detailLabel}>{t('upgrade.amount')}</Text>
                         <View style={styles.detailValueRow}>
                           <Text style={[styles.detailValue, { color: "#fbbf24" }]}>
                             {paymentData.amountVnd?.toLocaleString() ?? "0"} VND
@@ -245,7 +242,7 @@ export default function UpgradePage({ navigation }: Props) {
                       </View>
 
                       <View style={styles.detailItem}>
-                        <Text style={styles.detailLabel}>{t.memo}</Text>
+                        <Text style={styles.detailLabel}>{t('upgrade.memo')}</Text>
                         <View style={styles.detailValueRow}>
                           <Text style={styles.detailValue} numberOfLines={2}>
                             {paymentData.transferMemo}
@@ -257,12 +254,12 @@ export default function UpgradePage({ navigation }: Props) {
                       </View>
 
                       <View style={styles.detailItem}>
-                        <Text style={styles.detailLabel}>{t.beneficiaryBank}</Text>
+                        <Text style={styles.detailLabel}>{t('upgrade.beneficiaryBank')}</Text>
                         <Text style={styles.detailValueText}>{paymentData.bankName || "See QR Info"}</Text>
                       </View>
 
                       <View style={styles.detailItem}>
-                        <Text style={styles.detailLabel}>{t.accountNumber}</Text>
+                        <Text style={styles.detailLabel}>{t('upgrade.accountNumber')}</Text>
                         <View style={styles.detailValueRow}>
                           <Text style={styles.detailValue}>{paymentData.accountNumber}</Text>
                           <TouchableOpacity onPress={() => copyToClipboard(paymentData.accountNumber)}>
@@ -275,7 +272,7 @@ export default function UpgradePage({ navigation }: Props) {
                     {/* Spinner waiting status bar */}
                     <View style={styles.waitingContainer}>
                       <ActivityIndicator size="small" color="#3b82f6" />
-                      <Text style={styles.waitingText}>{t.waitingVerification}</Text>
+                      <Text style={styles.waitingText}>{t('upgrade.waitingVerification')}</Text>
                     </View>
                   </>
                 ) : (
@@ -283,9 +280,9 @@ export default function UpgradePage({ navigation }: Props) {
                     <View style={styles.successIconBox}>
                       <CheckCircle size={64} color="#10b981" />
                     </View>
-                    <Text style={styles.successTitle}>{t.paymentSuccess}</Text>
+                    <Text style={styles.successTitle}>{t('upgrade.paymentSuccess')}</Text>
                     <Text style={styles.successDesc}>
-                      {t.successTopUpDesc(selectedPackage?.credits)}
+                      {t('upgrade.successTopUpDesc', { credits: selectedPackage?.credits })}
                     </Text>
 
                     <TouchableOpacity
@@ -296,7 +293,7 @@ export default function UpgradePage({ navigation }: Props) {
                         navigation.navigate("Main", { screen: "Profile" })
                       }}
                     >
-                      <Text style={styles.profileBtnText}>{t.viewProfile}</Text>
+                      <Text style={styles.profileBtnText}>{t('upgrade.viewProfile')}</Text>
                     </TouchableOpacity>
                   </View>
                 )}

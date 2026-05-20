@@ -122,26 +122,26 @@ export default function RoadmapPage() {
             <View style={styles.cardHeader}>
               <View style={styles.nodeBadge}>
                 <Text style={[styles.nodeBadgeText, { color: isCompleted ? '#10b981' : isActive ? theme.primary : theme.textSecondary }]}>
-                  STAGE {index + 1}
+                  {t('roadmap.stage', { index: index + 1 })}
                 </Text>
               </View>
               {isCompleted ? (
-                <Text style={{ fontSize: 11, fontWeight: '700', color: '#10b981' }}>COMPLETED</Text>
+                <Text style={styles.completedStatusText}>{t('roadmap.completed_status')}</Text>
               ) : isActive ? (
-                <Text style={{ fontSize: 11, fontWeight: '700', color: theme.primary }}>IN PROGRESS</Text>
+                <Text style={styles.inProgressStatusText}>{t('roadmap.in_progress_status')}</Text>
               ) : (
-                <Text style={{ fontSize: 11, fontWeight: '700', color: theme.textSecondary }}>LOCKED</Text>
+                <Text style={styles.lockedStatusText}>{t('roadmap.locked_status')}</Text>
               )}
             </View>
 
             <Text style={styles.cardTitle}>{node.title}</Text>
             <Text style={styles.cardSub} numberOfLines={2}>{node.description}</Text>
             
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginTop: 4 }}>
-              <Text style={styles.cardDuration}>Focus: {node.focusSkills.join(', ')}</Text>
-              <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+            <View style={styles.timelineMetaRow}>
+              <Text style={styles.cardDuration}>{t('roadmap.focus', { skills: node.focusSkills.join(', ') })}</Text>
+              <View style={styles.estimatedTimeWrapper}>
                 <Clock size={12} color={theme.textSecondary} />
-                <Text style={{ fontSize: 11, color: theme.textSecondary, fontWeight: '500' }}>{node.estimatedTime}</Text>
+                <Text style={styles.estimatedTimeText}>{node.estimatedTime}</Text>
               </View>
             </View>
           </TouchableOpacity>
@@ -165,15 +165,7 @@ export default function RoadmapPage() {
             <TouchableOpacity
               activeOpacity={0.8}
               onPress={() => navigation.navigate('RoadmapSetup')}
-              style={{
-                backgroundColor: theme.primary + '15',
-                borderWidth: 1,
-                borderColor: theme.primary + '40',
-                borderRadius: 12,
-                padding: 10,
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
+              style={styles.sparklesButton}
             >
               <Sparkles size={20} color={theme.primary} />
             </TouchableOpacity>
@@ -184,19 +176,19 @@ export default function RoadmapPage() {
         {/* Metrics Grid dashboard */}
         <View style={styles.metricsGrid}>
           <View style={styles.metricCard}>
-            <Text style={styles.metricTitle}>Duration</Text>
+            <Text style={styles.metricTitle}>{t('roadmap.duration')}</Text>
             <Text style={styles.metricValue}>{roadmapData.estimatedDuration}</Text>
           </View>
           <View style={styles.metricCard}>
-            <Text style={styles.metricTitle}>Stages</Text>
-            <Text style={styles.metricValue}>{totalCount} Stages</Text>
+            <Text style={styles.metricTitle}>{t('roadmap.stages_count', { count: totalCount })}</Text>
+            <Text style={styles.metricValue}>{t('roadmap.stages_count', { count: totalCount })}</Text>
           </View>
           <View style={styles.metricCard}>
-            <Text style={styles.metricTitle}>Current</Text>
+            <Text style={styles.metricTitle}>{t('roadmap.current_band')}</Text>
             <Text style={styles.metricValue}>Band {roadmapData.currentLevel}</Text>
           </View>
           <View style={styles.metricCard}>
-            <Text style={styles.metricTitle}>Target</Text>
+            <Text style={styles.metricTitle}>{t('roadmap.target_band')}</Text>
             <Text style={styles.metricValue}>Band {roadmapData.targetLevel}</Text>
           </View>
         </View>
@@ -204,8 +196,10 @@ export default function RoadmapPage() {
         {/* Progress Gauge percentage bar */}
         <View style={styles.progressContainer}>
           <View style={styles.progressTextRow}>
-            <Text style={styles.progressLabel}>Roadmap Progress</Text>
-            <Text style={styles.progressPercent}>{percent}% ({completedCount}/{totalCount} completed)</Text>
+            <Text style={styles.progressLabel}>{t('roadmap.roadmap_progress')}</Text>
+            <Text style={styles.progressPercent}>
+              {t('roadmap.progress_meta', { percent, completed: completedCount, total: totalCount })}
+            </Text>
           </View>
           <View style={styles.progressBarBg}>
             <View style={[styles.progressBarFill, { width: `${percent}%` }]} />
@@ -216,32 +210,17 @@ export default function RoadmapPage() {
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => navigation.navigate('RoadmapSetup')}
-          style={{
-            backgroundColor: theme.primary,
-            borderRadius: 16,
-            paddingVertical: 14,
-            paddingHorizontal: 16,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            marginBottom: 28,
-            gap: 8,
-            shadowColor: theme.primary,
-            shadowOffset: { width: 0, height: 4 },
-            shadowOpacity: 0.15,
-            shadowRadius: 8,
-            elevation: 4
-          }}
+          style={styles.aiArchitectButton}
         >
           <Sparkles size={16} color="#ffffff" />
-          <Text style={{ fontSize: 13, fontWeight: '800', color: '#ffffff' }}>
-            Tái thiết kế Lộ trình cá nhân (AI Architect)
+          <Text style={styles.rebuildRoadmapText}>
+            {t('roadmap.rebuild_roadmap')}
           </Text>
         </TouchableOpacity>
 
         {/* Journey Vertical Timeline Section */}
         <View style={styles.timelineSection}>
-          <Text style={styles.timelineTitle}>Learning Journey</Text>
+          <Text style={styles.timelineTitle}>{t('roadmap.learning_journey')}</Text>
           {roadmapData.nodes.map((node, index) => renderTimelineNode(node, index))}
         </View>
       </ScrollView>
@@ -261,14 +240,7 @@ export default function RoadmapPage() {
               <TouchableOpacity
                 activeOpacity={0.8}
                 onPress={() => setSelectedNode(null)}
-                style={{
-                  width: 32,
-                  height: 32,
-                  borderRadius: 16,
-                  backgroundColor: theme.backgroundAlt,
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
+                style={styles.closeButton}
               >
                 <X size={18} color={theme.text} />
               </TouchableOpacity>
@@ -276,14 +248,14 @@ export default function RoadmapPage() {
 
             <View style={styles.modalDurationRow}>
               <Clock size={16} color={theme.primary} />
-              <Text style={styles.modalDurationText}>Estimated: {selectedNode.estimatedTime}</Text>
+              <Text style={styles.modalDurationText}>{t('roadmap.estimated_time', { time: selectedNode.estimatedTime })}</Text>
               <View style={[
                 styles.nodeBadge,
                 selectedNode.isCompleted && { backgroundColor: '#10b98115' },
                 !selectedNode.isCompleted && !selectedNode.isLocked && { backgroundColor: `${theme.primary}15` }
               ]}>
                 <Text style={[styles.nodeBadgeText, { color: selectedNode.isCompleted ? '#10b981' : selectedNode.isLocked ? theme.textSecondary : theme.primary }]}>
-                  {selectedNode.isCompleted ? 'Completed' : selectedNode.isLocked ? 'Locked' : 'In Progress'}
+                  {selectedNode.isCompleted ? t('roadmap.completed_status') : selectedNode.isLocked ? t('roadmap.locked_status') : t('roadmap.in_progress_status')}
                 </Text>
               </View>
             </View>
@@ -292,7 +264,7 @@ export default function RoadmapPage() {
 
             <View style={styles.sectionDivider} />
 
-            <Text style={styles.sectionTitle}>Focus Skills</Text>
+            <Text style={styles.sectionTitle}>{t('roadmap.focus_skills')}</Text>
             <View style={styles.skillTagRow}>
               {selectedNode.focusSkills.map((skill: string) => (
                 <View key={skill} style={styles.skillTag}>
@@ -301,7 +273,7 @@ export default function RoadmapPage() {
               ))}
             </View>
 
-            <Text style={styles.sectionTitle}>Curated Resources</Text>
+            <Text style={styles.sectionTitle}>{t('roadmap.curated_resources')}</Text>
             {selectedNode.resources.map((resource: any) => (
               <TouchableOpacity
                 key={resource.id}
@@ -332,7 +304,7 @@ export default function RoadmapPage() {
                 <View style={styles.resourceInfo}>
                   <Text style={styles.resourceTitle}>{resource.title}</Text>
                   <Text style={styles.resourceDesc}>
-                    {resource.type.toUpperCase()} • {selectedNode.isLocked ? 'Locked' : 'Tap to start practice'}
+                    {resource.type.toUpperCase()} • {selectedNode.isLocked ? t('roadmap.resource_status_locked') : t('roadmap.resource_status_tap')}
                   </Text>
                 </View>
 
@@ -354,7 +326,7 @@ export default function RoadmapPage() {
               ]}
             >
               <Text style={styles.ctaButtonText}>
-                {selectedNode.isCompleted ? 'REVIEW STAGE' : selectedNode.isLocked ? 'STAGE LOCKED' : 'LAUNCH PRACTICE'}
+                {selectedNode.isCompleted ? t('roadmap.review_stage') : selectedNode.isLocked ? t('roadmap.stage_locked') : t('roadmap.launch_practice')}
               </Text>
             </TouchableOpacity>
           </View>

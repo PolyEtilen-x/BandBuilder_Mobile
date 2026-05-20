@@ -200,4 +200,28 @@ export const getStyles = (theme: any) => StyleSheet.create({
     fontSize: 15,
     fontWeight: '700',
   },
+  loginIconContainer: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: theme.primary + '15',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 12,
+  },
+  avatarInnerContainer: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: theme.primary + '20',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  avatarText: {
+    fontSize: 32,
+    fontWeight: '800',
+    color: theme.primary,
+  },
+  statIcon: {
+    marginBottom: 8,
+  },
 });

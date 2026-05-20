@@ -29,7 +29,14 @@ import { useTranslation } from "react-i18next"
 import { useSpeakingStore } from "@/services/speaking/speaking.store"
 import { useAudioCall } from "@/hooks/useAudioCall"
 import { styles } from "./CallWithAiPage.styles"
-import { callTranslations, ExaminerVoice } from "./CallWithAiPage.translations"
+
+export interface ExaminerVoice {
+  id: string
+  name: string
+  accent: string
+  description: string
+  avatar: string
+}
 
 type DialogueTurn = {
   sender: "ai" | "user"
@@ -52,9 +59,15 @@ interface Props {
 }
 
 export default function CallWithAiPage({ navigation }: Props) {
-  const { i18n } = useTranslation()
+  const { t, i18n } = useTranslation()
   const isVi = i18n.language === "vi"
-  const t = isVi ? callTranslations.vi : callTranslations.en
+
+  const examinersRaw = t('call.examiners', { returnObjects: true })
+  const examiners = Array.isArray(examinersRaw) ? (examinersRaw as ExaminerVoice[]) : [
+    { id: "sophia", name: "Sophia", accent: "American Accent", description: "Friendly, speaks clearly, perfect for intermediate level practice.", avatar: "S" },
+    { id: "alex", name: "Alex", accent: "British Accent", description: "Academic and formal, simulated after a real IDP examiner.", avatar: "A" },
+    { id: "david", name: "David", accent: "Australian Accent", description: "Natural tempo with mild dialect, great for advanced listeners.", avatar: "D" }
+  ]
 
   const {
     isConnected,
@@ -89,7 +102,7 @@ export default function CallWithAiPage({ navigation }: Props) {
   const { isRecording, rmsVolume } = useAudioCall()
 
   // Offline Simulation States
-  const [selectedVoice, setSelectedVoice] = useState<ExaminerVoice>(t.examiners[0])
+  const [selectedVoice, setSelectedVoice] = useState<ExaminerVoice>(examiners[0])
   const [simState, setSimState] = useState<"idle" | "calling" | "active" | "feedback">("idle")
   const [simDialogue, setSimDialogue] = useState<DialogueTurn[]>([])
   const [simTimer, setSimTimer] = useState(0)
@@ -182,11 +195,11 @@ export default function CallWithAiPage({ navigation }: Props) {
   }, [simState, isConnected])
 
   // Sync selected voice details dynamically depending on translation language
-  const currentVoice = t.examiners.find(v => v.id === selectedVoice.id) || t.examiners[0]
+  const currentVoice = examiners.find(v => v.id === selectedVoice.id) || examiners[0]
   const activeDialogue = isConnected ? liveDialogue : simDialogue
   const activeTimer = isConnected ? liveTimer : simTimer
   const activeVoice = isConnected
-    ? (t.examiners.find(v => v.id === selectedVoiceId) || currentVoice)
+    ? (examiners.find(v => v.id === selectedVoiceId) || currentVoice)
     : currentVoice
 
   // Call Handlers
@@ -236,17 +249,17 @@ export default function CallWithAiPage({ navigation }: Props) {
         <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <ChevronLeft size={24} color="#f8fafc" />
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>{t.headerTitle}</Text>
+        <Text style={styles.headerTitle}>{t('call.headerTitle')}</Text>
         <View style={styles.headerStatusWrap}>
           {isConnected ? (
             <View style={[styles.statusBadge, styles.statusLive]}>
               <Server size={10} color="#10b981" />
-              <Text style={styles.statusBadgeText}>{t.statusLive}</Text>
+              <Text style={styles.statusBadgeText}>{t('call.statusLive')}</Text>
             </View>
           ) : (
             <View style={[styles.statusBadge, styles.statusOffline]}>
               <Cpu size={10} color="#a78bfa" />
-              <Text style={styles.statusBadgeText}>{t.statusOffline}</Text>
+              <Text style={styles.statusBadgeText}>{t('call.statusOffline')}</Text>
             </View>
           )}
         </View>
@@ -260,15 +273,15 @@ export default function CallWithAiPage({ navigation }: Props) {
               <View style={styles.newBadge}>
                 <Text style={styles.newBadgeText}>{isVi ? "MỚI" : "NEW"}</Text>
               </View>
-              <Text style={styles.subtitle}>{t.subTitle}</Text>
+              <Text style={styles.subtitle}>{t('call.subTitle')}</Text>
             </View>
 
-            <Text style={styles.heroTitle}>{t.heroTitle}</Text>
-            <Text style={styles.heroDesc}>{t.heroDesc}</Text>
+            <Text style={styles.heroTitle}>{t('call.heroTitle')}</Text>
+            <Text style={styles.heroDesc}>{t('call.heroDesc')}</Text>
 
-            <Text style={styles.sectionTitle}>{t.selectExaminerTitle}</Text>
+            <Text style={styles.sectionTitle}>{t('call.selectExaminerTitle')}</Text>
 
-            {t.examiners.map((voice) => {
+            {examiners.map((voice) => {
               const isSelected = selectedVoice.id === voice.id
               return (
                 <TouchableOpacity
@@ -300,7 +313,7 @@ export default function CallWithAiPage({ navigation }: Props) {
                 <Text style={styles.startCallButtonText}>
                   {isConnected
                     ? (isVi ? "Bắt Đầu Gọi Live (WebSocket)" : "Call AI Examiner (Live)")
-                    : t.startCallText}
+                    : t('call.startCallText')}
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
@@ -318,7 +331,7 @@ export default function CallWithAiPage({ navigation }: Props) {
           </Animated.View>
 
           <Text style={styles.dialName}>{activeVoice.name}</Text>
-          <Text style={styles.dialStatus}>{t.connectingText}</Text>
+          <Text style={styles.dialStatus}>{t('call.connectingText')}</Text>
 
           <TouchableOpacity onPress={handleHangUp} style={[styles.circleButton, styles.hangUpButton]}>
             <PhoneOff size={28} color="#fff" />
@@ -333,7 +346,7 @@ export default function CallWithAiPage({ navigation }: Props) {
             <View style={styles.speakingIndicatorRow}>
               <View style={[styles.speakingDot, isRecording && styles.speakingDotActive]} />
               <Text style={styles.speakingStatusText}>
-                {isRecording ? t.listeningText : t.examinerSpeaking(activeVoice.name)}
+                {isRecording ? t('call.listeningText') : t('call.examinerSpeaking', { name: activeVoice.name })}
               </Text>
             </View>
             <Text style={styles.timerText}>{formatTime(activeTimer)}</Text>
@@ -406,8 +419,8 @@ export default function CallWithAiPage({ navigation }: Props) {
           <View style={styles.thinkingSpinnerWrap}>
             <RefreshCw size={44} color="#3b82f6" style={styles.spinner} />
           </View>
-          <Text style={styles.dialName}>{t.feedbackLoaderTitle}</Text>
-          <Text style={styles.thinkingDesc}>{t.feedbackLoaderDesc}</Text>
+          <Text style={styles.dialName}>{t('call.feedbackLoaderTitle')}</Text>
+          <Text style={styles.thinkingDesc}>{t('call.feedbackLoaderDesc')}</Text>
         </View>
       )}
 
@@ -418,36 +431,36 @@ export default function CallWithAiPage({ navigation }: Props) {
             <View style={styles.reportHeader}>
               <View>
                 <View style={styles.completedBadge}>
-                  <Text style={styles.completedBadgeText}>{t.completedBadge}</Text>
+                  <Text style={styles.completedBadgeText}>{t('call.completedBadge')}</Text>
                 </View>
-                <Text style={styles.reportTitle}>{t.reportTitle}</Text>
-                <Text style={styles.reportSub}>{t.reportSub}</Text>
+                <Text style={styles.reportTitle}>{t('call.reportTitle')}</Text>
+                <Text style={styles.reportSub}>{t('call.reportSub')}</Text>
               </View>
 
               <View style={styles.overallScoreBox}>
-                <Text style={styles.overallLabel}>{t.overallLabel}</Text>
+                <Text style={styles.overallLabel}>{t('call.overallLabel')}</Text>
                 <Text style={styles.overallScoreText}>{isConnected ? liveBand : 7.5}</Text>
               </View>
             </View>
 
             {/* Metrics breaking down */}
-            <Text style={styles.sectionTitle}>{isVi ? "Chi Tiết Điểm Tiêu Criteria" : "Criteria breakdown"}</Text>
+            <Text style={styles.sectionTitle}>{t('call.criteriaBreakdown')}</Text>
 
             <View style={styles.subMetricsGrid}>
               <View style={styles.metricCard}>
-                <Text style={styles.subMetricName}>{t.fluencyLabel}</Text>
+                <Text style={styles.subMetricName}>{t('call.fluencyLabel')}</Text>
                 <Text style={styles.subMetricVal}>{isConnected ? liveMetrics.fluency : 7.5}</Text>
               </View>
               <View style={styles.metricCard}>
-                <Text style={styles.subMetricName}>{t.lexicalLabel}</Text>
+                <Text style={styles.subMetricName}>{t('call.lexicalLabel')}</Text>
                 <Text style={styles.subMetricVal}>{isConnected ? liveMetrics.lexical : 7.0}</Text>
               </View>
               <View style={styles.metricCard}>
-                <Text style={styles.subMetricName}>{t.grammarLabel}</Text>
+                <Text style={styles.subMetricName}>{t('call.grammarLabel')}</Text>
                 <Text style={styles.subMetricVal}>{isConnected ? liveMetrics.grammar : 7.5}</Text>
               </View>
               <View style={styles.metricCard}>
-                <Text style={styles.subMetricName}>{t.pronunciationLabel}</Text>
+                <Text style={styles.subMetricName}>{t('call.pronunciationLabel')}</Text>
                 <Text style={styles.subMetricVal}>{isConnected ? liveMetrics.pronunciation : 8.0}</Text>
               </View>
             </View>
@@ -456,7 +469,7 @@ export default function CallWithAiPage({ navigation }: Props) {
             <View style={styles.correctionsSection}>
               <View style={styles.correctionHeaderRow}>
                 <Award size={20} color="#3b82f6" />
-                <Text style={styles.correctionsMainTitle}>{t.correctionsTitle}</Text>
+                <Text style={styles.correctionsMainTitle}>{t('call.correctionsTitle')}</Text>
               </View>
 
               {/* Dynamic or Offline list */}
@@ -473,10 +486,10 @@ export default function CallWithAiPage({ navigation }: Props) {
                         {corr.type === "positive" && <CheckCircle size={14} color="#10b981" />}
                         <Text style={[styles.corrTypeText, { color: accentColor }]}>
                           {corr.type === "grammar"
-                            ? t.grammarCorr
+                            ? t('call.grammarCorr')
                             : corr.type === "vocab"
-                              ? t.vocabCorr
-                              : t.positiveCorr}
+                              ? t('call.vocabCorr')
+                              : t('call.positiveCorr')}
                         </Text>
                       </View>
                       {corr.original && (
@@ -500,7 +513,7 @@ export default function CallWithAiPage({ navigation }: Props) {
                   <View style={[styles.corrCard, { borderLeftColor: "#ef4444" }]}>
                     <View style={styles.corrTypeRow}>
                       <ShieldAlert size={14} color="#ef4444" />
-                      <Text style={[styles.corrTypeText, { color: "#f87171" }]}>{t.grammarCorr}</Text>
+                      <Text style={[styles.corrTypeText, { color: "#f87171" }]}>{t('call.grammarCorr')}</Text>
                     </View>
                     <Text style={styles.corrOriginal}>
                       <Text style={styles.corrBold}>{isVi ? "Bạn nói: " : "You said: "}</Text>
@@ -518,7 +531,7 @@ export default function CallWithAiPage({ navigation }: Props) {
                   <View style={[styles.corrCard, { borderLeftColor: "#3b82f6" }]}>
                     <View style={styles.corrTypeRow}>
                       <MessageSquare size={14} color="#3b82f6" />
-                      <Text style={[styles.corrTypeText, { color: "#60a5fa" }]}>{t.vocabCorr}</Text>
+                      <Text style={[styles.corrTypeText, { color: "#60a5fa" }]}>{t('call.vocabCorr')}</Text>
                     </View>
                     <Text style={styles.corrOriginal}>
                       <Text style={styles.corrBold}>{isVi ? "Bạn nói: " : "You said: "}</Text>
@@ -533,7 +546,7 @@ export default function CallWithAiPage({ navigation }: Props) {
                   <View style={[styles.corrCard, { borderLeftColor: "#10b981" }]}>
                     <View style={styles.corrTypeRow}>
                       <CheckCircle size={14} color="#10b981" />
-                      <Text style={[styles.corrTypeText, { color: "#34d399" }]}>{t.positiveCorr}</Text>
+                      <Text style={[styles.corrTypeText, { color: "#34d399" }]}>{t('call.positiveCorr')}</Text>
                     </View>
                     <Text style={styles.corrExplanation}>
                       {isVi
@@ -547,7 +560,7 @@ export default function CallWithAiPage({ navigation }: Props) {
 
             <TouchableOpacity activeOpacity={0.8} style={styles.restartButton} onPress={handleHangUp}>
               <RefreshCw size={16} color="#0f172a" />
-              <Text style={styles.restartButtonText}>{t.restartBtnText}</Text>
+              <Text style={styles.restartButtonText}>{t('call.restartBtnText')}</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
