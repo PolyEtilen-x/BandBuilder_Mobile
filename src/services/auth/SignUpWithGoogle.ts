@@ -25,11 +25,17 @@ export async function loginWithGoogle() {
       // 4. Phân tích Token từ URL trả về (Nếu backend redirect kèm token)
       const { queryParams } = Linking.parse(result.url);
       const token = queryParams?.token;
+      const refreshToken = queryParams?.refreshToken;
 
       if (token) {
         // Lưu token vào AsyncStorage để duy trì phiên đăng nhập và tự động gửi kèm các API requests sau
         await AsyncStorage.setItem("auth_token", token as string);
-        console.log("🔑 Token received & saved to AsyncStorage:", token);
+        console.log("🔑 Token received & saved to AsyncStorage");
+      }
+      
+      if (refreshToken) {
+        await AsyncStorage.setItem("refresh_token", refreshToken as string);
+        console.log("🔑 Refresh Token received & saved to AsyncStorage");
       }
 
       // 5. Cập nhật trạng thái User

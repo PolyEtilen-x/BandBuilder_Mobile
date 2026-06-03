@@ -70,6 +70,7 @@ export const useAuthStore = create<AuthState>((set) => ({
             console.log("logout error:", e)
         } finally {
             await AsyncStorage.removeItem("auth_token")
+            await AsyncStorage.removeItem("refresh_token")
             set({ user: null, isAuthenticated: false })
         }
     }

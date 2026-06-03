@@ -50,7 +50,18 @@ apiClient.interceptors.response.use(
 
     try {
       if (!refreshPromise) {
-        refreshPromise = apiClient.post("/auth/refresh")
+        refreshPromise = (async () => {
+          const storedRefreshToken = await AsyncStorage.getItem("refresh_token")
+          const response = await apiClient.post("/auth/refresh", { refreshToken: storedRefreshToken })
+          const { accessToken, refreshToken: newRefreshToken } = response.data || {}
+          if (accessToken) {
+            await AsyncStorage.setItem("auth_token", accessToken)
+          }
+          if (newRefreshToken) {
+            await AsyncStorage.setItem("refresh_token", newRefreshToken)
+          }
+          return response
+        })()
       }
 
       await refreshPromise
