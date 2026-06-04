@@ -224,4 +224,69 @@ export const getStyles = (theme: any) => StyleSheet.create({
   statIcon: {
     marginBottom: 8,
   },
+  // Activity Styles
+  activityList: {
+    gap: 12,
+  },
+  activityItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: theme.card,
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: theme.border,
+  },
+  activityLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    gap: 12,
+  },
+  skillBadge: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  skillBadgeText: {
+    fontSize: 14,
+    fontWeight: '800',
+  },
+  activityMeta: {
+    flex: 1,
+    gap: 2,
+  },
+  activityTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    color: theme.text,
+  },
+  activityDate: {
+    fontSize: 11,
+    color: theme.textSecondary,
+  },
+  activityRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  activityScore: {
+    fontSize: 15,
+    fontWeight: '800',
+    color: theme.primary,
+  },
+  creditsRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginTop: 8,
+  },
+  creditsText: {
+    fontSize: 13,
+    color: theme.textSecondary,
+    fontWeight: '600',
+  },
 });

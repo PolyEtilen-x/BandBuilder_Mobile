@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   StatusBar,
   Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -29,14 +30,27 @@ import { useAuthStore } from '@/services/auth/auth.store';
 import { useThemeStore } from '@/services/theme/theme.store';
 import { loginWithGoogle } from '@/services/auth/SignUpWithGoogle';
 import roadmapData from '@/data/roadmap/ielts_5_to_6.json';
+import { useQuery } from '@tanstack/react-query';
+import { userApi } from '@/api/user.api';
+import { UserProfileDTO } from '@/data/user/user.types';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ProfilePage() {
   const { t, i18n } = useTranslation();
   const theme = useThemeColor();
   const styles = useMemo(() => getStyles(theme), [theme]);
+  const navigation = useNavigation<any>();
 
   const { user, isAuthenticated, logout } = useAuthStore();
   const { mode, setMode } = useThemeStore();
+
+  // Gọi API lấy thông tin Profile thật từ server
+  const { data: profile, isLoading: profileLoading } = useQuery<UserProfileDTO>({
+    queryKey: ['user-profile'],
+    queryFn: () => userApi.getProfile().then(res => res.data),
+    enabled: isAuthenticated,
+    staleTime: 1000 * 60 * 5,
+  });
 
   // Đăng xuất với hộp thoại xác nhận chuyên nghiệp
   const handleLogout = () => {
@@ -59,11 +73,26 @@ export default function ProfilePage() {
     setMode(mode === 'light' ? 'dark' : 'light');
   };
 
-  // Tính toán các chỉ số động từ dữ liệu lộ trình thực tế
+  // Tính toán các chỉ số động từ dữ liệu lộ trình thực tế hoặc API
   const totalStages = roadmapData.nodes.length;
   const completedStages = roadmapData.nodes.filter(n => n.isCompleted).length;
-  const targetBand = roadmapData.targetLevel || "6.0";
-  const learningStreak = completedStages > 0 ? completedStages * 3 + 1 : 0; // Dynamic mock streak based on completed stages
+
+  const statsData = useMemo(() => {
+    if (profile) {
+      return {
+        avgBandScore: profile.stats.avgBandScore != null ? profile.stats.avgBandScore.toFixed(1) : (roadmapData.targetLevel || "6.0"),
+        studyStreak: profile.stats.studyStreak || 0,
+        testsCompleted: profile.stats.testsCompleted || completedStages,
+        credits: profile.user.totalCredits - profile.user.usedCredits,
+      };
+    }
+    return {
+      avgBandScore: roadmapData.targetLevel || "6.0",
+      studyStreak: completedStages > 0 ? completedStages * 3 + 1 : 0,
+      testsCompleted: completedStages,
+      credits: 0,
+    };
+  }, [profile, completedStages]);
 
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
@@ -89,6 +118,10 @@ export default function ProfilePage() {
               <Text style={styles.googleButtonText}>{t('profile.google_button')}</Text>
             </TouchableOpacity>
           </View>
+        ) : profileLoading ? (
+          <View style={{ paddingVertical: 100, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color={theme.primary} />
+          </View>
         ) : (
           /* TRẠNG THÁI ĐÃ ĐĂNG NHẬP THÀNH CÔNG */
           <>
@@ -109,26 +142,85 @@ export default function ProfilePage() {
               <View style={styles.proBadge}>
                 <Text style={styles.proBadgeText}>{t('profile.premium_member')}</Text>
               </View>
+
+              {/* Credits Row */}
+              <View style={styles.creditsRow}>
+                <Sparkles size={16} color="#fbbf24" fill="#fbbf24" />
+                <Text style={styles.creditsText}>
+                  {i18n.language === 'vi' 
+                    ? `${statsData.credits} Credit còn lại` 
+                    : `${statsData.credits} Credits remaining`}
+                </Text>
+              </View>
             </View>
  
             {/* Stats Section - Hiển thị chỉ số động */}
             <View style={styles.statsContainer}>
               <View style={styles.statCard}>
                 <Target size={20} color={theme.primary} style={styles.statIcon} />
-                <Text style={styles.statValue}>Band {targetBand}</Text>
+                <Text style={styles.statValue}>Band {statsData.avgBandScore}</Text>
                 <Text style={styles.statLabel}>{t('profile.target')}</Text>
               </View>
               <View style={styles.statCard}>
                 <Zap size={20} color="#f97316" style={styles.statIcon} />
-                <Text style={styles.statValue}>{learningStreak} {i18n.language === 'vi' ? 'ngày' : 'days'}</Text>
+                <Text style={styles.statValue}>{statsData.studyStreak} {i18n.language === 'vi' ? 'ngày' : 'days'}</Text>
                 <Text style={styles.statLabel}>{t('profile.streak')}</Text>
               </View>
               <View style={styles.statCard}>
                 <Award size={20} color="#10b981" style={styles.statIcon} />
-                <Text style={styles.statValue}>{completedStages}/{totalStages}</Text>
+                <Text style={styles.statValue}>{statsData.testsCompleted}</Text>
                 <Text style={styles.statLabel}>{t('profile.completed')}</Text>
               </View>
             </View>
+
+            {/* Exam History Section */}
+            {profile?.recentActivities && profile.recentActivities.length > 0 && (
+              <View style={styles.section}>
+                <Text style={styles.sectionTitle}>
+                  {i18n.language === 'vi' ? 'Lịch Sử Thi / Luyện Tập' : 'Exam & Practice History'}
+                </Text>
+                <View style={styles.activityList}>
+                  {profile.recentActivities.map((activity) => {
+                    // Determine skill icon/color
+                    let skillColor = theme.primary;
+                    if (activity.skill === 'Writing') skillColor = '#ec4899';
+                    else if (activity.skill === 'Speaking') skillColor = '#8b5cf6';
+                    else if (activity.skill === 'Listening') skillColor = '#10b981';
+
+                    return (
+                      <TouchableOpacity
+                        key={activity.id}
+                        style={styles.activityItem}
+                        activeOpacity={0.8}
+                        onPress={() => navigation.navigate('PracticeResult', { attemptId: activity.id })}
+                      >
+                        <View style={styles.activityLeft}>
+                          <View style={[styles.skillBadge, { backgroundColor: skillColor + '15' }]}>
+                            <Text style={[styles.skillBadgeText, { color: skillColor }]}>
+                              {activity.skill.charAt(0)}
+                            </Text>
+                          </View>
+                          <View style={styles.activityMeta}>
+                            <Text style={styles.activityTitle} numberOfLines={1}>
+                              {activity.title}
+                            </Text>
+                            <Text style={styles.activityDate}>
+                              {new Date(activity.date).toLocaleDateString(i18n.language === 'vi' ? 'vi-VN' : 'en-US')}
+                            </Text>
+                          </View>
+                        </View>
+                        <View style={styles.activityRight}>
+                          <Text style={styles.activityScore}>
+                            {activity.score != null ? activity.score : 'N/A'}
+                          </Text>
+                          <ChevronRight size={16} color={theme.textSecondary} />
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
           </>
         )}
  

@@ -16,7 +16,9 @@ import {
   Mic,
   Sparkles,
   BookOpen,
-  BrainCircuit
+  BrainCircuit,
+  Volume2,
+  FileText
 } from 'lucide-react-native';
 import { useTranslation } from 'react-i18next';
 import { FlashList } from '@shopify/flash-list';
@@ -54,12 +56,15 @@ const PracticeCardItem = React.memo(({ skill, activeSkill, activeMode, isExamMod
   const accentColor = cfg?.color || theme.primary;
 
   const handlePress = (unitId: string | number) => {
+    const practiceTestId = skill.practiceTests?.[0]?.practiceTestId || skill.testId || skill.id;
     navigation.navigate('PracticeTest', {
       id: skillId,
       unit: unitId,
-      mode: isExamMode ? 'exam' : 'practice'
+      mode: isExamMode ? 'exam' : 'practice',
+      practiceTestId
     });
   };
+
 
   if (isLoading) {
     return (
@@ -134,7 +139,7 @@ const PracticeCardItem = React.memo(({ skill, activeSkill, activeMode, isExamMod
 });
 
 export default function PracticePage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const theme = useThemeColor();
   const styles = useMemo(() => getStyles(theme), [theme]);
   const navigation = useNavigation<any>();
@@ -176,6 +181,72 @@ export default function PracticePage() {
 
   const ListHeader = useMemo(() => (
     <View>
+      {/* Practice General Section */}
+      <View style={{ marginHorizontal: 24, marginTop: 16, marginBottom: 8 }}>
+        <Text style={{ fontSize: 12, fontWeight: '700', color: theme.textSecondary, textTransform: 'uppercase', marginBottom: 12, letterSpacing: 0.5 }}>
+          {i18n.language === 'vi' ? 'Luyện Tập Chung' : 'Practice General'}
+        </Text>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 12, paddingRight: 24 }}>
+          {/* Card 1: Pronunciation Shadowing */}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate('PronunciationPractice')}
+            style={{
+              width: 200,
+              backgroundColor: theme.card,
+              borderWidth: 1,
+              borderColor: theme.border,
+              borderRadius: 16,
+              padding: 16,
+              shadowColor: '#10b981',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.05,
+              shadowRadius: 8,
+              elevation: 2,
+            }}
+          >
+            <View style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: '#10b98115', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+              <Volume2 size={16} color="#10b981" />
+            </View>
+            <Text style={{ fontSize: 14, fontWeight: '700', color: theme.text, marginBottom: 4 }}>
+              {i18n.language === 'vi' ? 'Phát Âm YouTube' : 'YouTube Shadowing'}
+            </Text>
+            <Text style={{ fontSize: 11, color: theme.textSecondary, lineHeight: 15 }} numberOfLines={2}>
+              {i18n.language === 'vi' ? 'Shadowing, dịch nghĩa & tra từ điển.' : 'Speak shadowing, check translation.'}
+            </Text>
+          </TouchableOpacity>
+
+          {/* Card 2: Writing Samples */}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            onPress={() => navigation.navigate('WritingSamples')}
+            style={{
+              width: 200,
+              backgroundColor: theme.card,
+              borderWidth: 1,
+              borderColor: theme.border,
+              borderRadius: 16,
+              padding: 16,
+              shadowColor: '#f97316',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.05,
+              shadowRadius: 8,
+              elevation: 2,
+            }}
+          >
+            <View style={{ width: 32, height: 32, borderRadius: 16, backgroundColor: '#f9731615', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+              <FileText size={16} color="#f97316" />
+            </View>
+            <Text style={{ fontSize: 14, fontWeight: '700', color: theme.text, marginBottom: 4 }}>
+              {i18n.language === 'vi' ? 'Bài Mẫu Writing' : 'Writing Samples'}
+            </Text>
+            <Text style={{ fontSize: 11, color: theme.textSecondary, lineHeight: 15 }} numberOfLines={2}>
+              {i18n.language === 'vi' ? 'Các bài mẫu Task 1 & 2 Band 6.0+ đến 8.5+.' : 'Model essays from Band 6.0+ to 8.5+.'}
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
+      </View>
+
       {/* Compact Mode Switch Row */}
       <View style={styles.modeHeaderRow}>
         <Text style={styles.modeTitleText}>
@@ -239,29 +310,104 @@ export default function PracticePage() {
 
       {/* AI Speaking Coach Premium banner inside Speaking Skill tab */}
       {activeSkill === 'speaking' && (
-        <TouchableOpacity
-          activeOpacity={0.9}
-          onPress={() => navigation.navigate('CallWithAi')}
-          style={styles.speakingCoachBanner}
-        >
-          <View style={styles.speakingCoachContent}>
-            <View style={styles.speakingCoachHeader}>
-              <Sparkles size={14} color="#8b5cf6" style={styles.speakingCoachSparklesIcon} />
-              <Text style={styles.speakingCoachTag}>
-                {t('practice.ai_coach')}
+        <View style={{ gap: 12, marginBottom: 8 }}>
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate('CallWithAi')}
+            style={[styles.speakingCoachBanner, { marginHorizontal: 24, marginTop: 16, marginBottom: 0 }]}
+          >
+            <View style={styles.speakingCoachContent}>
+              <View style={styles.speakingCoachHeader}>
+                <Sparkles size={14} color="#8b5cf6" style={styles.speakingCoachSparklesIcon} />
+                <Text style={styles.speakingCoachTag}>
+                  {t('practice.ai_coach')}
+                </Text>
+              </View>
+              <Text style={styles.speakingCoachTitle}>
+                {t('practice.ai_coach_title')}
+              </Text>
+              <Text style={styles.speakingCoachDesc}>
+                {t('practice.ai_coach_desc')}
               </Text>
             </View>
-            <Text style={styles.speakingCoachTitle}>
-              {t('practice.ai_coach_title')}
-            </Text>
-            <Text style={styles.speakingCoachDesc}>
-              {t('practice.ai_coach_desc')}
-            </Text>
-          </View>
-          <View style={styles.speakingCoachMicIconContainer}>
-            <Mic size={20} color="#8b5cf6" />
-          </View>
-        </TouchableOpacity>
+            <View style={styles.speakingCoachMicIconContainer}>
+              <Mic size={20} color="#8b5cf6" />
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate('PronunciationPractice')}
+            style={[
+              styles.speakingCoachBanner,
+              {
+                marginHorizontal: 24,
+                marginTop: 0,
+                marginBottom: 0,
+                borderColor: '#10b98150',
+                backgroundColor: theme.backgroundAlt,
+                shadowColor: '#10b981',
+              }
+            ]}
+          >
+            <View style={styles.speakingCoachContent}>
+              <View style={styles.speakingCoachHeader}>
+                <Mic size={14} color="#10b981" style={styles.speakingCoachSparklesIcon} />
+                <Text style={[styles.speakingCoachTag, { color: '#10b981' }]}>
+                  YOUTUBE SHADOWING
+                </Text>
+              </View>
+              <Text style={styles.speakingCoachTitle}>
+                Luyện Phát Âm YouTube
+              </Text>
+              <Text style={styles.speakingCoachDesc}>
+                Luyện nói shadowing, dịch nghĩa câu & tra cứu từ điển trực tiếp trên video.
+              </Text>
+            </View>
+            <View style={[styles.speakingCoachMicIconContainer, { backgroundColor: '#10b98115' }]}>
+              <Volume2 size={20} color="#10b981" />
+            </View>
+          </TouchableOpacity>
+        </View>
+      )}
+
+      {/* Writing Samples Banner inside Writing Skill tab */}
+      {activeSkill === 'writing' && (
+        <View style={{ gap: 12, marginBottom: 8 }}>
+          <TouchableOpacity
+            activeOpacity={0.9}
+            onPress={() => navigation.navigate('WritingSamples')}
+            style={[
+              styles.speakingCoachBanner,
+              {
+                marginHorizontal: 24,
+                marginTop: 16,
+                marginBottom: 0,
+                borderColor: '#f9731650',
+                backgroundColor: theme.backgroundAlt,
+                shadowColor: '#f97316',
+              }
+            ]}
+          >
+            <View style={styles.speakingCoachContent}>
+              <View style={styles.speakingCoachHeader}>
+                <FileText size={14} color="#f97316" style={styles.speakingCoachSparklesIcon} />
+                <Text style={[styles.speakingCoachTag, { color: '#f97316' }]}>
+                  BÀI MẪU WRITING
+                </Text>
+              </View>
+              <Text style={styles.speakingCoachTitle}>
+                Nghiên cứu bài mẫu
+              </Text>
+              <Text style={styles.speakingCoachDesc}>
+                Các bài mẫu Writing Task 1 & 2 Band 6.0+ đến 8.5+ với dàn ý, phân tích chi tiết và từ vựng ăn điểm.
+              </Text>
+            </View>
+            <View style={[styles.speakingCoachMicIconContainer, { backgroundColor: '#f9731615' }]}>
+              <FileText size={20} color="#f97316" />
+            </View>
+          </TouchableOpacity>
+        </View>
       )}
 
       {/* Subsections Filters ScrollView */}

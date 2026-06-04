@@ -26,6 +26,8 @@ import {
 import { useTranslation } from "react-i18next"
 import { grammarApi } from "@/api/grammar.api"
 import { MistakeCategory, Mistake } from "@/data/grammar/mistake.model"
+import { GrammarBasics, GrammarTenses } from "./components/GrammarTabs1"
+import { GrammarMistakes, GrammarSentences } from "./components/GrammarTabs2"
 import { getStyles } from "./GrammarPage.styles"
 import { useThemeColor } from "@/hooks/useThemeColor"
 
@@ -34,7 +36,7 @@ interface Props {
   isTab?: boolean
 }
 
-type TabType = "basics" | "tenses" | "mistakes"
+type TabType = "basics" | "tenses" | "mistakes" | "sentences"
 
 export default function GrammarPage({ navigation, isTab = false }: Props) {
   const { t } = useTranslation()
@@ -48,11 +50,13 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
   const [basics, setBasics] = useState<any[]>([])
   const [tenses, setTenses] = useState<any[]>([])
   const [mistakes, setMistakes] = useState<MistakeCategory[]>([])
+  const [sentences, setSentences] = useState<any[]>([])
 
   // UI States (Expandable card lists trackers)
   const [expandedBasicId, setExpandedBasicId] = useState<string | null>(null)
   const [expandedTenseId, setExpandedTenseId] = useState<string | null>(null)
   const [expandedMistakeId, setExpandedMistakeId] = useState<string | null>(null)
+  const [expandedSentenceId, setExpandedSentenceId] = useState<string | null>(null)
 
   // Load Grammar data
   useEffect(() => {
@@ -62,10 +66,12 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
         const basicsData = await grammarApi.getBasics()
         const tensesData = await grammarApi.getTenses()
         const mistakesData = await grammarApi.getMistakes()
+        const sentencesData = await grammarApi.getSentences()
 
         setBasics(basicsData)
         setTenses(tensesData)
         setMistakes(mistakesData)
+        setSentences(sentencesData)
       } catch (err) {
         console.error("Failed to load grammar data:", err)
       } finally {
@@ -85,6 +91,10 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
 
   const toggleExpandMistake = (id: string) => {
     setExpandedMistakeId(expandedMistakeId === id ? null : id)
+  }
+
+  const toggleExpandSentence = (category: string) => {
+    setExpandedSentenceId(expandedSentenceId === category ? null : category)
   }
 
   const Wrapper: any = isTab ? View : SafeAreaView;
@@ -111,13 +121,15 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
 
       {/* TABS ROW */}
       <View style={styles.tabsRow}>
-        {(["basics", "tenses", "mistakes"] as TabType[]).map((tab) => {
+        {(["basics", "tenses", "mistakes", "sentences"] as TabType[]).map((tab) => {
           const isActive = activeTab === tab
           const label = tab === "basics" 
             ? t('grammar.tabBasics') 
             : tab === "tenses" 
               ? t('grammar.tabTenses') 
-              : t('grammar.tabMistakes')
+              : tab === "mistakes"
+                ? t('grammar.tabMistakes')
+                : t('grammar.tabSentences')
           return (
             <TouchableOpacity
               key={tab}
@@ -145,184 +157,50 @@ export default function GrammarPage({ navigation, isTab = false }: Props) {
           
           {/* A. GRAMMAR BASICS TAB */}
           {activeTab === "basics" && (
-            <View style={styles.listContainer}>
-              <View style={styles.heroBadgeRow}>
-                <BookOpen size={16} color={theme.primary} />
-                <Text style={styles.heroBadgeText}>{t('grammar.basicsBadge')}</Text>
-              </View>
-
-              {basics.map((item) => {
-                const isExpanded = expandedBasicId === item.id
-                return (
-                  <View key={item.id} style={[styles.itemCard, isExpanded && styles.itemCardExpanded]}>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() => toggleExpandBasic(item.id)}
-                      style={styles.cardHeaderTrigger}
-                    >
-                      <View style={styles.cardHeaderTitleCol}>
-                        <Text style={styles.itemTitle}>{item.title}</Text>
-                        <Text style={styles.itemSubtitle}>{item.subtitle}</Text>
-                      </View>
-                      {isExpanded ? (
-                        <ChevronUp size={20} color="#94a3b8" />
-                      ) : (
-                        <ChevronDown size={20} color="#475569" />
-                      )}
-                    </TouchableOpacity>
-
-                    {isExpanded && (
-                      <View style={styles.cardBody}>
-                        <View style={styles.divider} />
-                        
-                        <Text style={styles.sectionLabel}>{t('grammar.explanationLabel')}</Text>
-                        <Text style={styles.explanationText}>{item.content}</Text>
-
-                        {item.examples && item.examples.length > 0 && (
-                          <View style={styles.examplesContainer}>
-                            <Text style={styles.sectionLabel}>{t('grammar.examplesLabel')}</Text>
-                            {item.examples.map((ex: string, index: number) => (
-                              <View key={index} style={styles.exampleBulletRow}>
-                                <View style={styles.bulletDot} />
-                                <Text style={styles.exampleBulletText}>{ex}</Text>
-                              </View>
-                            ))}
-                          </View>
-                        )}
-                      </View>
-                    )}
-                  </View>
-                )
-              })}
-            </View>
+            <GrammarBasics
+              basics={basics}
+              expandedId={expandedBasicId}
+              toggleExpand={toggleExpandBasic}
+              t={t}
+              theme={theme}
+              styles={styles}
+            />
           )}
 
           {/* B. TENSES MASTERCLASS TAB */}
           {activeTab === "tenses" && (
-            <View style={styles.listContainer}>
-              <View style={styles.heroBadgeRow}>
-                <Clock size={16} color={theme.primary} />
-                <Text style={styles.heroBadgeText}>{t('grammar.tensesBadge')}</Text>
-              </View>
-
-              {tenses.map((tense) => {
-                const isExpanded = expandedTenseId === tense.id
-                return (
-                  <View key={tense.id} style={[styles.itemCard, isExpanded && styles.itemCardExpanded]}>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() => toggleExpandTense(tense.id)}
-                      style={styles.cardHeaderTrigger}
-                    >
-                      <View style={styles.cardHeaderTitleCol}>
-                        <Text style={styles.itemTitle}>{tense.title}</Text>
-                        <Text style={styles.formulaText}>{tense.formula}</Text>
-                      </View>
-                      {isExpanded ? (
-                        <ChevronUp size={20} color="#94a3b8" />
-                      ) : (
-                        <ChevronDown size={20} color="#475569" />
-                      )}
-                    </TouchableOpacity>
-
-                    {isExpanded && (
-                      <View style={styles.cardBody}>
-                        <View style={styles.divider} />
-
-                        <Text style={styles.sectionLabel}>{t('grammar.formulaLabel')}</Text>
-                        <View style={styles.formulaBox}>
-                          <Text style={styles.formulaBoxText}>{tense.formula}</Text>
-                        </View>
-
-                        <Text style={styles.sectionLabel}>{t('grammar.usageLabel')}</Text>
-                        <Text style={styles.explanationText}>{tense.use}</Text>
-
-                        {tense.examples && tense.examples.length > 0 && (
-                          <View style={styles.examplesContainer}>
-                            <Text style={styles.sectionLabel}>{t('grammar.tensesExamplesLabel')}</Text>
-                            {tense.examples.map((ex: string, idx: number) => (
-                              <View key={idx} style={styles.exampleBulletRow}>
-                                <View style={[styles.bulletDot, { backgroundColor: theme.primary }]} />
-                                <Text style={styles.exampleBulletText}>{ex}</Text>
-                              </View>
-                            ))}
-                          </View>
-                        )}
-                      </View>
-                    )}
-                  </View>
-                )
-              })}
-            </View>
+            <GrammarTenses
+              tenses={tenses}
+              expandedId={expandedTenseId}
+              toggleExpand={toggleExpandTense}
+              t={t}
+              theme={theme}
+              styles={styles}
+            />
           )}
 
           {/* C. COMMON MISTAKES TAB */}
           {activeTab === "mistakes" && (
-            <View style={styles.listContainer}>
-              <View style={styles.heroBadgeRow}>
-                <AlertTriangle size={16} color={theme.warning} />
-                <Text style={styles.heroBadgeText}>{t('grammar.mistakesBadge')}</Text>
-              </View>
+            <GrammarMistakes
+              mistakes={mistakes}
+              expandedId={expandedMistakeId}
+              toggleExpand={toggleExpandMistake}
+              t={t}
+              theme={theme}
+              styles={styles}
+            />
+          )}
 
-              {mistakes.map((category) => {
-                const isExpanded = expandedMistakeId === category.category
-                return (
-                  <View key={category.category} style={[styles.itemCard, isExpanded && styles.itemCardExpanded]}>
-                    <TouchableOpacity
-                      activeOpacity={0.8}
-                      onPress={() => toggleExpandMistake(category.category)}
-                      style={styles.cardHeaderTrigger}
-                    >
-                      <View style={styles.cardHeaderTitleCol}>
-                        <Text style={styles.itemTitle}>{category.category}</Text>
-                        <Text style={styles.itemSubtitle}>
-                          {t('grammar.mistakesCount', { count: category.mistakes.length })}
-                        </Text>
-                      </View>
-                      {isExpanded ? (
-                        <ChevronUp size={20} color="#94a3b8" />
-                      ) : (
-                        <ChevronDown size={20} color="#475569" />
-                      )}
-                    </TouchableOpacity>
-
-                    {isExpanded && (
-                      <View style={styles.cardBody}>
-                        <View style={styles.divider} />
-
-                        {category.mistakes.map((item: Mistake, idx: number) => (
-                          <View key={idx} style={styles.mistakeBlock}>
-                            <Text style={styles.mistakeHeading}>
-                              {t('grammar.mistakeIndex', { idx: idx + 1 })}
-                            </Text>
-                            
-                            {/* WRONG EX */}
-                            <View style={styles.errorSideRow}>
-                              <XCircle size={15} color="#f87171" style={styles.errorSideIcon} />
-                              <Text style={styles.errorWrongText}>{item.incorrect}</Text>
-                            </View>
-
-                            {/* RIGHT EX */}
-                            <View style={styles.errorSideRow}>
-                              <CheckCircle size={15} color="#34d399" style={styles.errorSideIcon} />
-                              <Text style={styles.errorCorrectText}>{item.correct}</Text>
-                            </View>
-
-                            {/* EXPLANATION */}
-                            <View style={styles.mistakeExplainBox}>
-                              <Text style={styles.mistakeExplainLabel}>{t('grammar.whyLabel')}</Text>
-                              <Text style={styles.mistakeExplainText}>{item.note}</Text>
-                            </View>
-                            
-                            {idx < category.mistakes.length - 1 && <View style={styles.subDivider} />}
-                          </View>
-                        ))}
-                      </View>
-                    )}
-                  </View>
-                )
-              })}
-            </View>
+          {/* D. IELTS SENTENCE STRUCTURES TAB */}
+          {activeTab === "sentences" && (
+            <GrammarSentences
+              sentences={sentences}
+              expandedId={expandedSentenceId}
+              toggleExpand={toggleExpandSentence}
+              t={t}
+              theme={theme}
+              styles={styles}
+            />
           )}
 
         </ScrollView>

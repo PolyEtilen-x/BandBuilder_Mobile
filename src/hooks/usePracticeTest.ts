@@ -14,12 +14,12 @@ export const usePracticeTest = () => {
   const { data: test, isLoading, error } = useQuery({
     queryKey: ["practice-test", id],
     queryFn: async () => {
-      if (!id) throw new Error("Test ID is required");
+      if (!id || id === "undefined") throw new Error("Test ID is required");
       // Sử dụng getSkillPreview hoặc getTestPreview tùy theo loại ID
       const res = await practiceApi.getSkillPreview(id);
       return res.data;
     },
-    enabled: !!id,
+    enabled: !!id && id !== "undefined",
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 

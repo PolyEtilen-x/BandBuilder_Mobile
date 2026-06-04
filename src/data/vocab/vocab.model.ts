@@ -1,5 +1,5 @@
 export type VocabItem = {
-  id: number
+  id: string | number
   word: string
   meaning: string
   pronunciation?: string
@@ -9,7 +9,9 @@ export type VocabItem = {
 }
 
 export type VocabTopic = {
+  id?: string | number
   topic: string
   numberSaved: number
   vocab_list: VocabItem[]
+  wordCount?: number
 }

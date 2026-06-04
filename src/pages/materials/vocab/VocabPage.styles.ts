@@ -357,5 +357,33 @@ export const getStyles = (theme: any) => StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     lineHeight: 20,
-  }
+  },
+  bandFiltersWrapper: {
+    paddingVertical: 12,
+  },
+  bandFiltersScroll: {
+    paddingHorizontal: 16,
+    gap: 8,
+  },
+  bandFilterButton: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: theme.border,
+    backgroundColor: theme.backgroundAlt,
+  },
+  bandFilterButtonActive: {
+    backgroundColor: theme.primary,
+    borderColor: theme.primary,
+  },
+  bandFilterButtonText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: theme.textSecondary,
+  },
+  bandFilterButtonTextActive: {
+    color: '#ffffff',
+    fontWeight: '700',
+  },
 })
