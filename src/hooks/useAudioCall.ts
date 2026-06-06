@@ -54,8 +54,15 @@ export function useAudioCall() {
   const recordingRef = useRef<Audio.Recording | null>(null)
   const volumeIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  // Configure high-quality 16kHz 16-bit linear PCM WAV recording
+  // VAD parameters for auto-submit after 2s silence
+  const SILENCE_THRESHOLD_DB = -38
+  const SILENCE_DURATION_MS = 2000
+  const hasSpokenRef = useRef(false)
+  const silenceTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Configure high-quality 16kHz 16-bit linear PCM WAV recording with decibel metering enabled
   const recordingOptions = {
+    isMeteringEnabled: true,
     android: {
       extension: ".wav",
       outputFormat: Audio.AndroidOutputFormat.DEFAULT,
@@ -118,17 +125,42 @@ export function useAudioCall() {
       recordingRef.current = recording
       setIsRecording(true)
 
-      // Micro-waveform indicator generator
+      hasSpokenRef.current = false
+      if (silenceTimerRef.current) {
+        clearTimeout(silenceTimerRef.current)
+        silenceTimerRef.current = null
+      }
+
+      // Real microphone volume metering (smoothed RMS mapping from -60dB -> 0dB)
       volumeIntervalRef.current = setInterval(async () => {
         if (recordingRef.current && !isMuted) {
           const status = await recordingRef.current.getStatusAsync()
-          if (status.canRecord) {
-            // Generate simulated RMS fluctuations between 0.02 and 0.15 for visuals
-            const simulatedRms = 0.02 + Math.random() * 0.13
-            setRmsVolume(simulatedRms)
+          if (status.canRecord && status.metering !== undefined) {
+            const db = status.metering
+            let normalized = 0.02
+            if (db > -60) {
+              normalized = Math.min(1.0, 0.02 + ((db + 60) / 60) * 0.98)
+            }
+            setRmsVolume(normalized)
+
+            // VAD: Silence auto-submit logic
+            if (db > SILENCE_THRESHOLD_DB) {
+              hasSpokenRef.current = true
+              if (silenceTimerRef.current) {
+                clearTimeout(silenceTimerRef.current)
+                silenceTimerRef.current = null
+              }
+            } else if (hasSpokenRef.current) {
+              if (!silenceTimerRef.current) {
+                silenceTimerRef.current = setTimeout(() => {
+                  console.log("VAD: Silence detected. Auto-submitting speech...")
+                  stopRecording()
+                }, SILENCE_DURATION_MS)
+              }
+            }
           }
         }
-      }, 250)
+      }, 100)
 
     } catch (err) {
       console.error("Failed to start recording:", err)
@@ -145,6 +177,11 @@ export function useAudioCall() {
     if (volumeIntervalRef.current) {
       clearInterval(volumeIntervalRef.current)
       volumeIntervalRef.current = null
+    }
+
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current)
+      silenceTimerRef.current = null
     }
 
     try {
@@ -180,6 +217,11 @@ export function useAudioCall() {
     if (volumeIntervalRef.current) {
       clearInterval(volumeIntervalRef.current)
       volumeIntervalRef.current = null
+    }
+
+    if (silenceTimerRef.current) {
+      clearTimeout(silenceTimerRef.current)
+      silenceTimerRef.current = null
     }
 
     if (recordingRef.current) {

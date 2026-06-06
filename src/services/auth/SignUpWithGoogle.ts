@@ -22,13 +22,18 @@ export async function loginWithGoogle() {
     if (result.type === 'success' && result.url) {
       console.log("✅ Auth Success! URL:", result.url);
       
-      // 4. Phân tích Token từ URL trả về (Nếu backend redirect kèm token)
+      // 4. Phân tích Token từ URL trả về
       const { queryParams } = Linking.parse(result.url);
-      const token = queryParams?.token;
-      const refreshToken = queryParams?.refreshToken;
+      
+      const getParam = (url: string, key: string) => {
+        const match = url.match(new RegExp(`[?&]${key}=([^&]+)`));
+        return match ? decodeURIComponent(match[1]) : null;
+      };
+
+      const token = queryParams?.token || getParam(result.url, "token");
+      const refreshToken = queryParams?.refreshToken || getParam(result.url, "refreshToken");
 
       if (token) {
-        // Lưu token vào AsyncStorage để duy trì phiên đăng nhập và tự động gửi kèm các API requests sau
         await AsyncStorage.setItem("auth_token", token as string);
         console.log("🔑 Token received & saved to AsyncStorage");
       }
@@ -41,7 +46,7 @@ export async function loginWithGoogle() {
       // 5. Cập nhật trạng thái User
       await useAuthStore.getState().initAuth();
     } else {
-      console.log("ℹ️ User cancelled or dismissed login.");
+      console.log("ℹ️ User cancelled or dismissed login (WebBrowser result type is " + result.type + ").");
     }
   } catch (error) {
     console.error("❌ Google Login Error:", error);

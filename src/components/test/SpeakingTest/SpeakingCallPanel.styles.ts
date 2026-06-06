@@ -1,31 +1,21 @@
-import { StyleSheet } from "react-native"
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0f172a",
   },
-  header: {
-    height: 56,
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: "rgba(255, 255, 255, 0.08)",
+  scrollContainer: {
+    padding: 20,
+    paddingBottom: 40,
   },
-  backButton: {
-    padding: 4,
-  },
-  headerTitle: {
-    color: "#f8fafc",
-    fontSize: 18,
-    fontWeight: "700",
-    marginLeft: 12,
-    flex: 1,
+  card: {
+    borderWidth: 1,
+    borderRadius: 24,
+    padding: 20,
   },
   headerStatusWrap: {
-    flexDirection: "row",
-    alignItems: "center",
+    alignSelf: 'flex-start',
+    marginBottom: 16,
   },
   statusBadge: {
     flexDirection: "row",
@@ -46,105 +36,21 @@ export const styles = StyleSheet.create({
     fontSize: 10,
     fontWeight: "700",
   },
-  scrollContainer: {
-    padding: 16,
-    paddingBottom: 40,
-  },
-  card: {
-    backgroundColor: "rgba(30, 41, 59, 0.65)",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.06)",
-    borderRadius: 24,
-    padding: 20,
-  },
-  badgeRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  newBadge: {
-    backgroundColor: "#10b981",
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 6,
-    marginRight: 8,
-  },
-  newBadgeText: {
-    color: "#ffffff",
-    fontSize: 10,
+  title: {
+    fontSize: 22,
     fontWeight: "800",
-  },
-  subtitle: {
-    color: "#94a3b8",
-    fontSize: 12,
-    fontWeight: "600",
-  },
-  heroTitle: {
-    color: "#f8fafc",
-    fontSize: 24,
-    fontWeight: "800",
-    lineHeight: 32,
     marginBottom: 10,
   },
-  heroDesc: {
-    color: "#cbd5e1",
+  desc: {
     fontSize: 14,
     lineHeight: 22,
     marginBottom: 24,
   },
   sectionTitle: {
-    color: "#f8fafc",
     fontSize: 16,
     fontWeight: "700",
     marginTop: 8,
     marginBottom: 16,
-  },
-  voiceCard: {
-    backgroundColor: "rgba(255, 255, 255, 0.03)",
-    borderWidth: 1,
-    borderColor: "rgba(255, 255, 255, 0.05)",
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 12,
-  },
-  voiceCardSelected: {
-    backgroundColor: "rgba(59, 130, 246, 0.08)",
-    borderColor: "#3b82f6",
-  },
-  voiceHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
-  },
-  avatarCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: "#3b82f6",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarText: {
-    color: "#ffffff",
-    fontSize: 18,
-    fontWeight: "700",
-  },
-  voiceMeta: {
-    marginLeft: 12,
-  },
-  voiceName: {
-    color: "#f8fafc",
-    fontSize: 16,
-    fontWeight: "700",
-  },
-  voiceAccent: {
-    color: "#94a3b8",
-    fontSize: 12,
-  },
-  voiceDesc: {
-    color: "#cbd5e1",
-    fontSize: 13,
-    lineHeight: 18,
   },
   startCallButtonWrap: {
     marginTop: 16,
@@ -197,7 +103,6 @@ export const styles = StyleSheet.create({
     fontWeight: "800",
   },
   dialName: {
-    color: "#f8fafc",
     fontSize: 28,
     fontWeight: "800",
     marginBottom: 8,
@@ -243,7 +148,7 @@ export const styles = StyleSheet.create({
   },
   activeCallContainer: {
     flex: 1,
-    padding: 16,
+    padding: 20,
     justifyContent: "space-between",
   },
   callHeader: {
@@ -274,12 +179,10 @@ export const styles = StyleSheet.create({
     backgroundColor: "#f59e0b",
   },
   speakingStatusText: {
-    color: "#cbd5e1",
     fontSize: 11,
     fontWeight: "700",
   },
   timerText: {
-    color: "#f8fafc",
     fontSize: 16,
     fontWeight: "700",
   },
@@ -302,12 +205,10 @@ export const styles = StyleSheet.create({
     fontWeight: "700",
   },
   callerName: {
-    color: "#f8fafc",
     fontSize: 18,
     fontWeight: "800",
   },
   callerAccent: {
-    color: "#cbd5e1",
     fontSize: 12,
   },
   waveformContainer: {
@@ -326,7 +227,6 @@ export const styles = StyleSheet.create({
   chatScroll: {
     flex: 1,
     marginVertical: 16,
-    backgroundColor: "rgba(15, 23, 42, 0.4)",
     borderRadius: 16,
     padding: 12,
   },
@@ -369,16 +269,6 @@ export const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 12,
   },
-  thinkingSpinnerWrap: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: "rgba(59, 130, 246, 0.1)",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 24,
-  },
-  spinner: {},
   thinkingDesc: {
     color: "#94a3b8",
     fontSize: 14,
@@ -407,7 +297,6 @@ export const styles = StyleSheet.create({
     fontWeight: "800",
   },
   reportTitle: {
-    color: "#f8fafc",
     fontSize: 20,
     fontWeight: "800",
   },
@@ -421,14 +310,9 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     backgroundColor: "#1e293b",
     borderWidth: 2,
-    borderColor: "#3b82f6",
     alignItems: "center",
     justifyContent: "center",
     elevation: 4,
-    shadowColor: "#3b82f6",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 6,
   },
   overallLabel: {
     color: "#3b82f6",
@@ -453,7 +337,6 @@ export const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.04)",
   },
   subMetricName: {
     color: "#cbd5e1",
@@ -462,7 +345,6 @@ export const styles = StyleSheet.create({
     marginBottom: 4,
   },
   subMetricVal: {
-    color: "#f8fafc",
     fontSize: 18,
     fontWeight: "800",
   },
@@ -476,7 +358,6 @@ export const styles = StyleSheet.create({
     marginBottom: 16,
   },
   correctionsMainTitle: {
-    color: "#f8fafc",
     fontSize: 15,
     fontWeight: "700",
   },
@@ -496,6 +377,7 @@ export const styles = StyleSheet.create({
   corrTypeText: {
     fontSize: 11,
     fontWeight: "800",
+    borderColor: "transparent",
   },
   corrOriginal: {
     color: "#cbd5e1",
@@ -519,7 +401,6 @@ export const styles = StyleSheet.create({
   },
   restartButton: {
     flexDirection: "row",
-    backgroundColor: "#ffffff",
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 14,
@@ -528,8 +409,12 @@ export const styles = StyleSheet.create({
     gap: 8,
   },
   restartButtonText: {
-    color: "#0f172a",
+    color: "#ffffff",
     fontSize: 14,
     fontWeight: "700",
+  },
+  noCorrectionsText: {
+    fontSize: 13,
+    fontStyle: 'italic',
   }
-})
+});

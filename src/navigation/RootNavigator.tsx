@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Home, Map, BookOpen, User } from 'lucide-react-native';
+import { Home, Map, BookOpen, User, Sparkles } from 'lucide-react-native';
 
 import HomePage from '@/pages/home/HomePage';
 import LoginPage from '@/pages/login/LoginPage';
@@ -17,6 +17,7 @@ import ResultPage from '@/pages/practice/result/ResultPage';
 import ResultExplainPage from '@/pages/practice/result-explain/ResultExplainPage';
 import PronunciationPracticePage from '@/pages/practice/pronunciation/PronunciationPracticePage';
 import WritingSamplesPage from '@/pages/practice/writing-samples/WritingSamplesPage';
+import PracticeGeneralPage from '@/pages/practice/practice-general/PracticeGeneralPage';
 import { useAuthStore } from '@/services/auth/auth.store';
 import { useThemeColor } from '@/hooks/useThemeColor';
 
@@ -67,6 +68,14 @@ function MainTabNavigator() {
         options={{
           tabBarIcon: ({ color }) => <BookOpen size={24} color={color} />,
           tabBarLabel: 'Luyện tập',
+        }}
+      />
+      <Tab.Screen
+        name="PracticeGeneral"
+        component={PracticeGeneralPage}
+        options={{
+          tabBarIcon: ({ color }) => <Sparkles size={24} color={color} />,
+          tabBarLabel: 'Tổng hợp',
         }}
       />
       <Tab.Screen

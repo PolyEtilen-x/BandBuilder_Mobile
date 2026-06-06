@@ -25,6 +25,8 @@ import QuestionNavigator from '@/components/test/TestComponent/QuestionNavigator
 import PracticeToolbar, { ToolType } from '@/components/test/TestComponent/PracticeToolbar';
 import WritingPanel from '@/components/test/TestComponent/WritingPanel';
 import WritingEditor from '@/components/test/TestComponent/WritingEditor';
+import SpeakingPanel from '@/components/test/SpeakingTest/SpeakingPanel';
+import SpeakingCallPanel from '@/components/test/SpeakingTest/SpeakingCallPanel';
 import { DictionaryModal } from './components/DictionaryModal';
 import { NotesModal } from './components/NotesModal';
 import { usePracticeStore } from '@/services/practice/practice.store';
@@ -60,6 +62,7 @@ export default function PracticeTestPage() {
 
   const { practiceTestId: routePracticeTestId } = route.params || {};
   const isWriting = test?.skillType === 'Writing' || test?.skill === 'Writing';
+  const isSpeaking = test?.skillType === 'Speaking' || test?.skill === 'Speaking';
   const taskNumber = Number(route.params?.unit || 1);
 
   const handleSubmit = async () => {
@@ -116,7 +119,18 @@ export default function PracticeTestPage() {
               }
 
               // 4. Format and submit answers based on skill type
-              if (isWriting) {
+              if (isSpeaking) {
+                try {
+                  await practiceApi.submitSkillAnswers(sessionTestId, 'Speaking', {
+                    answers: [],
+                    timeSpentSec
+                  });
+                } catch (err: any) {
+                  if (err?.response?.status !== 409) {
+                    throw err;
+                  }
+                }
+              } else if (isWriting) {
                 const storageKey = `task${taskNumber}`;
                 const essay = String(answers[storageKey] || "").trim();
                 const wordCount = essay === "" ? 0 : essay.split(/\s+/).length;
@@ -309,7 +323,7 @@ export default function PracticeTestPage() {
       </View>
 
       {/* TOOLBAR - Chỉ hiển thị trong Practice Mode */}
-      {!isExamMode && !isWriting && (
+      {!isExamMode && !isWriting && !isSpeaking && (
         <PracticeToolbar activeTool={activeTool} setActiveTool={handleToolChange} />
       )}
 
@@ -320,7 +334,7 @@ export default function PracticeTestPage() {
           onPress={() => setActiveTab('content')}
         >
           <Text style={[styles.tabText, activeTab === 'content' && styles.tabTextActive]}>
-            {isWriting ? 'Prompt' : isReading ? 'Passage' : 'Audio'}
+            {isSpeaking ? 'Prompt' : (isWriting ? 'Prompt' : isReading ? 'Passage' : 'Audio')}
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -328,7 +342,7 @@ export default function PracticeTestPage() {
           onPress={() => setActiveTab('questions')}
         >
           <Text style={[styles.tabText, activeTab === 'questions' && styles.tabTextActive]}>
-            {isWriting ? 'Write' : 'Questions'}
+            {isSpeaking ? 'Call AI' : (isWriting ? 'Write' : 'Questions')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -336,13 +350,17 @@ export default function PracticeTestPage() {
       {/* MAIN CONTENT */}
       <View style={styles.content}>
         {activeTab === 'content' ? (
-          isWriting ? (
+          isSpeaking ? (
+            <SpeakingPanel test={test} currentUnit={currentUnit} mode={mode} />
+          ) : isWriting ? (
             <WritingPanel content={(currentUnit || test?.content || {}) as any} taskNumber={taskNumber} />
           ) : isReading ? (
             <ReadingPanel passage={currentUnit} />
           ) : (
             <ListeningPanel section={currentUnit} />
           )
+        ) : isSpeaking ? (
+          <SpeakingCallPanel test={test} currentUnit={currentUnit} mode={mode} />
         ) : isWriting ? (
           <WritingEditor content={(currentUnit || test?.content || {}) as any} taskNumber={taskNumber} />
         ) : (
@@ -353,11 +371,11 @@ export default function PracticeTestPage() {
       </View>
 
       {/* FOOTER */}
-      {!isWriting ? (
+      {!isWriting && !isSpeaking ? (
         <View style={styles.footer}>
           <QuestionNavigator questionBlocks={currentUnit?.question_blocks || []} />
         </View>
-      ) : (
+      ) : isWriting ? (
         <View style={[styles.footer, { justifyContent: 'center', alignItems: 'center', paddingVertical: 12 }]}>
           {(() => {
             const storageKey = `task${taskNumber}`;
@@ -374,7 +392,7 @@ export default function PracticeTestPage() {
             );
           })()}
         </View>
-      )}
+      ) : null}
 
       {/* DICTIONARY MODAL */}
       <DictionaryModal

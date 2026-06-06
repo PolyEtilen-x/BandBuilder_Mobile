@@ -80,6 +80,8 @@ export default function CallWithAiPage({ navigation }: Props) {
     overallBand: liveBand,
     metrics: liveMetrics,
     corrections: liveCorrections,
+    isEvaluating,
+    isTtsPlaying,
     initSocket,
     startCall: startLiveCall,
     stopRecording: stopLiveRecording,
@@ -106,6 +108,26 @@ export default function CallWithAiPage({ navigation }: Props) {
   const [simState, setSimState] = useState<"idle" | "calling" | "active" | "feedback">("idle")
   const [simDialogue, setSimDialogue] = useState<DialogueTurn[]>([])
   const [simTimer, setSimTimer] = useState(0)
+
+  // Waveform state for mic and AI speaking
+  const [waveVolume, setWaveVolume] = useState(0)
+
+  const activeStateForWave = isConnected ? liveState : simState
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null
+    if (activeStateForWave === "active" && isRecording) {
+      setWaveVolume(rmsVolume)
+    } else if (isConnected && isTtsPlaying) {
+      interval = setInterval(() => {
+        setWaveVolume(0.02 + Math.random() * 0.18)
+      }, 100)
+    } else {
+      setWaveVolume(0)
+    }
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [activeStateForWave, isRecording, rmsVolume, isTtsPlaying, isConnected])
 
   const timerRef = useRef<NodeJS.Timeout | null>(null)
   const simDialogueRef = useRef<NodeJS.Timeout | null>(null)
@@ -214,9 +236,9 @@ export default function CallWithAiPage({ navigation }: Props) {
     }
   }
 
-  const handleEndCall = () => {
+  const handleHangUpCall = () => {
     if (isConnected) {
-      stopLiveRecording()
+      hangUpLive()
     } else {
       setSimState("feedback")
     }
@@ -236,8 +258,8 @@ export default function CallWithAiPage({ navigation }: Props) {
     return `${m}:${s}`
   }
 
-  // Visual Waveform scaling based on RMS volume
-  const scaleValue = isConnected && isRecording ? Math.min(1 + rmsVolume * 6, 2.5) : 1
+  // Visual Waveform scaling based on dynamic waveVolume
+  const scaleValue = 1 + waveVolume * 6
 
   return (
     <SafeAreaView style={styles.container} edges={["top", "bottom"]}>
@@ -362,13 +384,13 @@ export default function CallWithAiPage({ navigation }: Props) {
       )}
 
       {/* 3. ACTIVE VOICE CALL SCREEN */}
-      {activeState === "active" && (
+      {(activeState === "active" || (activeState === "thinking" && !isEvaluating)) && (
         <View style={styles.activeCallContainer}>
           <View style={styles.callHeader}>
             <View style={styles.speakingIndicatorRow}>
-              <View style={[styles.speakingDot, isRecording && styles.speakingDotActive]} />
+              <View style={[styles.speakingDot, isRecording ? styles.speakingDotActive : (activeState === "thinking" ? styles.speakingDotThinking : null)]} />
               <Text style={styles.speakingStatusText}>
-                {isRecording ? t('call.listeningText') : t('call.examinerSpeaking', { name: activeVoice.name })}
+                {isRecording ? t('call.listeningText') : (activeState === "thinking" ? t('call.processingText') : t('call.examinerSpeaking', { name: activeVoice.name }))}
               </Text>
             </View>
             <Text style={styles.timerText}>{formatTime(activeTimer)}</Text>
@@ -436,6 +458,12 @@ export default function CallWithAiPage({ navigation }: Props) {
                 </View>
               )
             })}
+            {activeState === "thinking" && !isEvaluating && (
+              <View style={[styles.chatBubble, styles.bubbleAi]}>
+                <Text style={styles.bubbleAuthor}>{activeVoice.name}</Text>
+                <Text style={styles.bubbleText}>...</Text>
+              </View>
+            )}
           </ScrollView>
 
           {/* Controller keys */}
@@ -443,17 +471,33 @@ export default function CallWithAiPage({ navigation }: Props) {
             <TouchableOpacity
               onPress={() => setMuted(!isMuted)}
               style={[styles.circleButtonSmall, isMuted && styles.controlActive]}
+              disabled={activeState === "thinking" || isEvaluating}
             >
               {isMuted ? <MicOff size={22} color="#fff" /> : <Mic size={22} color="#fff" />}
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={handleEndCall} style={[styles.circleButton, styles.hangUpButton]}>
+            <TouchableOpacity
+              onPress={handleHangUpCall}
+              style={[styles.circleButton, styles.hangUpButton]}
+              disabled={activeState === "thinking" || isEvaluating}
+            >
               <PhoneOff size={24} color="#fff" />
             </TouchableOpacity>
+
+            {isRecording && (
+              <TouchableOpacity
+                onPress={stopLiveRecording}
+                style={[styles.circleButton, styles.submitButton]}
+                disabled={activeState === "thinking" || isEvaluating}
+              >
+                <CheckCircle size={24} color="#fff" />
+              </TouchableOpacity>
+            )}
 
             <TouchableOpacity
               onPress={() => setSpeakerOn(!isSpeakerOn)}
               style={[styles.circleButtonSmall, !isSpeakerOn && styles.controlActive]}
+              disabled={activeState === "thinking" || isEvaluating}
             >
               {isSpeakerOn ? <Volume2 size={22} color="#fff" /> : <VolumeX size={22} color="#fff" />}
             </TouchableOpacity>
@@ -462,7 +506,7 @@ export default function CallWithAiPage({ navigation }: Props) {
       )}
 
       {/* 4. THINKING STATE */}
-      {activeState === "thinking" && (
+      {activeState === "thinking" && isEvaluating && (
         <View style={styles.fullScreenOverlay}>
           <View style={styles.thinkingSpinnerWrap}>
             <RefreshCw size={44} color="#3b82f6" style={styles.spinner} />

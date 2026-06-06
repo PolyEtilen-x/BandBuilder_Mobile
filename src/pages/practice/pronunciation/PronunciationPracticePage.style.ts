@@ -122,6 +122,28 @@ export const getStyles = (theme: any) => StyleSheet.create({
     width: "100%",
     position: "relative",
   },
+  videoErrorContainer: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(20, 20, 20, 0.95)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+    zIndex: 10,
+  },
+  videoErrorText: {
+    color: "#ff4d4f",
+    fontSize: 15,
+    fontWeight: "700",
+    textAlign: "center",
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  videoErrorSubtext: {
+    color: "#a0a0a0",
+    fontSize: 12,
+    textAlign: "center",
+    lineHeight: 18,
+  },
   webview: {
     flex: 1,
   },

@@ -31,6 +31,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
         try {
             const token = await AsyncStorage.getItem("auth_token")
+            console.log("🔑 initAuth token read:", token ? token.substring(0, 20) + "..." : "null")
             if (!token) {
                 set({
                     user: null,
@@ -41,13 +42,15 @@ export const useAuthStore = create<AuthState>((set) => ({
             }
 
             const user = await getCurrentUser()
+            console.log("👤 initAuth user:", user)
 
             set({
                 user,
                 isAuthenticated: !!user,
                 isLoading: false
             })
-        } catch {
+        } catch (e) {
+            console.error("❌ initAuth try/catch error:", e)
             set({
                 user: null,
                 isAuthenticated: false,

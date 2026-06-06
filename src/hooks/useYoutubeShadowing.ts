@@ -19,6 +19,7 @@ export function useYoutubeShadowing(
   const [isLooping, setIsLooping] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [playerError, setPlayerError] = useState<number | null>(null)
   
   const [selectedSentence, setSelectedSentence] = useState<PronunciationSentenceDto | null>(null)
   const [activeSentence, setActiveSentence] = useState<PronunciationSentenceDto | null>(null)
@@ -47,6 +48,7 @@ export function useYoutubeShadowing(
     setDuration(0)
     setSelectedSentence(null)
     setActiveSentence(null)
+    setPlayerError(null)
   }, [detail?.id])
 
   const injectJS = (code: string) => {
@@ -116,6 +118,8 @@ export function useYoutubeShadowing(
         } else {
           setIsPlaying(false)
         }
+      } else if (msg.type === "error") {
+        setPlayerError(msg.error)
       }
     } catch (e) {
       console.warn("Failed to parse webview postMessage:", e)
@@ -162,7 +166,8 @@ export function useYoutubeShadowing(
               },
               events: {
                 'onReady': onPlayerReady,
-                'onStateChange': onPlayerStateChange
+                'onStateChange': onPlayerStateChange,
+                'onError': onPlayerError
               }
             });
           }
@@ -186,6 +191,13 @@ export function useYoutubeShadowing(
             window.ReactNativeWebView.postMessage(JSON.stringify({
               type: 'statechange',
               state: event.data
+            }));
+          }
+
+          function onPlayerError(event) {
+            window.ReactNativeWebView.postMessage(JSON.stringify({
+              type: 'error',
+              error: event.data
             }));
           }
 
@@ -221,6 +233,7 @@ export function useYoutubeShadowing(
     activeSentence,
     htmlSource,
     videoId,
+    playerError,
     onWebViewMessage,
     playVideo,
     pauseVideo,

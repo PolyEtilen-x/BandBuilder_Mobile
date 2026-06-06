@@ -25,7 +25,7 @@ export type SpeakingSessionData = {
   corrections: CorrectionItem[]
 }
 
-export type SpeakingSessionResponse = SpeakingSessionData & {
+export type SpeakingSessionResponse = Omit<SpeakingSessionData, "dialogue"> & {
   id: string
   userId: string
   createdAt: string

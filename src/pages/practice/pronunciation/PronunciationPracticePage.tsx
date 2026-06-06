@@ -23,6 +23,7 @@ import {
   Play,
   Pause,
   Repeat,
+  AlertTriangle,
 } from "lucide-react-native"
 import { useTranslation } from "react-i18next"
 import { useThemeColor } from "@/hooks/useThemeColor"
@@ -73,6 +74,7 @@ export default function PronunciationPracticePage({ navigation }: any) {
     activeSentence,
     htmlSource,
     videoId,
+    playerError,
     onWebViewMessage,
     togglePlay,
     toggleLoop,
@@ -298,6 +300,20 @@ export default function PronunciationPracticePage({ navigation }: any) {
                       domStorageEnabled={true}
                       onMessage={onWebViewMessage}
                     />
+
+                    {playerError !== null && (
+                      <View style={styles.videoErrorContainer}>
+                        <AlertTriangle size={32} color="#ff4d4f" />
+                        <Text style={styles.videoErrorText}>
+                          Lỗi tải video YouTube ({playerError})
+                        </Text>
+                        <Text style={styles.videoErrorSubtext}>
+                          {playerError === 101 || playerError === 150 || playerError === 153
+                            ? "Video này không cho phép nhúng phát bên ngoài YouTube do giới hạn bản quyền của chủ sở hữu. Bạn vẫn có thể tiếp tục luyện phát âm & xem dịch nghĩa các câu transcript bên dưới."
+                            : "Có vấn đề xảy ra hoặc video này hiện không khả dụng. Bạn vẫn có thể luyện tập bằng cách xem danh sách transcript bên dưới."}
+                        </Text>
+                      </View>
+                    )}
                   </View>
                 ) : (
                   <View style={[styles.videoCard, { justifyContent: "center", alignItems: "center" }]}>
