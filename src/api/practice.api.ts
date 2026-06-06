@@ -35,5 +35,11 @@ export const practiceApi = {
     apiClient.post<{ testId: string }>(`/practice/tests/${practiceTestId}/start`),
 
   getTestSessionContent: (testId: string) =>
-    apiClient.get<any>(`/practice/${testId}`)
+    apiClient.get<any>(`/practice/${testId}`),
+
+  getSpeakingHint: (skillContentId: string, questionId: string) =>
+    apiClient.get<any>(`/practice/skills/${skillContentId}/speaking/hint/${questionId}`),
+
+  getSpeakingSample: (skillContentId: string, questionId: string, band: number) =>
+    apiClient.get<any>(`/practice/skills/${skillContentId}/speaking/sample/${questionId}?band=${band}`)
 }

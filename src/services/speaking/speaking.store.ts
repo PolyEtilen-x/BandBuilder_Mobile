@@ -1,11 +1,13 @@
 import { create } from "zustand"
 import { io, Socket } from "socket.io-client"
 import { Audio } from "expo-av"
+import { speakingApi } from "@/api/speaking.api"
 
 export type DialogueTurn = {
   sender: "ai" | "user"
   text: string
   isPartial?: boolean
+  lowConfidenceWords?: string[]
 }
 
 export type SpeakingState = {
@@ -20,6 +22,8 @@ export type SpeakingState = {
   isMuted: boolean
   isSpeakerOn: boolean
   activeSound: Audio.Sound | null
+  isEvaluating: boolean
+  isTtsPlaying: boolean
 
   // Dialogue Transcripts
   dialogue: DialogueTurn[]
@@ -41,7 +45,7 @@ export type SpeakingState = {
 
   // Actions
   initSocket: () => void
-  startCall: (voiceId: string) => void
+  startCall: (voiceId: string, context?: { topic?: string; scenario?: string; prompts?: string[] }) => void
   sendAudioChunk: (chunk: ArrayBuffer) => void // binary PCM buffer for mobile
   stopRecording: () => void
   hangUp: () => void
@@ -63,6 +67,8 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
   isMuted: false,
   isSpeakerOn: true,
   activeSound: null,
+  isEvaluating: false,
+  isTtsPlaying: false,
   dialogue: [],
   overallBand: 0,
   metrics: { fluency: 0, lexical: 0, grammar: 0, pronunciation: 0 },
@@ -88,7 +94,20 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
 
     // Listen for session state synchronization
     socket.on("session_state", (data: { state: "idle" | "calling" | "active" | "thinking" | "feedback" }) => {
-      set({ callState: data.state })
+      if (get().isEvaluating && data.state !== "feedback") {
+        set({ callState: "thinking" })
+        return
+      }
+
+      if (data.state === "active") {
+        if (get().isTtsPlaying) {
+          set({ callState: "thinking" })
+        } else {
+          set({ callState: "active" })
+        }
+      } else {
+        set({ callState: data.state })
+      }
     })
 
     // Listen for real-time partial Whisper transcripts
@@ -105,8 +124,8 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
       set({ dialogue })
     })
 
-    // Listen for finalized user transcript
-    socket.on("final_transcript", (data: { text: string }) => {
+    // Listen for finalized user transcript with low-confidence words list
+    socket.on("final_transcript", (data: { text: string; lowConfidenceWords?: Array<{ word: string; probability: number }> }) => {
       const dialogue = [...get().dialogue]
 
       // Remove any partial user transcripts at the end
@@ -114,7 +133,17 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
         dialogue.pop()
       }
 
-      dialogue.push({ sender: "user", text: data.text, isPartial: false })
+      // Extract raw words in lowercase
+      const lowConfList = data.lowConfidenceWords
+        ? data.lowConfidenceWords.map(w => w.word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, ""))
+        : []
+
+      dialogue.push({
+        sender: "user",
+        text: data.text,
+        isPartial: false,
+        lowConfidenceWords: lowConfList
+      })
       set({ dialogue, callState: "thinking" })
     })
 
@@ -128,7 +157,7 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
       } else {
         dialogue.push({ sender: "ai", text: data.token })
       }
-      set({ dialogue, callState: "active" })
+      set({ dialogue, callState: "thinking" })
     })
 
     // Listen for full voice feedback analysis
@@ -146,7 +175,29 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
         overallBand: data.overallBand,
         metrics: data.metrics,
         corrections: data.corrections,
-        callState: "feedback"
+        callState: "feedback",
+        isEvaluating: false,
+        isTtsPlaying: false
+      })
+
+      // Auto-save speaking session to database via NestJS API
+      const dialogue = get().dialogue.map(d => ({
+        sender: d.sender,
+        text: d.text
+      }))
+      const voiceId = get().selectedVoiceId
+
+      speakingApi.saveSession({
+        voiceId,
+        dialogue,
+        overallBand: data.overallBand,
+        fluency: data.metrics.fluency,
+        lexical: data.metrics.lexical,
+        grammar: data.metrics.grammar,
+        pronunciation: data.metrics.pronunciation,
+        corrections: data.corrections
+      }).catch(err => {
+        console.error("Failed to auto-save speaking session to database:", err)
       })
     })
 
@@ -162,6 +213,8 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
           }
         }
 
+        set({ isTtsPlaying: true, callState: "thinking" })
+
         const { sound } = await Audio.Sound.createAsync(
           { uri: `data:audio/mp3;base64,${data.audio}` },
           { shouldPlay: true }
@@ -173,29 +226,32 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
           if (status.isLoaded && status.didJustFinish) {
             sound.unloadAsync().catch(() => {})
             if (get().activeSound === sound) {
-              set({ activeSound: null })
+              set({ activeSound: null, isTtsPlaying: false, callState: "active" })
             }
           }
         })
       } catch (err) {
         console.error("Failed to play mobile TTS sound:", err)
+        set({ isTtsPlaying: false, callState: "active" })
       }
     })
 
     set({ socket })
   },
 
-  startCall: (voiceId: string): void => {
+  startCall: (voiceId: string, context?: { topic?: string; scenario?: string; prompts?: string[] }): void => {
     const { socket } = get()
     set({
       selectedVoiceId: voiceId,
       callState: "calling",
       dialogue: [],
-      timer: 0
+      timer: 0,
+      isEvaluating: false,
+      isTtsPlaying: false
     })
 
     if (socket) {
-      socket.emit("start_session", { voiceId })
+      socket.emit("start_session", { voiceId, ...context })
     }
   },
 
@@ -220,7 +276,7 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
       activeSound.stopAsync().catch(() => {})
       activeSound.unloadAsync().catch(() => {})
     }
-    set({ callState: "idle", timer: 0, activeSound: null })
+    set({ callState: "thinking", isEvaluating: true, timer: 0, activeSound: null })
     if (socket) {
       socket.emit("end_session")
     }
@@ -243,11 +299,13 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
       activeSound: null,
       dialogue: [],
       overallBand: 0,
-      corrections: []
+      corrections: [],
+      isEvaluating: false,
+      isTtsPlaying: false
     })
   },
 
   setMuted: (muted: boolean): void => set({ isMuted: muted }),
   setSpeakerOn: (speakerOn: boolean): void => set({ isSpeakerOn: speakerOn }),
-  incrementTimer: (): void => set((state) => ({ timer: state.timer + 1 }))
+  incrementTimer: () => set((state) => ({ timer: state.timer + 1 }))
 }))

@@ -10,6 +10,7 @@ import PracticePage from '@/pages/practice/practice-main/PracticePage';
 import ProfilePage from '@/pages/profile/ProfilePage';
 import PracticeTestPage from '@/pages/practice-test/main/PracticeTestPage';
 import CallWithAiPage from '@/pages/call/CallWithAiPage';
+import SpeakingHistoryPage from '@/pages/call/SpeakingHistoryPage';
 import UpgradePage from '@/pages/upgrade/UpgradePage';
 import RoadmapSetupPage from '@/pages/roadmap/RoadmapSetupPage';
 import ResultPage from '@/pages/practice/result/ResultPage';
@@ -87,6 +88,7 @@ export default function RootNavigator() {
       <Stack.Screen name="Login" component={LoginPage} />
       <Stack.Screen name="PracticeTest" component={PracticeTestPage} />
       <Stack.Screen name="CallWithAi" component={CallWithAiPage} />
+      <Stack.Screen name="SpeakingHistory" component={SpeakingHistoryPage} />
       <Stack.Screen name="Upgrade" component={UpgradePage} />
       <Stack.Screen name="RoadmapSetup" component={RoadmapSetupPage} />
       <Stack.Screen name="PracticeResult" component={ResultPage} />

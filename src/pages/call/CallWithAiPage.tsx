@@ -317,6 +317,28 @@ export default function CallWithAiPage({ navigation }: Props) {
                 </Text>
               </LinearGradient>
             </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={0.8}
+              onPress={() => navigation.navigate("SpeakingHistory")}
+              style={{
+                marginTop: 12,
+                borderRadius: 16,
+                backgroundColor: "#ffffff",
+                borderWidth: 1,
+                borderColor: "#e2e8f0",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingVertical: 14,
+                gap: 10,
+              }}
+            >
+              <Award size={20} color="#3b82f6" />
+              <Text style={{ color: "#0f172a", fontSize: 16, fontWeight: "700" }}>
+                {isVi ? "Lịch Sử Luyện Nói" : "Speaking History"}
+              </Text>
+            </TouchableOpacity>
           </View>
         </ScrollView>
       )}
@@ -384,7 +406,33 @@ export default function CallWithAiPage({ navigation }: Props) {
                   <Text style={styles.bubbleAuthor}>
                     {isAi ? activeVoice.name : (isVi ? "BẠN" : "YOU")}
                   </Text>
-                  <Text style={styles.bubbleText}>{turn.text}</Text>
+                  {turn.sender === "user" ? (
+                    (() => {
+                      const lowConfWords = (turn as any).lowConfidenceWords
+                      if (!lowConfWords || !lowConfWords.length) {
+                        return <Text style={styles.bubbleText}>{turn.text}</Text>
+                      }
+                      const words = turn.text.split(" ")
+                      return (
+                        <Text style={styles.bubbleText}>
+                          {words.map((word, wordIdx) => {
+                            const cleanWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "")
+                            const isMispronounced = lowConfWords.includes(cleanWord)
+                            return (
+                              <Text
+                                key={wordIdx}
+                                style={isMispronounced ? { color: "#f87171", fontWeight: "700", textDecorationLine: "underline" } : null}
+                              >
+                                {word}{" "}
+                              </Text>
+                            )
+                          })}
+                        </Text>
+                      )
+                    })()
+                  ) : (
+                    <Text style={styles.bubbleText}>{turn.text}</Text>
+                  )}
                 </View>
               )
             })}
