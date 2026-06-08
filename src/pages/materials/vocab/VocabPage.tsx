@@ -19,7 +19,8 @@ import {
   Sparkles,
   Bookmark,
   RefreshCw,
-  FolderOpen
+  FolderOpen,
+  Volume2
 } from "lucide-react-native"
 import { useTranslation } from "react-i18next"
 import { vocabApi } from "@/api/vocab.api"
@@ -27,8 +28,10 @@ import { VocabTopic } from "@/data/vocab/vocab.model"
 import { VocabTopicList } from "./components/VocabTopicList"
 import { VocabFlashcards } from "./components/VocabFlashcards"
 import { VocabNotebook } from "./components/VocabNotebook"
+import { useVocabStore } from "@/services/vocab/vocab.store"
 import { getStyles } from "./VocabPage.styles"
 import { useThemeColor } from "@/hooks/useThemeColor"
+import { playPronunciation } from "@/utils/sound.utils"
 
 interface Props {
   navigation?: any
@@ -50,9 +53,6 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
   const [searchQuery, setSearchQuery] = useState("")
   const [activeBandFilter, setActiveBandFilter] = useState<'all' | '5' | '6' | '7' | '8'>('all')
 
-  // Flashcards state
-  const [flashcardIndex, setFlashcardIndex] = useState(0)
-  const [isFlipped, setIsFlipped] = useState(false)
 
   const handleSelectTopic = async (topic: VocabTopic) => {
     try {
@@ -101,14 +101,12 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
     return topics.flatMap((t) => t.vocab_list.map((w) => ({ ...w, topicName: t.topic })))
   }, [topics])
 
-  const savedWords = useMemo(() => {
-    return allWords.filter((w) => w.isSaved)
-  }, [allWords])
+  const savedWords = useVocabStore((state) => state.savedWords);
 
   // Filtered topics based on search and band
   const filteredTopics = useMemo(() => {
     let list = topics;
-    
+
     if (activeBandFilter === 'all') {
       // General topics (no LR_ or SW_ prefix)
       list = list.filter((t) => !/^(LR|SW)_\d+/.test(t.topic))
@@ -143,25 +141,6 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
     }
   }
 
-  // Flashcards configuration
-  const currentFlashcard = useMemo(() => {
-    if (savedWords.length > 0) {
-      return savedWords[flashcardIndex % savedWords.length]
-    }
-    if (allWords.length > 0) {
-      return allWords[flashcardIndex % allWords.length]
-    }
-    return null
-  }, [savedWords, allWords, flashcardIndex])
-
-  const handleNextFlashcard = () => {
-    setIsFlipped(false)
-    setFlashcardIndex((prev) => prev + 1)
-  }
-
-  const handleFlipCard = () => {
-    setIsFlipped(!isFlipped)
-  }
 
   const Wrapper: any = isTab ? View : SafeAreaView
 
@@ -198,10 +177,10 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
         <View style={styles.tabsRow}>
           {(["topics", "flashcards", "notebook"] as TabType[]).map((tab) => {
             const isActive = activeTab === tab
-            const label = tab === "topics" 
-              ? t('vocab.tabTopics') 
-              : tab === "flashcards" 
-                ? t('vocab.tabFlashcards') 
+            const label = tab === "topics"
+              ? t('vocab.tabTopics')
+              : tab === "flashcards"
+                ? t('vocab.tabFlashcards')
                 : t('vocab.tabNotebook')
             return (
               <TouchableOpacity
@@ -285,7 +264,12 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
                 <View key={word.id} style={styles.wordCard}>
                   <View style={styles.wordHeader}>
                     <View>
-                      <Text style={styles.wordSpelling}>{word.word}</Text>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                        <Text style={styles.wordSpelling}>{word.word}</Text>
+                        <TouchableOpacity activeOpacity={0.7} onPress={() => playPronunciation(word.word)}>
+                          <Volume2 size={16} color={theme.primary} />
+                        </TouchableOpacity>
+                      </View>
                       <Text style={styles.wordPhonetics}>{word.pronunciation}</Text>
                     </View>
                     <TouchableOpacity
@@ -339,13 +323,12 @@ export default function VocabPage({ navigation, isTab = false }: Props) {
               {/* C. FLASHCARDS SCREEN */}
               {activeTab === "flashcards" && (
                 <VocabFlashcards
-                  currentFlashcard={currentFlashcard}
-                  isFlipped={isFlipped}
-                  handleFlipCard={handleFlipCard}
-                  handleNextFlashcard={handleNextFlashcard}
+                  topics={topics}
+                  savedWords={savedWords}
                   t={t}
                   theme={theme}
                   styles={styles}
+                  handleToggleSave={handleToggleSave}
                 />
               )}
 

@@ -1,6 +1,7 @@
 import { create } from "zustand"
 import { io, Socket } from "socket.io-client"
 import { Audio } from "expo-av"
+import { cacheDirectory, writeAsStringAsync, deleteAsync, EncodingType } from "expo-file-system/legacy"
 import { speakingApi } from "@/api/speaking.api"
 
 export type DialogueTurn = {
@@ -56,7 +57,7 @@ export type SpeakingState = {
   incrementTimer: () => void
 }
 
-const WS_URL = process.env.EXPO_PUBLIC_API_URL || "https://aidsense.online"
+const WS_URL = process.env.EXPO_PUBLIC_VOICE_WS_URL || "https://hydropic-mona-overflatly.ngrok-free.dev"
 
 export const useSpeakingStore = create<SpeakingState>((set, get) => ({
   socket: null,
@@ -215,8 +216,14 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
 
         set({ isTtsPlaying: true, callState: "thinking" })
 
+        // Save base64 audio string to temporary local file to bypass Android data URI player limits
+        const fileUri = cacheDirectory + "tts_temp.mp3"
+        await writeAsStringAsync(fileUri, data.audio, {
+          encoding: EncodingType.Base64,
+        })
+
         const { sound } = await Audio.Sound.createAsync(
-          { uri: `data:audio/mp3;base64,${data.audio}` },
+          { uri: fileUri },
           { shouldPlay: true }
         )
 
@@ -224,7 +231,9 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
 
         sound.setOnPlaybackStatusUpdate((status) => {
           if (status.isLoaded && status.didJustFinish) {
-            sound.unloadAsync().catch(() => {})
+            sound.unloadAsync().catch(() => { })
+            // Delete temp file after playback completes
+            deleteAsync(fileUri, { idempotent: true }).catch(() => { })
             if (get().activeSound === sound) {
               set({ activeSound: null, isTtsPlaying: false, callState: "active" })
             }
@@ -273,8 +282,8 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
   hangUp: (): void => {
     const { socket, activeSound } = get()
     if (activeSound) {
-      activeSound.stopAsync().catch(() => {})
-      activeSound.unloadAsync().catch(() => {})
+      activeSound.stopAsync().catch(() => { })
+      activeSound.unloadAsync().catch(() => { })
     }
     set({ callState: "thinking", isEvaluating: true, timer: 0, activeSound: null })
     if (socket) {
@@ -285,8 +294,8 @@ export const useSpeakingStore = create<SpeakingState>((set, get) => ({
   resetStore: (): void => {
     const { socket, activeSound } = get()
     if (activeSound) {
-      activeSound.stopAsync().catch(() => {})
-      activeSound.unloadAsync().catch(() => {})
+      activeSound.stopAsync().catch(() => { })
+      activeSound.unloadAsync().catch(() => { })
     }
     if (socket) {
       socket.disconnect()

@@ -5,11 +5,11 @@
     "scheme": "bandbuilder",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo_GoIelts.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/logo_GoIelts.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

@@ -3,6 +3,7 @@ import { useRoute } from "@react-navigation/native";
 import { practiceApi } from "@/api/practice.api";
 import { useMemo } from "react";
 import { PracticeTestDTO } from "@/data/practices/practice.types";
+import { normalizeTestUnits } from "@/utils/normalizeTestUnits.utils";
 
 export const usePracticeTest = () => {
   const route = useRoute<any>();
@@ -25,30 +26,13 @@ export const usePracticeTest = () => {
 
   const currentUnit = useMemo(() => {
     if (!test) return null;
-
-    const isReading = !!test.content?.passages;
-    const isListening = !!test.content?.sections;
-
-    if (isReading && test.content.passages) {
-      return (
-        test.content.passages.find((p) => p.passage_number === unitNumber) ||
-        test.content.passages[0]
-      );
-    }
-
-    if (isListening && test.content.sections) {
-      return (
-        test.content.sections.find((s) => s.section === unitNumber) ||
-        test.content.sections[0]
-      );
-    }
-
-    return null;
+    const units = normalizeTestUnits(test);
+    return units.find((u) => u.id === unitNumber) || units[0] || null;
   }, [test, unitNumber]);
 
   return {
     test,
-    currentUnit,
+    currentUnit: currentUnit as any,
     isLoading,
     error,
     mode,

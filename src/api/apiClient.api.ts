@@ -5,6 +5,11 @@ export const apiClient = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
   timeout: 10000,
   withCredentials: true,
+  headers: {
+    "Origin": "https://bandbuilder.site",
+    "Referer": "https://bandbuilder.site/",
+    "X-Requested-With": "XMLHttpRequest",
+  }
 })
 
 // Request interceptor to automatically attach JWT Bearer token

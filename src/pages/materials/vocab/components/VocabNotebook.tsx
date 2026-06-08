@@ -1,6 +1,8 @@
 import React from "react"
 import { View, Text, ScrollView, TouchableOpacity } from "react-native"
-import { Heart, BookOpen } from "lucide-react-native"
+import { Heart, BookOpen, Volume2 } from "lucide-react-native"
+import { useVocabStore } from "@/services/vocab/vocab.store"
+import { playPronunciation } from "@/utils/sound.utils"
 
 interface Props {
   savedWords: any[]
@@ -23,20 +25,33 @@ export function VocabNotebook({
     <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
       {savedWords.length > 0 ? (
         savedWords.map((word) => (
-          <View key={word.id} style={styles.wordCard}>
+          <View key={word.word} style={styles.wordCard}>
             <View style={styles.wordHeader}>
-              <View>
-                <Text style={styles.wordSpelling}>{word.word}</Text>
+              <View style={{ flex: 1, paddingRight: 8 }}>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+                  <Text style={styles.wordSpelling}>{word.word}</Text>
+                  <TouchableOpacity activeOpacity={0.7} onPress={() => playPronunciation(word.word, word.audio)}>
+                    <Volume2 size={16} color={theme.primary} />
+                  </TouchableOpacity>
+                </View>
                 <View style={styles.notebookBadgeRow}>
-                  <Text style={styles.wordPhonetics}>{word.pronunciation}</Text>
-                  <View style={styles.topicBadge}>
-                    <Text style={styles.topicBadgeText}>{formatTopicName(word.topicName || "")}</Text>
+                  <Text style={styles.wordPhonetics}>{word.phonetic || word.pronunciation || ""}</Text>
+                  <View style={[styles.topicBadge, !word.topicName && { backgroundColor: theme.primary + '08' }]}>
+                    <Text style={[styles.topicBadgeText, !word.topicName && { color: theme.textSecondary }]}>
+                      {word.topicName ? formatTopicName(word.topicName) : "Dictionary"}
+                    </Text>
                   </View>
                 </View>
               </View>
               <TouchableOpacity
                 activeOpacity={0.7}
-                onPress={() => handleToggleSave(word.topicName || "", word.id)}
+                onPress={() => {
+                  if (word.topicName && word.id) {
+                    handleToggleSave(word.topicName, word.id);
+                  } else {
+                    useVocabStore.getState().removeWord(word.word);
+                  }
+                }}
                 style={styles.bookmarkButton}
               >
                 <Heart size={22} color="#ef4444" fill="#ef4444" />

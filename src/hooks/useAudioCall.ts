@@ -227,7 +227,7 @@ export function useAudioCall() {
     if (recordingRef.current) {
       try {
         await recordingRef.current.stopAndUnloadAsync()
-      } catch (e) {}
+      } catch (e) { }
       recordingRef.current = null
     }
     setIsRecording(false)

@@ -74,41 +74,23 @@ export default function ResultPage() {
     const isVi = i18n.language === 'vi';
 
     if (acc >= 80) {
-      return isVi
-        ? [
-            'Xuất sắc! Bạn đã làm chủ hoàn toàn kỹ năng này với độ chính xác cực cao.',
-            'Hãy duy trì phong độ bằng cách thử thách các đề thi đầy đủ (Full Practice Tests) dưới áp lực phòng thi thật.',
-            'Xem lại các lỗi sai nhỏ (nếu có) để triệt tiêu hoàn toàn những sơ suất không đáng có.'
-          ]
-        : [
-            'Outstanding! You have fully mastered this skill with exceptional accuracy.',
-            'Keep up the momentum by challenging yourself with Full Practice Tests under real exam conditions.',
-            'Review minor slip-ups (if any) to eliminate any remaining careless mistakes.'
-          ];
+      return [
+        t('practice.result_rec_excellent_1'),
+        t('practice.result_rec_excellent_2'),
+        t('practice.result_rec_excellent_3')
+      ];
     } else if (acc >= 50) {
-      return isVi
-        ? [
-            'Kỹ năng nền tảng khá tốt, tuy nhiên bạn vẫn có thể mắc phải các "bẫy thông tin" (distractors) hoặc hiểu sai ý từ khóa.',
-            'Nên tập trung luyện tập lại các dạng câu hỏi có phần trăm chính xác thấp nhất ở bảng dưới.',
-            'Sử dụng tính năng "Giải thích bằng AI" bên dưới để sửa đổi tư duy chọn đáp án.'
-          ]
-        : [
-            'Your foundation is decent, but you are still prone to information distractors or misinterpreting keywords.',
-            'Focus on practicing the specific question types that yielded the lowest accuracy in the metrics below.',
-            'Use the "Explain with AI" feature to correct and refine your answer selection mindset.'
-          ];
+      return [
+        t('practice.result_rec_good_1'),
+        t('practice.result_rec_good_2'),
+        t('practice.result_rec_good_3')
+      ];
     } else {
-      return isVi
-        ? [
-            'Kỹ năng hiện tại cần được củng cố kỹ lưỡng hơn về cả từ vựng và phương pháp định vị thông tin.',
-            'Hãy học thuộc các bộ từ khóa và đồng nghĩa (synonyms) trước khi tiếp tục làm đề tính giờ.',
-            'Kích hoạt "Giải thích bằng AI" cho các câu sai để nắm rõ lộ trình tư duy giải câu hỏi.'
-          ]
-        : [
-            'Your current skill level requires rigorous reinforcement of both vocabulary and keyword-matching strategies.',
-            'Learn essential synonyms and paraphrasing groups before taking more timed quizzes.',
-            'Activate "Explain with AI" on incorrect answers to fully comprehend the logic pathway.'
-          ];
+      return [
+        t('practice.result_rec_poor_1'),
+        t('practice.result_rec_poor_2'),
+        t('practice.result_rec_poor_3')
+      ];
     }
   }, [stats, i18n.language]);
 
@@ -118,7 +100,7 @@ export default function ResultPage() {
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={styles.loadingText}>
-            {i18n.language === 'vi' ? 'Đang phân tích kết quả...' : 'Analyzing results...'}
+            {t('practice.result_loading_title')}
           </Text>
         </View>
       </SafeAreaView>
@@ -131,12 +113,10 @@ export default function ResultPage() {
         <View style={styles.errorContainer}>
           <AlertTriangle size={48} color={theme.error} />
           <Text style={[styles.heroTitle, { marginTop: 16 }]}>
-            {i18n.language === 'vi' ? 'Thiếu Dữ Liệu' : 'Missing Data'}
+            {t('practice.result_error_title')}
           </Text>
           <Text style={styles.errorText}>
-            {i18n.language === 'vi'
-              ? 'Không tìm thấy dữ liệu hoặc có lỗi xảy ra khi chấm điểm.'
-              : 'No attempt data found or an error occurred while grading.'}
+            {t('practice.result_error_desc')}
           </Text>
           <TouchableOpacity
             style={styles.btnPrimary}
@@ -146,7 +126,7 @@ export default function ResultPage() {
             })}
           >
             <Text style={styles.btnPrimaryText}>
-              {i18n.language === 'vi' ? 'Quay lại Luyện tập' : 'Back to Practice'}
+              {t('practice.result_error_back')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -164,7 +144,7 @@ export default function ResultPage() {
           <ArrowLeft size={24} color={theme.text} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>
-          {i18n.language === 'vi' ? 'Kết Quả Luyện Tập' : 'Practice Results'}
+          {t('practice.result_hero_title')}
         </Text>
         <View style={styles.headerRight} />
       </View>
@@ -178,15 +158,15 @@ export default function ResultPage() {
           </View>
           <Text style={styles.heroTitle}>
             {stats.score >= (stats.isBand ? 7.5 : 80)
-              ? (i18n.language === 'vi' ? 'Xuất Sắc!' : 'Excellent!')
+              ? t('practice.result_hero_excellent')
               : stats.score >= (stats.isBand ? 5.5 : 50)
-              ? (i18n.language === 'vi' ? 'Khá Tốt!' : 'Good Job!')
-              : (i18n.language === 'vi' ? 'Cố Gắng Lên!' : 'Keep Trying!')}
+              ? t('practice.result_hero_good')
+              : t('practice.result_hero_poor')}
           </Text>
           <Text style={styles.heroSubtitle}>
             {stats.isBand
-              ? `${i18n.language === 'vi' ? 'Bạn đã đạt mức điểm Band Score cực kỳ ấn tượng:' : 'You achieved an impressive Band Score of:'} ${stats.score}`
-              : `${i18n.language === 'vi' ? 'Bạn đạt độ chính xác:' : 'You reached an accuracy of:'} ${stats.score}%`}
+              ? `${t('practice.result_hero_band_prefix')} ${stats.score}`
+              : `${t('practice.result_hero_acc_prefix')} ${stats.score}%`}
           </Text>
 
           <View style={styles.heroActions}>
@@ -198,8 +178,8 @@ export default function ResultPage() {
               <Sparkles size={18} color="#ffffff" />
               <Text style={styles.btnPrimaryText}>
                 {attemptDetail?.hasExplanation
-                  ? (i18n.language === 'vi' ? 'Xem giải thích AI (Miễn phí)' : 'View AI Explanation (Free)')
-                  : (i18n.language === 'vi' ? 'Giải thích bằng AI (1 Credit)' : 'Explain with AI (1 Credit)')}
+                  ? t('practice.result_btn_explain_free')
+                  : t('practice.result_btn_explain_credit')}
               </Text>
             </TouchableOpacity>
 
@@ -212,7 +192,7 @@ export default function ResultPage() {
               })}
             >
               <Text style={styles.btnSecondaryText}>
-                {i18n.language === 'vi' ? 'Luyện tập tiếp' : 'Continue Practice'}
+                {t('practice.result_btn_continue')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -227,7 +207,7 @@ export default function ResultPage() {
             </View>
             <Text style={styles.statBoxValue}>{stats.correct}</Text>
             <Text style={styles.statBoxLabel}>
-              {i18n.language === 'vi' ? 'Đúng' : 'Correct'}
+              {t('practice.result_stat_correct')}
             </Text>
           </View>
 
@@ -238,7 +218,7 @@ export default function ResultPage() {
             </View>
             <Text style={styles.statBoxValue}>{stats.wrong}</Text>
             <Text style={styles.statBoxLabel}>
-              {i18n.language === 'vi' ? 'Sai' : 'Incorrect'}
+              {t('practice.result_stat_wrong')}
             </Text>
           </View>
 
@@ -249,7 +229,7 @@ export default function ResultPage() {
             </View>
             <Text style={styles.statBoxValue}>{stats.skipped}</Text>
             <Text style={styles.statBoxLabel}>
-              {i18n.language === 'vi' ? 'Bỏ qua' : 'Skipped'}
+              {t('practice.result_stat_skipped')}
             </Text>
           </View>
         </View>
@@ -258,7 +238,7 @@ export default function ResultPage() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>
-              {i18n.language === 'vi' ? 'Độ Chính Xác' : 'Accuracy'}
+              {t('practice.result_acc_title')}
             </Text>
           </View>
           <View style={styles.metricRow}>
@@ -267,7 +247,7 @@ export default function ResultPage() {
                 {attemptDetail?.skill || skill || 'IELTS Skill'}
               </Text>
               <Text style={styles.metricCount}>
-                {stats.total} {i18n.language === 'vi' ? 'câu hỏi' : 'questions'}
+                {stats.total} {t('practice.result_acc_questions')}
               </Text>
             </View>
             <View style={styles.progressWrapper}>
@@ -298,13 +278,11 @@ export default function ResultPage() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>
-              {i18n.language === 'vi' ? 'Đề Xuất Từ Giám Khảo AI' : 'AI Examiner Recommendations'}
+              {t('practice.result_rec_title')}
             </Text>
           </View>
           <Text style={styles.recIntro}>
-            {i18n.language === 'vi'
-              ? 'Dựa trên phân tích kết quả bài thi của bạn, Giám khảo AI khuyên bạn nên thực hiện:'
-              : 'Based on your test session analytics, the AI Examiner recommends following these steps:'}
+            {t('practice.result_rec_intro')}
           </Text>
           <View style={styles.recList}>
             {recommendations.map((rec, i) => (
@@ -320,7 +298,7 @@ export default function ResultPage() {
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
             <Text style={styles.sectionTitle}>
-              {i18n.language === 'vi' ? 'Xem Đáp Án Chi Tiết' : 'Detailed Answer Review'}
+              {t('practice.result_review_title')}
             </Text>
           </View>
           <View style={styles.questionList}>
@@ -345,7 +323,7 @@ export default function ResultPage() {
                   <View style={styles.qMeta}>
                     <View style={styles.qTitleRow}>
                       <Text style={styles.qTitle}>
-                        {i18n.language === 'vi' ? `Câu ${idx + 1}` : `Question ${idx + 1}`}
+                        {t('practice.result_review_q')}{idx + 1}
                       </Text>
                       <Text style={styles.qId} numberOfLines={1}>
                         ({ans.questionId})
@@ -353,7 +331,7 @@ export default function ResultPage() {
                     </View>
                     <View style={styles.qUserAnsRow}>
                       <Text style={styles.qUserAnsLabel}>
-                        {i18n.language === 'vi' ? 'Bạn chọn: ' : 'Your Choice: '}
+                        {t('practice.result_review_yours')}
                       </Text>
                       <Text
                         style={[
@@ -368,7 +346,7 @@ export default function ResultPage() {
                           },
                         ]}
                       >
-                        {ans.userAnswer || (i18n.language === 'vi' ? 'Bỏ qua' : 'Skipped')}
+                        {ans.userAnswer || t('practice.result_review_skipped')}
                       </Text>
                     </View>
                   </View>
@@ -377,7 +355,7 @@ export default function ResultPage() {
                 <View style={styles.qRight}>
                   <View style={styles.qCorrectAnsRow}>
                     <Text style={styles.qCorrectLabel}>
-                      {i18n.language === 'vi' ? 'Đáp án đúng:' : 'Correct:'}
+                      {t('practice.result_review_correct')}
                     </Text>
                     <Text style={styles.qCorrectVal}>{ans.correctAnswer || 'N/A'}</Text>
                   </View>

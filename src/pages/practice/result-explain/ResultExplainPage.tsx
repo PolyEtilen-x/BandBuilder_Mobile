@@ -38,7 +38,7 @@ interface ExplanationResponse {
 }
 
 export default function ResultExplainPage() {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const theme = useThemeColor();
   const styles = useMemo(() => getStyles(theme), [theme]);
   const navigation = useNavigation<any>();
@@ -109,19 +109,12 @@ export default function ResultExplainPage() {
   const recommendations = useMemo(() => {
     const isVi = i18n.language === 'vi';
     if (stats.incorrect === 0) {
-      return isVi
-        ? ['Hoàn hảo! Bạn đã đạt điểm tuyệt đối. Hãy tiếp tục giải đề khác để duy trì phong độ và phản xạ.']
-        : ['Perfect! You achieved a perfect score. Continue practicing other modules to maintain your speed.'];
+      return [t('practice.explain_rec_perfect')];
     }
-    return isVi
-      ? [
-          'Tập trung học phương pháp định vị từ khóa đồng nghĩa (Synonyms/Paraphrasing) được mô tả trong các mẹo tránh bẫy của AI.',
-          'Phân tích kỹ lưỡng các đáp án gây nhiễu (distractors) để học cách loại trừ triệt để.'
-        ]
-      : [
-          'Focus on mastering synonym keyword-matching described in the AI pro tips of incorrect answers.',
-          'Thoroughly analyze structural distractors to learn precise process-of-elimination techniques.'
-        ];
+    return [
+      t('practice.explain_rec_improve_1'),
+      t('practice.explain_rec_improve_2')
+    ];
   }, [stats, i18n.language]);
 
   if (isLoading) {
@@ -132,12 +125,10 @@ export default function ResultExplainPage() {
           <ActivityIndicator size="large" color={theme.primary} />
           <Brain size={36} color={theme.primary} style={{ marginTop: 20 }} />
           <Text style={styles.loadingText}>
-            {i18n.language === 'vi' ? 'Đang phân tích lỗi bằng AI...' : 'Analyzing errors with AI...'}
+            {t('practice.explain_loading_title')}
           </Text>
           <Text style={styles.loadingSubText}>
-            {i18n.language === 'vi'
-              ? 'Giám khảo AI của BandBuilder đang đối chiếu ngữ pháp và biên soạn lời giải thích chi tiết cho bạn.'
-              : "BandBuilder's AI Examiner is matching grammar pathways and drafting detailed explanations for you."}
+            {t('practice.explain_loading_desc')}
           </Text>
         </View>
       </SafeAreaView>
@@ -150,19 +141,17 @@ export default function ResultExplainPage() {
         <View style={styles.errorContainer}>
           <AlertTriangle size={48} color={theme.error} />
           <Text style={[styles.heroTitle, { marginTop: 16 }]}>
-            {i18n.language === 'vi' ? 'Lỗi tải lời giải thích' : 'Failed to load explanation'}
+            {t('practice.explain_error_title')}
           </Text>
           <Text style={styles.errorText}>
-            {i18n.language === 'vi'
-              ? 'Không thể truy xuất giải thích từ máy chủ. Vui lòng kiểm tra lại kết nối mạng hoặc số dư credit.'
-              : 'Failed to fetch AI feedback. Please check your network connection or credit balance.'}
+            {t('practice.explain_error_desc')}
           </Text>
           <TouchableOpacity
             style={styles.btnPrimary}
             onPress={() => navigation.goBack()}
           >
             <Text style={styles.btnPrimaryText}>
-              {i18n.language === 'vi' ? 'Quay lại' : 'Go Back'}
+              {t('practice.explain_error_back')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -180,7 +169,7 @@ export default function ResultExplainPage() {
           <ArrowLeft size={24} color={theme.text} />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>
-          {i18n.language === 'vi' ? 'AI Giải Thích Đáp Án' : 'AI Explanations'}
+          {t('practice.explain_hero_title')}
         </Text>
         <View style={styles.headerRight} />
       </View>
@@ -194,7 +183,7 @@ export default function ResultExplainPage() {
           </View>
           <View style={styles.heroMeta}>
             <Text style={styles.heroTitle} numberOfLines={1}>
-              {i18n.language === 'vi' ? 'Phân Tích Lời Giải AI' : 'AI Explanation Analysis'}
+              {t('practice.explain_hero_card_title')}
             </Text>
             <Text style={styles.heroSubtitle}>
               {explanationData.skill} Attempt ID: {explanationData.attemptId.slice(0, 8)}
@@ -205,9 +194,7 @@ export default function ResultExplainPage() {
         {/* FILTER TAB BAR */}
         <View style={styles.filterPanel}>
           <Text style={styles.filterCount}>
-            {i18n.language === 'vi'
-              ? `Hiện: ${filteredExplanations.length} câu`
-              : `Showing: ${filteredExplanations.length} Qs`}
+            {t('practice.explain_filter_showing')} {filteredExplanations.length}
           </Text>
           <View style={styles.filterTabs}>
             <TouchableOpacity
@@ -220,7 +207,7 @@ export default function ResultExplainPage() {
                   filter === 'all' && styles.filterTabTextActive,
                 ]}
               >
-                {i18n.language === 'vi' ? 'Tất cả' : 'All'}
+                {t('practice.explain_filter_all')}
               </Text>
             </TouchableOpacity>
 
@@ -237,7 +224,7 @@ export default function ResultExplainPage() {
                   filter === 'incorrect' && styles.filterTabTextActiveIncorrect,
                 ]}
               >
-                {i18n.language === 'vi' ? 'Câu Sai' : 'Incorrect'}
+                {t('practice.explain_filter_incorrect')}
               </Text>
             </TouchableOpacity>
 
@@ -254,7 +241,7 @@ export default function ResultExplainPage() {
                   filter === 'correct' && styles.filterTabTextActiveCorrect,
                 ]}
               >
-                {i18n.language === 'vi' ? 'Câu Đúng' : 'Correct'}
+                {t('practice.explain_filter_correct')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -265,7 +252,7 @@ export default function ResultExplainPage() {
           <View style={styles.adviceTitleRow}>
             <Sparkles size={16} color={theme.warning} />
             <Text style={styles.adviceTitle}>
-              {i18n.language === 'vi' ? 'Lời Khuyên Luyện Thi AI' : 'AI Examiner Advice'}
+              {t('practice.explain_advice_title')}
             </Text>
           </View>
           <View style={styles.adviceList}>
@@ -284,9 +271,7 @@ export default function ResultExplainPage() {
             <View style={styles.emptyContainer}>
               <Brain size={48} color={theme.tabIconDefault} />
               <Text style={styles.emptyText}>
-                {i18n.language === 'vi'
-                  ? 'Không tìm thấy câu hỏi nào thỏa mãn bộ lọc.'
-                  : 'No questions match the active filter.'}
+                {t('practice.explain_empty_filter')}
               </Text>
             </View>
           ) : (
@@ -316,7 +301,7 @@ export default function ResultExplainPage() {
                         </Text>
                       </View>
                       <Text style={styles.explainTitle} numberOfLines={1}>
-                        {i18n.language === 'vi' ? 'Câu hỏi: ' : 'Question: '}
+                        {t('practice.explain_q_title')}
                         {item.questionId}
                       </Text>
                     </View>
@@ -324,7 +309,7 @@ export default function ResultExplainPage() {
                     <View style={styles.compareBox}>
                       <View style={styles.compareCol}>
                         <Text style={styles.compareLabel}>
-                          {i18n.language === 'vi' ? 'Bạn chọn:' : 'You chose:'}
+                          {t('practice.explain_ans_yours')}
                         </Text>
                         <Text
                           style={[
@@ -332,12 +317,12 @@ export default function ResultExplainPage() {
                             isCorrect ? styles.compareValCorrect : styles.compareValIncorrect,
                           ]}
                         >
-                          {item.userAnswer || (i18n.language === 'vi' ? 'Bỏ qua' : 'Skipped')}
+                          {item.userAnswer || t('practice.explain_ans_skipped')}
                         </Text>
                       </View>
                       <View style={styles.compareCol}>
                         <Text style={styles.compareLabel}>
-                          {i18n.language === 'vi' ? 'Đáp án đúng:' : 'Correct:'}
+                          {t('practice.explain_ans_correct')}
                         </Text>
                         <Text style={[styles.compareVal, styles.compareValCorrect]}>
                           {item.correctAnswer}
@@ -351,7 +336,7 @@ export default function ResultExplainPage() {
                     <View style={styles.aiAnalysisHeader}>
                       <Brain size={14} color={theme.primary} />
                       <Text style={styles.aiAnalysisLabel}>
-                        {i18n.language === 'vi' ? 'Phân Tích Chi Tiết AI' : 'AI Examiner Breakdown'}
+                        {t('practice.explain_ai_analysis')}
                       </Text>
                     </View>
                     <Text style={styles.aiAnalysisText}>{item.explanation}</Text>
@@ -362,7 +347,7 @@ export default function ResultExplainPage() {
                         <View style={styles.proTipHeader}>
                           <Lightbulb size={14} color={theme.warning} />
                           <Text style={styles.proTipLabel}>
-                            {i18n.language === 'vi' ? 'Mẹo Tránh Bẫy' : 'Trap Avoidance Tip'}
+                            {t('practice.explain_ai_tips')}
                           </Text>
                         </View>
                         <Text style={styles.proTipText}>{item.tip}</Text>

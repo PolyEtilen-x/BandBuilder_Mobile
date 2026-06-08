@@ -7,6 +7,7 @@ import {
   StatusBar,
   Alert,
   ActivityIndicator,
+  Image,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {
@@ -94,6 +95,8 @@ export default function ProfilePage() {
     };
   }, [profile, completedStages]);
 
+  const displayUser = profile?.user || user;
+
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle={theme.text === '#ffffff' ? 'light-content' : 'dark-content'} />
@@ -109,7 +112,7 @@ export default function ProfilePage() {
             <Text style={styles.loginDesc}>
               {t('profile.login_desc')}
             </Text>
-            <TouchableOpacity 
+            <TouchableOpacity
               activeOpacity={0.8}
               style={styles.googleButton}
               onPress={loginWithGoogle}
@@ -128,17 +131,25 @@ export default function ProfilePage() {
             {/* Header Section */}
             <View style={styles.header}>
               <View style={styles.avatarContainer}>
-                <View style={styles.avatarInnerContainer}>
-                  <Text style={styles.avatarText}>
-                    {(user?.name || user?.fullName || user?.email || 'U').charAt(0).toUpperCase()}
-                  </Text>
-                </View>
+                {displayUser?.avatarUrl ? (
+                  <Image
+                    source={{ uri: displayUser.avatarUrl }}
+                    style={styles.avatarImage}
+                    resizeMode="cover"
+                  />
+                ) : (
+                  <View style={styles.avatarInnerContainer}>
+                    <Text style={styles.avatarText}>
+                      {(displayUser?.fullName || displayUser?.email || "G").charAt(0).toUpperCase()}
+                    </Text>
+                  </View>
+                )}
               </View>
               <Text style={styles.userName}>
-                {user?.name || user?.fullName || user?.email?.split('@')[0] || 'User'}
+                {displayUser?.fullName || displayUser?.email?.split('@')[0] || 'User'}
               </Text>
-              <Text style={styles.userEmail}>{user?.email || 'user@bandbuilder.io'}</Text>
- 
+              <Text style={styles.userEmail}>{displayUser?.email || 'user@bandbuilder.io'}</Text>
+
               <View style={styles.proBadge}>
                 <Text style={styles.proBadgeText}>{t('profile.premium_member')}</Text>
               </View>
@@ -147,13 +158,11 @@ export default function ProfilePage() {
               <View style={styles.creditsRow}>
                 <Sparkles size={16} color="#fbbf24" fill="#fbbf24" />
                 <Text style={styles.creditsText}>
-                  {i18n.language === 'vi' 
-                    ? `${statsData.credits} Credit còn lại` 
-                    : `${statsData.credits} Credits remaining`}
+                  {t('profile.credits_remaining', { credits: statsData.credits })}
                 </Text>
               </View>
             </View>
- 
+
             {/* Stats Section - Hiển thị chỉ số động */}
             <View style={styles.statsContainer}>
               <View style={styles.statCard}>
@@ -163,7 +172,7 @@ export default function ProfilePage() {
               </View>
               <View style={styles.statCard}>
                 <Zap size={20} color="#f97316" style={styles.statIcon} />
-                <Text style={styles.statValue}>{statsData.studyStreak} {i18n.language === 'vi' ? 'ngày' : 'days'}</Text>
+                <Text style={styles.statValue}>{statsData.studyStreak} {t('profile.days_unit')}</Text>
                 <Text style={styles.statLabel}>{t('profile.streak')}</Text>
               </View>
               <View style={styles.statCard}>
@@ -177,7 +186,7 @@ export default function ProfilePage() {
             {profile?.recentActivities && profile.recentActivities.length > 0 && (
               <View style={styles.section}>
                 <Text style={styles.sectionTitle}>
-                  {i18n.language === 'vi' ? 'Lịch Sử Thi / Luyện Tập' : 'Exam & Practice History'}
+                  {t('profile.exam_history')}
                 </Text>
                 <View style={styles.activityList}>
                   {profile.recentActivities.map((activity) => {
@@ -223,7 +232,7 @@ export default function ProfilePage() {
             )}
           </>
         )}
- 
+
         {/* Account Settings */}
         {isAuthenticated && (
           <View style={styles.section}>
@@ -246,7 +255,7 @@ export default function ProfilePage() {
             </View>
           </View>
         )}
- 
+
         {/* Preferences Settings */}
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>{t('profile.app_preferences')}</Text>
@@ -269,7 +278,7 @@ export default function ProfilePage() {
             </TouchableOpacity>
           </View>
         </View>
- 
+
         {/* Nút Đăng xuất cho người dùng đã authenticated */}
         {isAuthenticated && (
           <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>

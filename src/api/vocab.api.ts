@@ -93,6 +93,8 @@ export const vocabApi = {
       // Save
       savedIds.push(String(wordId))
       store.addWord({
+        id: String(wordId),
+        topicName: topicName,
         word: word.word,
         phonetic: word.pronunciation || "",
         audio: "",
@@ -103,7 +105,7 @@ export const vocabApi = {
         translation: "",
         isSaved: true,
         dateSaved: new Date().toISOString()
-      })
+      } as any)
     }
 
     topicSavedWords[topicName] = savedIds

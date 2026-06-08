@@ -40,6 +40,7 @@ export const getStyles = (theme: any) => StyleSheet.create({
     borderRadius: 12,
     backgroundColor: theme.backgroundAlt,
     alignItems: "center",
+    justifyContent: "center",
     borderWidth: 1,
     borderColor: theme.border,
   },
